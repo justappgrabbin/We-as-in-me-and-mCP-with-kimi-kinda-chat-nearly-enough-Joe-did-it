@@ -1,0 +1,10 @@
+[build]
+  publish = "we_by_we/synthia-os-unified-deploy"
+
+# Uploaded package is intended to be static: index.html + assets/.
+# No build command is required unless source compilation is added later.
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
