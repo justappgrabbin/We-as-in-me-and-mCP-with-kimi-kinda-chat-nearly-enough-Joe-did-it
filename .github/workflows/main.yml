@@ -1,0 +1,58 @@
+name: MRNN System Scaffold & Model Sync
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Substrate
+        uses: actions/checkout@v4
+
+      - name: Setup Node & Python
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install Dependencies
+        run: |
+          npm install
+          pip install huggingface_hub requests
+
+      - name: Verify Hugging Face Model Pulse
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          python -c "
+          from huggingface_hub import HfApi
+          api = HfApi()
+          models = ['Synthia', 'Trident', 'Gnn', 'SynthAI']
+          for m in models:
+              try:
+                  api.model_info(f'stellarproximology/{m}', token='${{ secrets.HF_TOKEN }}')
+                  print(f'✅ {m} is online')
+              except Exception as e:
+                  print(f'❌ {m} lookup failed: {e}')
+                  exit(1)
+          "
+
+      - name: Compile 24-Node Substrate
+        run: npm run build:24node # Forces the 24-node resonance during build
+
+      - name: Deploy to Netlify (OS Layer)
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=dist --prod
+
+      - name: Signal Render (Inference Layer)
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }} \
+          -H "Content-Type: application/json" \
+          -d '{"msg": "Model integrity verified, scaling to 24 nodes"}'
+          
