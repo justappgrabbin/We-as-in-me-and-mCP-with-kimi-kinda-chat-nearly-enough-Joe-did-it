@@ -1,0 +1,2300 @@
+{
+  "bases": {
+    "1": {
+      "name": "Movement",
+      "i_ching": "I Define",
+      "question": "Where?",
+      "sense": "Seeing",
+      "polarity": "Yang/Yang",
+      "wuxing": "Fire",
+      "sephirah": "Keter",
+      "quality": "Initiating",
+      "frequency": 396
+    },
+    "2": {
+      "name": "Evolution",
+      "i_ching": "I Remember",
+      "question": "What?",
+      "sense": "Taste",
+      "polarity": "Yang/Yin",
+      "wuxing": "Water",
+      "sephirah": "Chokmah",
+      "quality": "Expanding",
+      "frequency": 417
+    },
+    "3": {
+      "name": "Being",
+      "i_ching": "I Am",
+      "question": "When?",
+      "sense": "Touch",
+      "polarity": "Yin/Yin",
+      "wuxing": "Wood",
+      "sephirah": "Binah",
+      "quality": "Grounding",
+      "frequency": 528
+    },
+    "4": {
+      "name": "Design",
+      "i_ching": "I Design",
+      "question": "Why?",
+      "sense": "Smell",
+      "polarity": "Yin/Yang",
+      "wuxing": "Metal",
+      "sephirah": "Tiferet",
+      "quality": "Structuring",
+      "frequency": 639
+    },
+    "5": {
+      "name": "Space",
+      "i_ching": "I Think",
+      "question": "Who?",
+      "sense": "Hearing",
+      "polarity": "Subjective",
+      "wuxing": "Earth",
+      "sephirah": "Malkhut",
+      "quality": "Containing",
+      "frequency": 741
+    }
+  },
+  "tones": {
+    "1": {
+      "name": "Security",
+      "sense": "Smell",
+      "center": "Splenic",
+      "mode": "secured through",
+      "direction": "External",
+      "quality": "Survival",
+      "frequency_ratio": 1.0
+    },
+    "2": {
+      "name": "Uncertainty",
+      "sense": "Taste",
+      "center": "Splenic",
+      "mode": "tasting",
+      "direction": "External",
+      "quality": "Intuition",
+      "frequency_ratio": 1.5
+    },
+    "3": {
+      "name": "Action",
+      "sense": "Outer Vision",
+      "center": "Ajna",
+      "mode": "seeing externally",
+      "direction": "External",
+      "quality": "Manifestation",
+      "frequency_ratio": 1.3333333333333333
+    },
+    "4": {
+      "name": "Meditation",
+      "sense": "Inner Vision",
+      "center": "Ajna",
+      "mode": "imagining",
+      "direction": "Internal",
+      "quality": "Conceptualization",
+      "frequency_ratio": 1.25
+    },
+    "5": {
+      "name": "Judgement",
+      "sense": "Feeling",
+      "center": "Solar Plexus",
+      "mode": "feeling",
+      "direction": "Internal",
+      "quality": "Emotion",
+      "frequency_ratio": 1.2
+    },
+    "6": {
+      "name": "Acceptance",
+      "sense": "Hearing",
+      "center": "Solar Plexus",
+      "mode": "hearing",
+      "direction": "Internal",
+      "quality": "Empathy",
+      "frequency_ratio": 1.125
+    }
+  },
+  "colors": {
+    "1": {
+      "name": "Fear",
+      "motivation": "Communalist vs Separatist",
+      "center": "Splenic",
+      "spectrum": "Survival",
+      "transmutation": "Essence \u2192 Vital Force",
+      "polarity": "Yin"
+    },
+    "2": {
+      "name": "Hope",
+      "motivation": "Theist vs Anti-theist",
+      "center": "Splenic",
+      "spectrum": "Faith",
+      "transmutation": "Vital Force \u2192 Spirit",
+      "polarity": "Yang"
+    },
+    "3": {
+      "name": "Desire",
+      "motivation": "Leader vs Follower",
+      "center": "Ajna",
+      "spectrum": "Will",
+      "transmutation": "Essence \u2192 Spirit",
+      "polarity": "Yang"
+    },
+    "4": {
+      "name": "Need",
+      "motivation": "Master vs Novice",
+      "center": "Solar Plexus",
+      "spectrum": "Dependency",
+      "transmutation": "Vital Force \u2192 Essence",
+      "polarity": "Yin"
+    },
+    "5": {
+      "name": "Guilt",
+      "motivation": "Conditioner vs Conditioned",
+      "center": "Solar Plexus",
+      "spectrum": "Responsibility",
+      "transmutation": "Spirit \u2192 Vital Force",
+      "polarity": "Yin"
+    },
+    "6": {
+      "name": "Innocence",
+      "motivation": "Observer vs Observed",
+      "center": "Solar Plexus",
+      "spectrum": "Purity",
+      "transmutation": "Spirit \u2192 Essence",
+      "polarity": "Yang"
+    }
+  },
+  "gates": {
+    "1": {
+      "name": "The Creative",
+      "theme": "Self-Expression",
+      "circuit": "Individual",
+      "center": "G-Center",
+      "element": "Heaven",
+      "line_names": [
+        "Creativity",
+        "The Receptivity",
+        "The Energy",
+        "The Form",
+        "The Power",
+        "The Timing"
+      ],
+      "position": {
+        "absolute_degree": 0.0,
+        "sign": "Aries",
+        "sign_degree": 0.0,
+        "dms": "0\u00b0 0' 0\"",
+        "decimal": 0.0
+      }
+    },
+    "2": {
+      "name": "The Receptive",
+      "theme": "Direction",
+      "circuit": "Individual",
+      "center": "G-Center",
+      "element": "Earth",
+      "line_names": [
+        "The Receptivity",
+        "The Direction",
+        "The Patience",
+        "The Power",
+        "The Ambition",
+        "The Growth"
+      ],
+      "position": {
+        "absolute_degree": 5.625,
+        "sign": "Aries",
+        "sign_degree": 5.625,
+        "dms": "5\u00b0 37' 30\"",
+        "decimal": 5.625
+      }
+    },
+    "3": {
+      "name": "Difficulty at the Beginning",
+      "theme": "Ordering",
+      "circuit": "Individual",
+      "center": "Sacral",
+      "element": "Thunder",
+      "line_names": [
+        "The Trial",
+        "The Immaturity",
+        "The Difficulty",
+        "The Power",
+        "The Growth",
+        "The Completion"
+      ],
+      "position": {
+        "absolute_degree": 11.25,
+        "sign": "Aries",
+        "sign_degree": 11.25,
+        "dms": "11\u00b0 15' 0\"",
+        "decimal": 11.25
+      }
+    },
+    "4": {
+      "name": "Youthful Folly",
+      "theme": "Formulization",
+      "circuit": "Collective",
+      "center": "Ajna",
+      "element": "Mountain",
+      "line_names": [
+        "The Fool",
+        "The Student",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing"
+      ],
+      "position": {
+        "absolute_degree": 16.875,
+        "sign": "Aries",
+        "sign_degree": 16.875,
+        "dms": "16\u00b0 52' 30\"",
+        "decimal": 16.875
+      }
+    },
+    "5": {
+      "name": "Waiting",
+      "theme": "Patterns",
+      "circuit": "Collective",
+      "center": "Sacral",
+      "element": "Water",
+      "line_names": [
+        "The Wait",
+        "The Patience",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing"
+      ],
+      "position": {
+        "absolute_degree": 22.5,
+        "sign": "Aries",
+        "sign_degree": 22.5,
+        "dms": "22\u00b0 30' 0\"",
+        "decimal": 22.5
+      }
+    },
+    "6": {
+      "name": "Conflict",
+      "theme": "Friction",
+      "circuit": "Tribal",
+      "center": "Solar Plexus",
+      "element": "Heaven",
+      "line_names": [
+        "The Conflict",
+        "The Resolution",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing"
+      ],
+      "position": {
+        "absolute_degree": 28.125,
+        "sign": "Aries",
+        "sign_degree": 28.125,
+        "dms": "28\u00b0 7' 30\"",
+        "decimal": 28.125
+      }
+    },
+    "7": {
+      "name": "The Army",
+      "theme": "The Role of the Self",
+      "circuit": "Collective",
+      "center": "G-Center",
+      "element": "Earth",
+      "line_names": [
+        "The Army",
+        "The Discipline",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing"
+      ],
+      "position": {
+        "absolute_degree": 33.75,
+        "sign": "Taurus",
+        "sign_degree": 3.75,
+        "dms": "33\u00b0 45' 0\"",
+        "decimal": 33.75
+      }
+    },
+    "8": {
+      "name": "Holding Together",
+      "theme": "Contribution",
+      "circuit": "Individual",
+      "center": "Throat",
+      "element": "Water",
+      "line_names": [
+        "The Union",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 39.375,
+        "sign": "Taurus",
+        "sign_degree": 9.375,
+        "dms": "39\u00b0 22' 30\"",
+        "decimal": 39.375
+      }
+    },
+    "9": {
+      "name": "The Taming Power of the Small",
+      "theme": "Focus",
+      "circuit": "Collective",
+      "center": "Sacral",
+      "element": "Wind",
+      "line_names": [
+        "The Taming",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 45.0,
+        "sign": "Taurus",
+        "sign_degree": 15.0,
+        "dms": "45\u00b0 0' 0\"",
+        "decimal": 45.0
+      }
+    },
+    "10": {
+      "name": "Treading",
+      "theme": "The Behavior of the Self",
+      "circuit": "Individual",
+      "center": "G-Center",
+      "element": "Heaven",
+      "line_names": [
+        "The Treading",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 50.625,
+        "sign": "Taurus",
+        "sign_degree": 20.625,
+        "dms": "50\u00b0 37' 30\"",
+        "decimal": 50.625
+      }
+    },
+    "11": {
+      "name": "Peace",
+      "theme": "Ideas",
+      "circuit": "Collective",
+      "center": "Ajna",
+      "element": "Earth",
+      "line_names": [
+        "The Peace",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 56.25,
+        "sign": "Taurus",
+        "sign_degree": 26.25,
+        "dms": "56\u00b0 15' 0\"",
+        "decimal": 56.25
+      }
+    },
+    "12": {
+      "name": "Standstill",
+      "theme": "Caution",
+      "circuit": "Collective",
+      "center": "Throat",
+      "element": "Heaven",
+      "line_names": [
+        "The Standstill",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 61.875,
+        "sign": "Gemini",
+        "sign_degree": 1.875,
+        "dms": "61\u00b0 52' 30\"",
+        "decimal": 61.875
+      }
+    },
+    "13": {
+      "name": "Fellowship",
+      "theme": "The Listener",
+      "circuit": "Collective",
+      "center": "G-Center",
+      "element": "Heaven",
+      "line_names": [
+        "The Fellowship",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 67.5,
+        "sign": "Gemini",
+        "sign_degree": 7.5,
+        "dms": "67\u00b0 30' 0\"",
+        "decimal": 67.5
+      }
+    },
+    "14": {
+      "name": "Possession in Great Measure",
+      "theme": "Power Skills",
+      "circuit": "Tribal",
+      "center": "Sacral",
+      "element": "Fire",
+      "line_names": [
+        "The Possession",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 73.125,
+        "sign": "Gemini",
+        "sign_degree": 13.125,
+        "dms": "73\u00b0 7' 30\"",
+        "decimal": 73.125
+      }
+    },
+    "15": {
+      "name": "Modesty",
+      "theme": "Extremes",
+      "circuit": "Collective",
+      "center": "G-Center",
+      "element": "Earth",
+      "line_names": [
+        "The Modesty",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 78.75,
+        "sign": "Gemini",
+        "sign_degree": 18.75,
+        "dms": "78\u00b0 45' 0\"",
+        "decimal": 78.75
+      }
+    },
+    "16": {
+      "name": "Enthusiasm",
+      "theme": "Skills",
+      "circuit": "Collective",
+      "center": "Throat",
+      "element": "Thunder",
+      "line_names": [
+        "The Enthusiasm",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 84.375,
+        "sign": "Gemini",
+        "sign_degree": 24.375,
+        "dms": "84\u00b0 22' 30\"",
+        "decimal": 84.375
+      }
+    },
+    "17": {
+      "name": "Following",
+      "theme": "Opinions",
+      "circuit": "Collective",
+      "center": "Ajna",
+      "element": "Lake",
+      "line_names": [
+        "The Following",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 90.0,
+        "sign": "Cancer",
+        "sign_degree": 0.0,
+        "dms": "90\u00b0 0' 0\"",
+        "decimal": 90.0
+      }
+    },
+    "18": {
+      "name": "Work on What Has Been Spoiled",
+      "theme": "Correction",
+      "circuit": "Collective",
+      "center": "Spleen",
+      "element": "Mountain",
+      "line_names": [
+        "The Correction",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 95.625,
+        "sign": "Cancer",
+        "sign_degree": 5.625,
+        "dms": "95\u00b0 37' 30\"",
+        "decimal": 95.625
+      }
+    },
+    "19": {
+      "name": "Approach",
+      "theme": "Wanting",
+      "circuit": "Tribal",
+      "center": "Root",
+      "element": "Earth",
+      "line_names": [
+        "The Approach",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 101.25,
+        "sign": "Cancer",
+        "sign_degree": 11.25,
+        "dms": "101\u00b0 15' 0\"",
+        "decimal": 101.25
+      }
+    },
+    "20": {
+      "name": "Contemplation",
+      "theme": "Now",
+      "circuit": "Collective",
+      "center": "Throat",
+      "element": "Wind",
+      "line_names": [
+        "The Contemplation",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 106.875,
+        "sign": "Cancer",
+        "sign_degree": 16.875,
+        "dms": "106\u00b0 52' 30\"",
+        "decimal": 106.875
+      }
+    },
+    "21": {
+      "name": "Biting Through",
+      "theme": "The Hunter/Huntress",
+      "circuit": "Tribal",
+      "center": "Heart",
+      "element": "Fire",
+      "line_names": [
+        "The Biting",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 112.5,
+        "sign": "Cancer",
+        "sign_degree": 22.5,
+        "dms": "112\u00b0 30' 0\"",
+        "decimal": 112.5
+      }
+    },
+    "22": {
+      "name": "Grace",
+      "theme": "Openness",
+      "circuit": "Tribal",
+      "center": "Solar Plexus",
+      "element": "Mountain",
+      "line_names": [
+        "The Grace",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 118.125,
+        "sign": "Cancer",
+        "sign_degree": 28.125,
+        "dms": "118\u00b0 7' 30\"",
+        "decimal": 118.125
+      }
+    },
+    "23": {
+      "name": "Splitting Apart",
+      "theme": "Assimilation",
+      "circuit": "Individual",
+      "center": "Throat",
+      "element": "Mountain",
+      "line_names": [
+        "The Splitting",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 123.75,
+        "sign": "Leo",
+        "sign_degree": 3.75,
+        "dms": "123\u00b0 45' 0\"",
+        "decimal": 123.75
+      }
+    },
+    "24": {
+      "name": "Return",
+      "theme": "Rationalization",
+      "circuit": "Individual",
+      "center": "Ajna",
+      "element": "Earth",
+      "line_names": [
+        "The Return",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 129.375,
+        "sign": "Leo",
+        "sign_degree": 9.375,
+        "dms": "129\u00b0 22' 30\"",
+        "decimal": 129.375
+      }
+    },
+    "25": {
+      "name": "Innocence",
+      "theme": "The Spirit of the Self",
+      "circuit": "Individual",
+      "center": "G-Center",
+      "element": "Heaven",
+      "line_names": [
+        "The Innocence",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 135.0,
+        "sign": "Leo",
+        "sign_degree": 15.0,
+        "dms": "135\u00b0 0' 0\"",
+        "decimal": 135.0
+      }
+    },
+    "26": {
+      "name": "The Taming Power of the Great",
+      "theme": "The Trickster",
+      "circuit": "Tribal",
+      "center": "Heart",
+      "element": "Heaven",
+      "line_names": [
+        "The Taming",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 140.625,
+        "sign": "Leo",
+        "sign_degree": 20.625,
+        "dms": "140\u00b0 37' 30\"",
+        "decimal": 140.625
+      }
+    },
+    "27": {
+      "name": "The Corners of the Mouth",
+      "theme": "Nourishment",
+      "circuit": "Tribal",
+      "center": "Sacral",
+      "element": "Mountain",
+      "line_names": [
+        "The Nourishment",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 146.25,
+        "sign": "Leo",
+        "sign_degree": 26.25,
+        "dms": "146\u00b0 15' 0\"",
+        "decimal": 146.25
+      }
+    },
+    "28": {
+      "name": "Preponderance of the Great",
+      "theme": "The Struggle",
+      "circuit": "Individual",
+      "center": "Spleen",
+      "element": "Lake",
+      "line_names": [
+        "The Preponderance",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 151.875,
+        "sign": "Virgo",
+        "sign_degree": 1.875,
+        "dms": "151\u00b0 52' 30\"",
+        "decimal": 151.875
+      }
+    },
+    "29": {
+      "name": "The Abysmal",
+      "theme": "Perseverance",
+      "circuit": "Individual",
+      "center": "Sacral",
+      "element": "Water",
+      "line_names": [
+        "The Abysmal",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 157.5,
+        "sign": "Virgo",
+        "sign_degree": 7.5,
+        "dms": "157\u00b0 30' 0\"",
+        "decimal": 157.5
+      }
+    },
+    "30": {
+      "name": "The Clinging Fire",
+      "theme": "The Fates",
+      "circuit": "Tribal",
+      "center": "Solar Plexus",
+      "element": "Fire",
+      "line_names": [
+        "The Clinging",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 163.125,
+        "sign": "Virgo",
+        "sign_degree": 13.125,
+        "dms": "163\u00b0 7' 30\"",
+        "decimal": 163.125
+      }
+    },
+    "31": {
+      "name": "Influence",
+      "theme": "Leading",
+      "circuit": "Collective",
+      "center": "G-Center",
+      "element": "Lake",
+      "line_names": [
+        "The Influence",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 168.75,
+        "sign": "Virgo",
+        "sign_degree": 18.75,
+        "dms": "168\u00b0 45' 0\"",
+        "decimal": 168.75
+      }
+    },
+    "32": {
+      "name": "Duration",
+      "theme": "Continuity",
+      "circuit": "Tribal",
+      "center": "Root",
+      "element": "Thunder",
+      "line_names": [
+        "The Duration",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 174.375,
+        "sign": "Virgo",
+        "sign_degree": 24.375,
+        "dms": "174\u00b0 22' 30\"",
+        "decimal": 174.375
+      }
+    },
+    "33": {
+      "name": "Retreat",
+      "theme": "Privacy",
+      "circuit": "Individual",
+      "center": "Throat",
+      "element": "Heaven",
+      "line_names": [
+        "The Retreat",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 180.0,
+        "sign": "Libra",
+        "sign_degree": 0.0,
+        "dms": "180\u00b0 0' 0\"",
+        "decimal": 180.0
+      }
+    },
+    "34": {
+      "name": "The Power of the Great",
+      "theme": "Power",
+      "circuit": "Individual",
+      "center": "Sacral",
+      "element": "Thunder",
+      "line_names": [
+        "The Power",
+        "The Great",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 185.625,
+        "sign": "Libra",
+        "sign_degree": 5.625,
+        "dms": "185\u00b0 37' 30\"",
+        "decimal": 185.625
+      }
+    },
+    "35": {
+      "name": "Progress",
+      "theme": "Change",
+      "circuit": "Collective",
+      "center": "Throat",
+      "element": "Fire",
+      "line_names": [
+        "The Progress",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 191.25,
+        "sign": "Libra",
+        "sign_degree": 11.25,
+        "dms": "191\u00b0 15' 0\"",
+        "decimal": 191.25
+      }
+    },
+    "36": {
+      "name": "The Darkening of the Light",
+      "theme": "The Crisis",
+      "circuit": "Individual",
+      "center": "Solar Plexus",
+      "element": "Earth",
+      "line_names": [
+        "The Darkening",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 196.875,
+        "sign": "Libra",
+        "sign_degree": 16.875,
+        "dms": "196\u00b0 52' 30\"",
+        "decimal": 196.875
+      }
+    },
+    "37": {
+      "name": "The Family",
+      "theme": "Friendship",
+      "circuit": "Tribal",
+      "center": "Solar Plexus",
+      "element": "Wind",
+      "line_names": [
+        "The Family",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 202.5,
+        "sign": "Libra",
+        "sign_degree": 22.5,
+        "dms": "202\u00b0 30' 0\"",
+        "decimal": 202.5
+      }
+    },
+    "38": {
+      "name": "Opposition",
+      "theme": "The Fighter",
+      "circuit": "Individual",
+      "center": "Root",
+      "element": "Fire",
+      "line_names": [
+        "The Opposition",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 208.125,
+        "sign": "Libra",
+        "sign_degree": 28.125,
+        "dms": "208\u00b0 7' 30\"",
+        "decimal": 208.125
+      }
+    },
+    "39": {
+      "name": "Obstruction",
+      "theme": "Provocation",
+      "circuit": "Individual",
+      "center": "Root",
+      "element": "Water",
+      "line_names": [
+        "The Obstruction",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 213.75,
+        "sign": "Scorpio",
+        "sign_degree": 3.75,
+        "dms": "213\u00b0 45' 0\"",
+        "decimal": 213.75
+      }
+    },
+    "40": {
+      "name": "Deliverance",
+      "theme": "Aloneness",
+      "circuit": "Tribal",
+      "center": "Heart",
+      "element": "Thunder",
+      "line_names": [
+        "The Deliverance",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 219.375,
+        "sign": "Scorpio",
+        "sign_degree": 9.375,
+        "dms": "219\u00b0 22' 30\"",
+        "decimal": 219.375
+      }
+    },
+    "41": {
+      "name": "Decrease",
+      "theme": "Contraction",
+      "circuit": "Collective",
+      "center": "Root",
+      "element": "Mountain",
+      "line_names": [
+        "The Decrease",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 225.0,
+        "sign": "Scorpio",
+        "sign_degree": 15.0,
+        "dms": "225\u00b0 0' 0\"",
+        "decimal": 225.0
+      }
+    },
+    "42": {
+      "name": "Increase",
+      "theme": "Expansion",
+      "circuit": "Tribal",
+      "center": "Sacral",
+      "element": "Wind",
+      "line_names": [
+        "The Increase",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 230.625,
+        "sign": "Scorpio",
+        "sign_degree": 20.625,
+        "dms": "230\u00b0 37' 30\"",
+        "decimal": 230.625
+      }
+    },
+    "43": {
+      "name": "Breakthrough",
+      "theme": "Insight",
+      "circuit": "Individual",
+      "center": "Ajna",
+      "element": "Lake",
+      "line_names": [
+        "The Breakthrough",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 236.25,
+        "sign": "Scorpio",
+        "sign_degree": 26.25,
+        "dms": "236\u00b0 15' 0\"",
+        "decimal": 236.25
+      }
+    },
+    "44": {
+      "name": "Coming to Meet",
+      "theme": "Alertness",
+      "circuit": "Tribal",
+      "center": "Spleen",
+      "element": "Heaven",
+      "line_names": [
+        "The Meeting",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 241.875,
+        "sign": "Sagittarius",
+        "sign_degree": 1.875,
+        "dms": "241\u00b0 52' 30\"",
+        "decimal": 241.875
+      }
+    },
+    "45": {
+      "name": "Gathering Together",
+      "theme": "The Gatherer",
+      "circuit": "Tribal",
+      "center": "Throat",
+      "element": "Lake",
+      "line_names": [
+        "The Gathering",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 247.5,
+        "sign": "Sagittarius",
+        "sign_degree": 7.5,
+        "dms": "247\u00b0 30' 0\"",
+        "decimal": 247.5
+      }
+    },
+    "46": {
+      "name": "Pushing Upward",
+      "theme": "Determination",
+      "circuit": "Collective",
+      "center": "G-Center",
+      "element": "Earth",
+      "line_names": [
+        "The Pushing",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 253.125,
+        "sign": "Sagittarius",
+        "sign_degree": 13.125,
+        "dms": "253\u00b0 7' 30\"",
+        "decimal": 253.125
+      }
+    },
+    "47": {
+      "name": "Oppression",
+      "theme": "Realization",
+      "circuit": "Collective",
+      "center": "Ajna",
+      "element": "Lake",
+      "line_names": [
+        "The Oppression",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 258.75,
+        "sign": "Sagittarius",
+        "sign_degree": 18.75,
+        "dms": "258\u00b0 45' 0\"",
+        "decimal": 258.75
+      }
+    },
+    "48": {
+      "name": "The Well",
+      "theme": "Depth",
+      "circuit": "Collective",
+      "center": "Spleen",
+      "element": "Water",
+      "line_names": [
+        "The Well",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 264.375,
+        "sign": "Sagittarius",
+        "sign_degree": 24.375,
+        "dms": "264\u00b0 22' 30\"",
+        "decimal": 264.375
+      }
+    },
+    "49": {
+      "name": "Revolution",
+      "theme": "Principles",
+      "circuit": "Tribal",
+      "center": "Solar Plexus",
+      "element": "Lake",
+      "line_names": [
+        "The Revolution",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 270.0,
+        "sign": "Capricorn",
+        "sign_degree": 0.0,
+        "dms": "270\u00b0 0' 0\"",
+        "decimal": 270.0
+      }
+    },
+    "50": {
+      "name": "The Cauldron",
+      "theme": "Values",
+      "circuit": "Tribal",
+      "center": "Spleen",
+      "element": "Fire",
+      "line_names": [
+        "The Cauldron",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 275.625,
+        "sign": "Capricorn",
+        "sign_degree": 5.625,
+        "dms": "275\u00b0 37' 30\"",
+        "decimal": 275.625
+      }
+    },
+    "51": {
+      "name": "The Arousing",
+      "theme": "Shock",
+      "circuit": "Individual",
+      "center": "Heart",
+      "element": "Thunder",
+      "line_names": [
+        "The Arousing",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 281.25,
+        "sign": "Capricorn",
+        "sign_degree": 11.25,
+        "dms": "281\u00b0 15' 0\"",
+        "decimal": 281.25
+      }
+    },
+    "52": {
+      "name": "Keeping Still",
+      "theme": "Concentration",
+      "circuit": "Collective",
+      "center": "Root",
+      "element": "Mountain",
+      "line_names": [
+        "The Stillness",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 286.875,
+        "sign": "Capricorn",
+        "sign_degree": 16.875,
+        "dms": "286\u00b0 52' 30\"",
+        "decimal": 286.875
+      }
+    },
+    "53": {
+      "name": "Development",
+      "theme": "Beginnings",
+      "circuit": "Collective",
+      "center": "Root",
+      "element": "Wind",
+      "line_names": [
+        "The Development",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 292.5,
+        "sign": "Capricorn",
+        "sign_degree": 22.5,
+        "dms": "292\u00b0 30' 0\"",
+        "decimal": 292.5
+      }
+    },
+    "54": {
+      "name": "The Marrying Maiden",
+      "theme": "Drive",
+      "circuit": "Tribal",
+      "center": "Root",
+      "element": "Thunder",
+      "line_names": [
+        "The Maiden",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 298.125,
+        "sign": "Capricorn",
+        "sign_degree": 28.125,
+        "dms": "298\u00b0 7' 30\"",
+        "decimal": 298.125
+      }
+    },
+    "55": {
+      "name": "Abundance",
+      "theme": "Spirit",
+      "circuit": "Tribal",
+      "center": "Solar Plexus",
+      "element": "Thunder",
+      "line_names": [
+        "The Abundance",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 303.75,
+        "sign": "Aquarius",
+        "sign_degree": 3.75,
+        "dms": "303\u00b0 45' 0\"",
+        "decimal": 303.75
+      }
+    },
+    "56": {
+      "name": "The Wanderer",
+      "theme": "Stimulation",
+      "circuit": "Collective",
+      "center": "Throat",
+      "element": "Fire",
+      "line_names": [
+        "The Wanderer",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 309.375,
+        "sign": "Aquarius",
+        "sign_degree": 9.375,
+        "dms": "309\u00b0 22' 30\"",
+        "decimal": 309.375
+      }
+    },
+    "57": {
+      "name": "The Gentle",
+      "theme": "Intuitive Clarity",
+      "circuit": "Individual",
+      "center": "Spleen",
+      "element": "Wind",
+      "line_names": [
+        "Confusion",
+        "Cleansing",
+        "Acuteness",
+        "The Director",
+        "Progression",
+        "Utilization"
+      ],
+      "position": {
+        "absolute_degree": 315.0,
+        "sign": "Aquarius",
+        "sign_degree": 15.0,
+        "dms": "315\u00b0 0' 0\"",
+        "decimal": 315.0
+      }
+    },
+    "58": {
+      "name": "The Joyous",
+      "theme": "Vitality",
+      "circuit": "Tribal",
+      "center": "Root",
+      "element": "Lake",
+      "line_names": [
+        "The Joy",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 320.625,
+        "sign": "Aquarius",
+        "sign_degree": 20.625,
+        "dms": "320\u00b0 37' 30\"",
+        "decimal": 320.625
+      }
+    },
+    "59": {
+      "name": "Dispersion",
+      "theme": "Sexuality",
+      "circuit": "Tribal",
+      "center": "Sacral",
+      "element": "Wind",
+      "line_names": [
+        "The Dispersion",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 326.25,
+        "sign": "Aquarius",
+        "sign_degree": 26.25,
+        "dms": "326\u00b0 15' 0\"",
+        "decimal": 326.25
+      }
+    },
+    "60": {
+      "name": "Limitation",
+      "theme": "Acceptance",
+      "circuit": "Collective",
+      "center": "Root",
+      "element": "Water",
+      "line_names": [
+        "The Limitation",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 331.875,
+        "sign": "Pisces",
+        "sign_degree": 1.875,
+        "dms": "331\u00b0 52' 30\"",
+        "decimal": 331.875
+      }
+    },
+    "61": {
+      "name": "Inner Truth",
+      "theme": "Mystery",
+      "circuit": "Individual",
+      "center": "Head",
+      "element": "Wind",
+      "line_names": [
+        "The Truth",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 337.5,
+        "sign": "Pisces",
+        "sign_degree": 7.5,
+        "dms": "337\u00b0 30' 0\"",
+        "decimal": 337.5
+      }
+    },
+    "62": {
+      "name": "Preponderance of the Small",
+      "theme": "Details",
+      "circuit": "Collective",
+      "center": "Throat",
+      "element": "Thunder",
+      "line_names": [
+        "The Preponderance",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 343.125,
+        "sign": "Pisces",
+        "sign_degree": 13.125,
+        "dms": "343\u00b0 7' 30\"",
+        "decimal": 343.125
+      }
+    },
+    "63": {
+      "name": "After Completion",
+      "theme": "Doubt",
+      "circuit": "Collective",
+      "center": "Head",
+      "element": "Water",
+      "line_names": [
+        "The Completion",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 348.75,
+        "sign": "Pisces",
+        "sign_degree": 18.75,
+        "dms": "348\u00b0 45' 0\"",
+        "decimal": 348.75
+      }
+    },
+    "64": {
+      "name": "Before Completion",
+      "theme": "Confusion",
+      "circuit": "Collective",
+      "center": "Head",
+      "element": "Fire",
+      "line_names": [
+        "The Confusion",
+        "The Power",
+        "The Growth",
+        "The Completion",
+        "The Timing",
+        "The Fulfillment"
+      ],
+      "position": {
+        "absolute_degree": 354.375,
+        "sign": "Pisces",
+        "sign_degree": 24.375,
+        "dms": "354\u00b0 22' 30\"",
+        "decimal": 354.375
+      }
+    }
+  },
+  "lines": {
+    "1": {
+      "name": "The Investigator",
+      "role": "Introspection",
+      "quality": "Depth",
+      "sephirah": "Keter",
+      "direction": "Inward",
+      "polarity": "Yin",
+      "hexagram_position": "Bottom"
+    },
+    "2": {
+      "name": "The Hermit",
+      "role": "Projection",
+      "quality": "Calling",
+      "sephirah": "Chokmah",
+      "direction": "Outward",
+      "polarity": "Yang",
+      "hexagram_position": "2nd from bottom"
+    },
+    "3": {
+      "name": "The Martyr",
+      "role": "Trial and Error",
+      "quality": "Adaptation",
+      "sephirah": "Binah",
+      "direction": "Inward",
+      "polarity": "Yin",
+      "hexagram_position": "3rd from bottom"
+    },
+    "4": {
+      "name": "The Opportunist",
+      "role": "Externalization",
+      "quality": "Influence",
+      "sephirah": "Tiferet",
+      "direction": "Outward",
+      "polarity": "Yang",
+      "hexagram_position": "4th from bottom"
+    },
+    "5": {
+      "name": "The Heretic",
+      "role": "Universalization",
+      "quality": "Seduction",
+      "sephirah": "Gevurah",
+      "direction": "Inward",
+      "polarity": "Yin",
+      "hexagram_position": "5th from bottom"
+    },
+    "6": {
+      "name": "The Role Model",
+      "role": "Transcendence",
+      "quality": "Example",
+      "sephirah": "Chesed",
+      "direction": "Outward",
+      "polarity": "Yang",
+      "hexagram_position": "Top"
+    }
+  },
+  "centers": {
+    "Head": {
+      "color": "Yellow",
+      "shape": "Triangle",
+      "biology": "Pineal",
+      "gates": [
+        64,
+        61,
+        63
+      ],
+      "function": "Inspiration",
+      "pressure": "Mental"
+    },
+    "Ajna": {
+      "color": "Green",
+      "shape": "Triangle",
+      "biology": "Pituitary",
+      "gates": [
+        47,
+        24,
+        4,
+        11
+      ],
+      "function": "Conceptualization",
+      "pressure": "Mental"
+    },
+    "Throat": {
+      "color": "Brown",
+      "shape": "Square",
+      "biology": "Thyroid",
+      "gates": [
+        62,
+        23,
+        56,
+        35,
+        12,
+        45,
+        33,
+        20
+      ],
+      "function": "Manifestation",
+      "pressure": "None"
+    },
+    "Heart": {
+      "color": "Red",
+      "shape": "Triangle",
+      "biology": "Thymus",
+      "gates": [
+        51,
+        21,
+        40
+      ],
+      "function": "Ego/Will",
+      "pressure": "Material"
+    },
+    "Spleen": {
+      "color": "Brown",
+      "shape": "Triangle",
+      "biology": "Spleen/Lymphatic",
+      "gates": [
+        48,
+        57,
+        44,
+        50,
+        28,
+        18
+      ],
+      "function": "Intuition/Survival",
+      "pressure": "None"
+    },
+    "G-Center": {
+      "color": "Yellow",
+      "shape": "Diamond",
+      "biology": "Liver",
+      "gates": [
+        25,
+        15,
+        46,
+        10,
+        7,
+        31,
+        2,
+        1
+      ],
+      "function": "Identity/Direction",
+      "pressure": "None"
+    },
+    "Solar Plexus": {
+      "color": "Brown",
+      "shape": "Triangle",
+      "biology": "Kidneys/Pancreas",
+      "gates": [
+        36,
+        22,
+        37,
+        6,
+        49,
+        55,
+        30
+      ],
+      "function": "Emotions",
+      "pressure": "Emotional"
+    },
+    "Sacral": {
+      "color": "Red",
+      "shape": "Square",
+      "biology": "Ovaries/Testes",
+      "gates": [
+        5,
+        14,
+        29,
+        59,
+        9,
+        3,
+        42,
+        27
+      ],
+      "function": "Life Force",
+      "pressure": "None"
+    },
+    "Root": {
+      "color": "Brown",
+      "shape": "Square",
+      "biology": "Adrenal",
+      "gates": [
+        53,
+        54,
+        60,
+        52,
+        19,
+        58,
+        38,
+        39
+      ],
+      "function": "Stress/Drive",
+      "pressure": "Adrenal"
+    }
+  },
+  "channels": [
+    {
+      "name": "Initiation",
+      "gates": [
+        51,
+        25
+      ],
+      "centers": [
+        "Heart",
+        "G-Center"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Alpha",
+      "gates": [
+        31,
+        7
+      ],
+      "centers": [
+        "Throat",
+        "G-Center"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Wavelength",
+      "gates": [
+        48,
+        16
+      ],
+      "centers": [
+        "Spleen",
+        "Throat"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "Discovery",
+      "gates": [
+        46,
+        29
+      ],
+      "centers": [
+        "G-Center",
+        "Sacral"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "Abstraction",
+      "gates": [
+        64,
+        47
+      ],
+      "centers": [
+        "Head",
+        "Ajna"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "Logic",
+      "gates": [
+        63,
+        4
+      ],
+      "centers": [
+        "Head",
+        "Ajna"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Prodigal",
+      "gates": [
+        13,
+        33
+      ],
+      "centers": [
+        "G-Center",
+        "Throat"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Beat",
+      "gates": [
+        2,
+        14
+      ],
+      "centers": [
+        "G-Center",
+        "Sacral"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Channel of Struggle",
+      "gates": [
+        28,
+        38
+      ],
+      "centers": [
+        "Spleen",
+        "Root"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "Perfection",
+      "gates": [
+        18,
+        58
+      ],
+      "centers": [
+        "Spleen",
+        "Root"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "Awareness",
+      "gates": [
+        43,
+        23
+      ],
+      "centers": [
+        "Ajna",
+        "Throat"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "Power",
+      "gates": [
+        34,
+        57
+      ],
+      "centers": [
+        "Sacral",
+        "Spleen"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Channel of Emoting",
+      "gates": [
+        39,
+        55
+      ],
+      "centers": [
+        "Root",
+        "Solar Plexus"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Channel of Community",
+      "gates": [
+        37,
+        40
+      ],
+      "centers": [
+        "Solar Plexus",
+        "Heart"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of Marriage",
+      "gates": [
+        59,
+        6
+      ],
+      "centers": [
+        "Sacral",
+        "Solar Plexus"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of Mating",
+      "gates": [
+        42,
+        27
+      ],
+      "centers": [
+        "Sacral",
+        "Spleen"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of Judgment",
+      "gates": [
+        18,
+        58
+      ],
+      "centers": [
+        "Spleen",
+        "Root"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of Concentration",
+      "gates": [
+        9,
+        52
+      ],
+      "centers": [
+        "Sacral",
+        "Root"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of Structuring",
+      "gates": [
+        3,
+        60
+      ],
+      "centers": [
+        "Sacral",
+        "Root"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of Mutation",
+      "gates": [
+        3,
+        60
+      ],
+      "centers": [
+        "Sacral",
+        "Root"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Channel of Talent",
+      "gates": [
+        48,
+        16
+      ],
+      "centers": [
+        "Spleen",
+        "Throat"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of Surrender",
+      "gates": [
+        44,
+        26
+      ],
+      "centers": [
+        "Spleen",
+        "Heart"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of Money",
+      "gates": [
+        45,
+        21
+      ],
+      "centers": [
+        "Throat",
+        "Heart"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of the Brainwave",
+      "gates": [
+        64,
+        47
+      ],
+      "centers": [
+        "Head",
+        "Ajna"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of the Wavelength",
+      "gates": [
+        48,
+        16
+      ],
+      "centers": [
+        "Spleen",
+        "Throat"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of Exploration",
+      "gates": [
+        10,
+        34
+      ],
+      "centers": [
+        "G-Center",
+        "Sacral"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Channel of the Prodigal",
+      "gates": [
+        13,
+        33
+      ],
+      "centers": [
+        "G-Center",
+        "Throat"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Channel of the Alpha",
+      "gates": [
+        31,
+        7
+      ],
+      "centers": [
+        "Throat",
+        "G-Center"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of Transitoriness",
+      "gates": [
+        35,
+        36
+      ],
+      "centers": [
+        "Throat",
+        "Solar Plexus"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Channel of Recognition",
+      "gates": [
+        5,
+        15
+      ],
+      "centers": [
+        "Sacral",
+        "G-Center"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of the Material",
+      "gates": [
+        45,
+        21
+      ],
+      "centers": [
+        "Throat",
+        "Heart"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of the Entrepreneur",
+      "gates": [
+        54,
+        32
+      ],
+      "centers": [
+        "Root",
+        "Spleen"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of the Keeper",
+      "gates": [
+        50,
+        27
+      ],
+      "centers": [
+        "Spleen",
+        "Sacral"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of the Wave",
+      "gates": [
+        39,
+        55
+      ],
+      "centers": [
+        "Root",
+        "Solar Plexus"
+      ],
+      "circuit": "Individual"
+    },
+    {
+      "name": "The Channel of the Pulse",
+      "gates": [
+        54,
+        32
+      ],
+      "centers": [
+        "Root",
+        "Spleen"
+      ],
+      "circuit": "Tribal"
+    },
+    {
+      "name": "The Channel of the Dreamer",
+      "gates": [
+        41,
+        30
+      ],
+      "centers": [
+        "Root",
+        "Solar Plexus"
+      ],
+      "circuit": "Collective"
+    },
+    {
+      "name": "The Channel of the Fantasy",
+      "gates": [
+        41,
+        30
+      ],
+      "centers": [
+        "Root",
+        "Solar Plexus"
+      ],
+      "circuit": "Collective"
+    }
+  ],
+  "zodiac": {
+    "Aries": {
+      "start": 0,
+      "element": "Fire",
+      "mode": "Cardinal",
+      "ruler": "Mars"
+    },
+    "Taurus": {
+      "start": 30,
+      "element": "Earth",
+      "mode": "Fixed",
+      "ruler": "Venus"
+    },
+    "Gemini": {
+      "start": 60,
+      "element": "Air",
+      "mode": "Mutable",
+      "ruler": "Mercury"
+    },
+    "Cancer": {
+      "start": 90,
+      "element": "Water",
+      "mode": "Cardinal",
+      "ruler": "Moon"
+    },
+    "Leo": {
+      "start": 120,
+      "element": "Fire",
+      "mode": "Fixed",
+      "ruler": "Sun"
+    },
+    "Virgo": {
+      "start": 150,
+      "element": "Earth",
+      "mode": "Mutable",
+      "ruler": "Mercury"
+    },
+    "Libra": {
+      "start": 180,
+      "element": "Air",
+      "mode": "Cardinal",
+      "ruler": "Venus"
+    },
+    "Scorpio": {
+      "start": 210,
+      "element": "Water",
+      "mode": "Fixed",
+      "ruler": "Pluto"
+    },
+    "Sagittarius": {
+      "start": 240,
+      "element": "Fire",
+      "mode": "Mutable",
+      "ruler": "Jupiter"
+    },
+    "Capricorn": {
+      "start": 270,
+      "element": "Earth",
+      "mode": "Cardinal",
+      "ruler": "Saturn"
+    },
+    "Aquarius": {
+      "start": 300,
+      "element": "Air",
+      "mode": "Fixed",
+      "ruler": "Uranus"
+    },
+    "Pisces": {
+      "start": 330,
+      "element": "Water",
+      "mode": "Mutable",
+      "ruler": "Neptune"
+    }
+  },
+  "statistics": {
+    "total_base_states": 384,
+    "total_phase_states": 69120,
+    "gates": 64,
+    "lines_per_gate": 6,
+    "bases": 5,
+    "tones": 6,
+    "colors": 6,
+    "centers": 9,
+    "channels": 37
+  }
+}

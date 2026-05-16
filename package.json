@@ -1,28 +1,25 @@
 {
-  "name": "synthia-autopoietic-agent",
+  "name": "mrnn-symbolic-os",
   "version": "1.0.0",
-  "private": true,
-  "description": "Synthia autopoietic GitHub agent with MCP mobile, model dispatch, and Render callbacks.",
-  "type": "module",
+  "description": "MRNN 5-Layer Symbolic Operating System with MCP Mobile Integration",
+  "main": "MRNN_Main.js",
   "scripts": {
-    "agent": "tsx agent-core.ts orchestrate",
-    "agent:scan": "tsx agent-core.ts scan",
-    "agent:fix": "tsx agent-core.ts fix",
-    "agent:deploy": "tsx agent-core.ts deploy",
-    "agent:mobile": "tsx agent-core.ts mobile",
-    "agent:models": "tsx agent-core.ts models",
-    "build": "tsc --noEmit",
-    "dev": "tsx agent-core.ts orchestrate"
-  },
-  "engines": {
-    "node": ">=24"
+    "start": "node MRNN_Main.js",
+    "query": "node MRNN_Main.js query",
+    "run": "node MRNN_Main.js run",
+    "evolve": "node MRNN_Main.js evolve",
+    "status": "node MRNN_Main.js status"
   },
   "dependencies": {
-    "@mobilenext/mobile-mcp": "^1.0.0"
+    "@modelcontextprotocol/sdk": "^1.0.0"
   },
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "tsx": "^4.7.0",
-    "typescript": "^5.4.0"
-  }
+  "keywords": [
+    "human-design",
+    "iching",
+    "symbolic-os",
+    "mcp",
+    "mobile-automation"
+  ],
+  "author": "MRNN Engine",
+  "license": "MIT"
 }
