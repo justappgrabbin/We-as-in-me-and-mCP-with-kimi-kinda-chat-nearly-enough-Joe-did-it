@@ -1,0 +1,40 @@
+name: Node.js 24-Resonance Lock
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-substrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js v24 environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Using LTS for stability, configured for 24-node logic
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Resonance Integrity Check
+        run: |
+          # Verify that NODE_COUNT is set to 24 in the orchestrator
+          grep -q "NODE_COUNT: 24" orchestrator-v8-self-assembling.ts || (echo "❌ Node count drift detected. Must be 24." && exit 1)
+          echo "✅ Node.js configuration verified at 24 nodes."
+
+      - name: Execute 24-Node Build
+        env:
+          NODE_COUNT: 24
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          npm run build
+          echo "🔨 Substrate assembled successfully."
+
+      - name: Pulse HuggingFace Models
+        run: node scripts/check-stellar-resonance.js
+        
