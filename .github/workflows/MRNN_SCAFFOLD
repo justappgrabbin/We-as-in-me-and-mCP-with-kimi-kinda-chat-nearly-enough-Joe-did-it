@@ -1,0 +1,44 @@
+name: MRNN System Scaffold
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Substrate
+        uses: actions/checkout@v4
+
+      - name: Setup Node & Python Environments
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install Dependencies
+        run: |
+          npm install
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Verify Morphological Integrity
+        run: |
+          echo "Checking core organs..."
+          test -f MRNN_Neural_Engine.js || exit 1
+          test -f main.py || exit 1
+          echo "✅ System Integrity Confirmed"
+
+      - name: Compile TypeScript (Scaffold Dist)
+        run: npm run build # This populates your /dist folder with the runnable JS
+
+      - name: Deploy Frontend to Netlify
+        uses: netlify/actions/cli@master
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        with:
+          args: deploy --dir=dist --prod
+
+      - name: Signal Render Backend
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
