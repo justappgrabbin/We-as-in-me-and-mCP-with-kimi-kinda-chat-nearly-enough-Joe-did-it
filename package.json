@@ -1,16 +1,28 @@
 {
-  "name": "mrnn-system-scaffold",
-  "version": "0.1.0",
+  "name": "synthia-autopoietic-agent",
+  "version": "1.0.0",
   "private": true,
-  "description": "Minimal MRNN scaffold for GitHub Actions, Netlify, and Render handoff.",
+  "description": "Synthia autopoietic GitHub agent with MCP mobile, model dispatch, and Render callbacks.",
   "type": "module",
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "build:24node": "node scripts/build.mjs"
+    "agent": "tsx agent-core.ts orchestrate",
+    "agent:scan": "tsx agent-core.ts scan",
+    "agent:fix": "tsx agent-core.ts fix",
+    "agent:deploy": "tsx agent-core.ts deploy",
+    "agent:mobile": "tsx agent-core.ts mobile",
+    "agent:models": "tsx agent-core.ts models",
+    "build": "tsc --noEmit",
+    "dev": "tsx agent-core.ts orchestrate"
   },
   "engines": {
     "node": ">=24"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@mobilenext/mobile-mcp": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
 }
