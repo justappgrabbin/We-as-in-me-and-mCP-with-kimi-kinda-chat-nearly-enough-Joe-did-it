@@ -1,0 +1,26 @@
+{
+  "name": "synthia-autopoietic-agent",
+  "version": "1.0.0",
+  "description": "Autopoietic GitHub agent with MCP mobile, MRNN engine, and Synthia orchestration",
+  "type": "module",
+  "scripts": {
+    "agent": "tsx agent-core.ts orchestrate",
+    "agent:scan": "tsx agent-core.ts scan",
+    "agent:fix": "tsx agent-core.ts fix",
+    "agent:deploy": "tsx agent-core.ts deploy",
+    "agent:mobile": "tsx agent-core.ts mobile",
+    "agent:models": "tsx agent-core.ts models",
+    "build": "tsc",
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mobilenext/mobile-mcp": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "tsx": "^4.7.0",
+    "vite": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
