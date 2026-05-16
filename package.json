@@ -1,0 +1,16 @@
+{
+  "name": "mrnn-system-scaffold",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal MRNN scaffold for GitHub Actions, Netlify, and Render handoff.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:24node": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
