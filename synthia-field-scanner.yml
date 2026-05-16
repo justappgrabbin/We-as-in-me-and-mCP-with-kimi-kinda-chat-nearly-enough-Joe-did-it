@@ -1,0 +1,350 @@
+name: 🤖 Synthia Field Scanner
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  issues:
+    types: [opened, edited, closed]
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      scan_depth:
+        description: 'Field scan depth'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - surface
+          - deep
+
+env:
+  SYNTHIA_SERVER: https://synthia-server.onrender.com
+  HF_ORG: stellarproximology
+
+jobs:
+  # ═══════════════════════════════════════════════════════
+  # FIELD SCAN — Ingest repo state, send to Synthia
+  # ═══════════════════════════════════════════════════════
+  field-scan:
+    runs-on: ubuntu-latest
+    outputs:
+      field_id: ${{ steps.ingest.outputs.field_id }}
+      scan_status: ${{ steps.ingest.outputs.scan_status }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔮 Ingest Repository Field
+        id: ingest
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+          const https = require('https');
+
+          function post(url, data) {
+            return new Promise((resolve, reject) => {
+              const parsed = new URL(url);
+              const payload = JSON.stringify(data);
+              const options = {
+                hostname: parsed.hostname,
+                port: parsed.port || 443,
+                path: parsed.pathname + parsed.search,
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Content-Length': Buffer.byteLength(payload),
+                  'X-GitHub-Event': 'field-scan',
+                  'X-Repo': '${{ github.repository }}',
+                  'X-Commit': '${{ github.sha }}',
+                  'X-Run-ID': '${{ github.run_id }}'
+                }
+              };
+              const req = https.request(options, (res) => {
+                let body = '';
+                res.on('data', chunk => body += chunk);
+                res.on('end', () => {
+                  try { resolve(JSON.parse(body)); } catch { resolve(body); }
+                });
+              });
+              req.on('error', reject);
+              req.write(payload);
+              req.end();
+            });
+          }
+
+          // Walk repo and build field state
+          const files = [];
+          const missing = [];
+          const issues = [];
+
+          function walk(dir, base = '') {
+            if (!fs.existsSync(dir)) return;
+            for (const entry of fs.readdirSync(dir)) {
+              if (entry.startsWith('.') && entry !== '.github') continue;
+              const full = path.join(dir, entry);
+              const rel = path.join(base, entry);
+              const stat = fs.statSync(full);
+              if (stat.isDirectory()) walk(full, rel);
+              else {
+                const content = fs.readFileSync(full, 'utf8');
+                files.push({
+                  path: rel,
+                  size: stat.size,
+                  ext: path.extname(entry),
+                  lines: content.split('\n').length,
+                  imports: (content.match(/from ['"']([^'"']+)['"']/g) || []).map(m => m.match(/from ['"']([^'"']+)['"']/)?.[1]).filter(Boolean),
+                  exports: (content.match(/export/g) || []).length,
+                  classes: (content.match(/class\s+\w+/g) || []).length,
+                  functions: (content.match(/function\s+\w+|=>\s*{/g) || []).length,
+                  todos: (content.match(/TODO|FIXME|HACK|XXX/g) || []).length,
+                  lastModified: stat.mtime.toISOString()
+                });
+              }
+            }
+          }
+
+          walk('.');
+
+          // Check for critical files
+          const critical = [
+            'src/mrnn-engine.ts', 'src/morph-engine.ts', 'src/resonance-sgan.ts',
+            'src/autopoietic-os.ts', 'src/ingestion-system.ts',
+            'admin-panel/index.html', 'netlify.toml', 'package.json'
+          ];
+          for (const f of critical) {
+            if (!fs.existsSync(f)) missing.push({path: f, severity: 'critical'});
+          }
+
+          // Check package.json deps
+          if (fs.existsSync('package.json')) {
+            const pkg = JSON.parse(fs.readFileSync('package.json'));
+            const deps = {...(pkg.dependencies || {}), ...(pkg.devDependencies || {})};
+            for (const dep of ['react', 'typescript', 'vite']) {
+              if (!deps[dep]) missing.push({path: dep, severity: 'dep', type: 'missing_dependency'});
+            }
+          }
+
+          // Build broken import map
+          for (const file of files.filter(f => f.ext === '.ts' || f.ext === '.tsx')) {
+            const content = fs.readFileSync(file.path, 'utf8');
+            for (const imp of file.imports || []) {
+              if (imp.startsWith('.') && !imp.startsWith('http')) {
+                const resolved = path.resolve(path.dirname(file.path), imp);
+                const exts = ['', '.ts', '.tsx', '.js', '.jsx', '/index.ts', '/index.tsx'];
+                if (!exts.some(e => fs.existsSync(resolved + e))) {
+                  issues.push({file: file.path, type: 'broken_import', module: imp, severity: 'critical'});
+                }
+              }
+            }
+          }
+
+          // Build field payload for Synthia
+          const fieldPayload = {
+            event: 'field-scan',
+            repository: {
+              name: '${{ github.repository }}',
+              commit: '${{ github.sha }}',
+              branch: '${{ github.ref_name }}',
+              actor: '${{ github.actor }}',
+              run_id: '${{ github.run_id }}',
+              run_url: 'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            },
+            scan: {
+              depth: '${{ github.event.inputs.scan_depth || 'full' }}',
+              timestamp: new Date().toISOString(),
+              fileCount: files.length,
+              totalLines: files.reduce((s, f) => s + f.lines, 0),
+              totalSize: files.reduce((s, f) => s + f.size, 0)
+            },
+            field: {
+              files: files.slice(0, 200), // Limit payload size
+              missing: missing,
+              issues: issues,
+              structure: {
+                hasMRNN: fs.existsSync('src/mrnn-engine.ts'),
+                hasMorph: fs.existsSync('src/morph-engine.ts'),
+                hasOS: fs.existsSync('src/autopoietic-os.ts'),
+                hasIngestion: fs.existsSync('src/ingestion-system.ts'),
+                hasAdmin: fs.existsSync('admin-panel/index.html'),
+                hasNetlify: fs.existsSync('netlify.toml'),
+                hasPackage: fs.existsSync('package.json')
+              }
+            },
+            // Pass raw file contents for critical files so orchestrator can analyze
+            contents: {}
+          };
+
+          // Include critical file contents
+          for (const f of ['src/mrnn-engine.ts', 'src/morph-engine.ts', 'src/autopoietic-os.ts', 'MagnetiteOrchestrator_v7.fixed.ts']) {
+            if (fs.existsSync(f)) {
+              fieldPayload.contents[f] = fs.readFileSync(f, 'utf8').slice(0, 50000); // 50KB limit per file
+            }
+          }
+
+          // Send to Synthia server
+          console.log('Sending field scan to Synthia server...');
+          console.log('Files:', files.length);
+          console.log('Missing:', missing.length);
+          console.log('Issues:', issues.length);
+
+          post('${{ env.SYNTHIA_SERVER }}/api/morph/field', fieldPayload)
+            .then(res => {
+              console.log('Synthia response:', JSON.stringify(res, null, 2));
+              if (res.field_id) {
+                console.log('::set-output name=field_id::' + res.field_id);
+                fs.writeFileSync('field-response.json', JSON.stringify(res, null, 2));
+              }
+              console.log('::set-output name=scan_status::success');
+            })
+            .catch(err => {
+              console.error('Synthia server error:', err.message);
+              console.log('::set-output name=scan_status::offline');
+              // Still save local scan for offline processing
+              fs.writeFileSync('field-scan.json', JSON.stringify(fieldPayload, null, 2));
+            });
+          "
+
+      - name: 📤 Upload Field Scan
+        uses: actions/upload-artifact@v4
+        with:
+          name: field-scan-${{ github.run_id }}
+          path: |
+            field-scan.json
+            field-response.json
+
+  # ═══════════════════════════════════════════════════════
+  # EXECUTE DECISIONS — Synthia tells us what to do
+  # ═══════════════════════════════════════════════════════
+  execute:
+    runs-on: ubuntu-latest
+    needs: field-scan
+    if: needs.field-scan.outputs.scan_status == 'success'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 📥 Download Field Response
+        uses: actions/download-artifact@v4
+        with:
+          name: field-scan-${{ github.run_id }}
+
+      - name: ⚡ Execute Synthia Decisions
+        run: |
+          node -e "
+          const fs = require('fs');
+          const https = require('https');
+
+          const response = JSON.parse(fs.readFileSync('field-response.json', 'utf8'));
+          const decisions = response.decisions || [];
+
+          console.log('Decisions from Synthia:', decisions.length);
+
+          for (const decision of decisions) {
+            console.log('[' + decision.action + '] ' + decision.reason);
+
+            switch(decision.action) {
+              case 'scaffold':
+                for (const file of decision.files || []) {
+                  const dir = require('path').dirname(file.path);
+                  if (!fs.existsSync(dir)) fs.mkdirSync(dir, {recursive: true});
+                  fs.writeFileSync(file.path, file.content || '// Auto-scaffolded by Synthia\n');
+                  console.log('  Scaffolded:', file.path);
+                }
+                break;
+
+              case 'fix_import':
+                for (const fix of decision.fixes || []) {
+                  if (fs.existsSync(fix.file)) {
+                    let content = fs.readFileSync(fix.file, 'utf8');
+                    content = content.replace(new RegExp(fix.from.replace(/[.*+?^\${}()|[\]\\]/g, '\\$&'), 'g'), fix.to);
+                    fs.writeFileSync(fix.file, content);
+                    console.log('  Fixed import:', fix.file, fix.from, '->', fix.to);
+                  }
+                }
+                break;
+
+              case 'commit':
+                const {execSync} = require('child_process');
+                execSync('git config user.email "synthia-field@synthia.dev"');
+                execSync('git config user.name "Synthia Field Agent"');
+                execSync('git add -A');
+                execSync('git commit -m "[FIELD] ' + (decision.message || 'Auto-fixes from field scan') + '"');
+                execSync('git push');
+                console.log('  Committed:', decision.message);
+                break;
+
+              case 'deploy_netlify':
+                console.log('  Deploy to Netlify:', decision.url || 'triggered');
+                break;
+
+              case 'deploy_render':
+                console.log('  Deploy to Render:', decision.service || 'triggered');
+                break;
+
+              case 'dispatch_model':
+                console.log('  Model dispatched:', decision.model);
+                break;
+
+              case 'mobile_test':
+                console.log('  Mobile test:', decision.device || 'requested');
+                break;
+
+              case 'notify':
+                console.log('  Notify:', decision.message);
+                break;
+
+              default:
+                console.log('  Unknown action:', decision.action);
+            }
+          }
+
+          // If Synthia wants deploy, trigger it
+          if (decisions.some(d => d.action === 'deploy_netlify')) {
+            console.log('::set-output name=needs_deploy::true');
+          }
+          "
+
+  # ═══════════════════════════════════════════════════════
+  # DEPLOY — Only if Synthia says so
+  # ═══════════════════════════════════════════════════════
+  deploy:
+    runs-on: ubuntu-latest
+    needs: execute
+    if: needs.execute.outputs.needs_deploy == 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - run: npm ci && npm run build
+      - uses: netlify/actions-cli@master
+        with:
+          args: deploy --prod --dir=dist --site=${{ secrets.NETLIFY_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - run: |
+          curl -X POST ${{ env.SYNTHIA_SERVER }}/api/morph/deploy             -H "Content-Type: application/json"             -d "{"platform":"netlify","commit":"${{ github.sha }}","status":"success"}"
+
+  # ═══════════════════════════════════════════════════════
+  # NOTIFY — Send final status to Synthia
+  # ═══════════════════════════════════════════════════════
+  notify:
+    runs-on: ubuntu-latest
+    needs: [field-scan, execute, deploy]
+    if: always()
+    steps:
+      - run: |
+          curl -X POST ${{ env.SYNTHIA_SERVER }}/api/morph/complete             -H "Content-Type: application/json"             -d "{
+              "run_id": "${{ github.run_id }}",
+              "repository": "${{ github.repository }}",
+              "commit": "${{ github.sha }}",
+              "status": "${{ job.status }}",
+              "phases": {
+                "scan": "${{ needs.field-scan.result }}",
+                "execute": "${{ needs.execute.result }}",
+                "deploy": "${{ needs.deploy.result }}"
+              },
+              "timestamp": "$(date -Iseconds)"
+            }"
