@@ -1,6 +1,10 @@
 [build]
-  command = "npm run build:24node"
+  command = "npm run build"
   publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  PYTHON_VERSION = "3.11"
 
 [[headers]]
   for = "/*"
