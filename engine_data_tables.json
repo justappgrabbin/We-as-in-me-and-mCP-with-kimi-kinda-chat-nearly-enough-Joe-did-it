@@ -1,0 +1,1500 @@
+{
+  "gates": {
+    "0": {
+      "name": "The Keeper of Keys",
+      "ruler": "Pluto",
+      "base": "Pressure",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "potential",
+        "acceptance",
+        "beginning"
+      ],
+      "line_keywords": {
+        "1": "introspection",
+        "2": "receptivity",
+        "3": "trial",
+        "4": "release",
+        "5": "perseverance",
+        "6": "caution"
+      }
+    },
+    "1": {
+      "name": "The Initiator",
+      "ruler": "Mars",
+      "base": "Action",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "creation",
+        "drive",
+        "individuality",
+        "root"
+      ],
+      "special": "Wuji point - the big circle",
+      "line_keywords": {
+        "1": "creative",
+        "2": "magnetic",
+        "3": "experimental",
+        "4": "opportunistic",
+        "5": "heretical",
+        "6": "transcendent"
+      }
+    },
+    "2": {
+      "name": "The Receptor",
+      "ruler": "Jupiter",
+      "base": "Pulse",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "direction",
+        "guidance",
+        "receptivity"
+      ],
+      "line_keywords": {
+        "1": "intention",
+        "2": "genius",
+        "3": "patience",
+        "4": "plan",
+        "5": "application",
+        "6": "fixation"
+      }
+    },
+    "3": {
+      "name": "The Ordering",
+      "ruler": "Saturn",
+      "base": "Bonding",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "innovation",
+        "mutation",
+        "ordering"
+      ],
+      "line_keywords": {
+        "1": "synthesis",
+        "2": "immaturity",
+        "3": "innovation",
+        "4": "charisma",
+        "5": "universalization",
+        "6": "triumph"
+      }
+    },
+    "4": {
+      "name": "The Formulization",
+      "ruler": "Uranus",
+      "base": "Security",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "answers",
+        "formulization",
+        "logic"
+      ],
+      "line_keywords": {
+        "1": "persistence",
+        "2": "acceptance",
+        "3": "influence",
+        "4": "assimilation",
+        "5": "universalization",
+        "6": "victory"
+      }
+    },
+    "5": {
+      "name": "The Pattern",
+      "ruler": "Venus",
+      "base": "Action",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "rhythm",
+        "pattern",
+        "habits"
+      ],
+      "line_keywords": {
+        "1": "perseverance",
+        "2": "influence",
+        "3": "surrender",
+        "4": "universalization",
+        "5": "heretical",
+        "6": "transcendence"
+      }
+    },
+    "6": {
+      "name": "The Conflict",
+      "ruler": "Neptune",
+      "base": "Pressure",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "friction",
+        "conflict",
+        "growth"
+      ],
+      "line_keywords": {
+        "1": "retreat",
+        "2": "diplomacy",
+        "3": "trial",
+        "4": "victory",
+        "5": "arbitration",
+        "6": "peace"
+      }
+    },
+    "7": {
+      "name": "The Army",
+      "ruler": "Moon",
+      "base": "Security",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "direction",
+        "leadership",
+        "organization"
+      ],
+      "line_keywords": {
+        "1": "authority",
+        "2": "democracy",
+        "3": "influence",
+        "4": "abdication",
+        "5": "universalization",
+        "6": "victory"
+      }
+    },
+    "8": {
+      "name": "The Contribution",
+      "ruler": "Earth",
+      "base": "Action",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "commitment",
+        "contribution",
+        "focus"
+      ],
+      "line_keywords": {
+        "1": "honesty",
+        "2": "service",
+        "3": "innovation",
+        "4": "correction",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "9": {
+      "name": "The Focus",
+      "ruler": "Mercury",
+      "base": "Bonding",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "concentration",
+        "focus",
+        "determination"
+      ],
+      "line_keywords": {
+        "1": "inspection",
+        "2": "dedication",
+        "3": "innovation",
+        "4": "rigor",
+        "5": "universalization",
+        "6": "perfection"
+      }
+    },
+    "10": {
+      "name": "The Behavior",
+      "ruler": "Sun",
+      "base": "Security",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "self",
+        "behavior",
+        "identity"
+      ],
+      "line_keywords": {
+        "1": "modesty",
+        "2": "naturalness",
+        "3": "innovation",
+        "4": "courage",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "11": {
+      "name": "The Ideas",
+      "ruler": "Mars",
+      "base": "Action",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "ideas",
+        "inspiration",
+        "seeking"
+      ],
+      "line_keywords": {
+        "1": "attunement",
+        "2": "genius",
+        "3": "innovation",
+        "4": "teaching",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "12": {
+      "name": "The Caution",
+      "ruler": "Jupiter",
+      "base": "Pressure",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "caution",
+        "standstill",
+        "retreat"
+      ],
+      "line_keywords": {
+        "1": "retreat",
+        "2": "purification",
+        "3": "innovation",
+        "4": "discipline",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "13": {
+      "name": "The Listener",
+      "ruler": "Saturn",
+      "base": "Bonding",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "listening",
+        "secrets",
+        "witnessing"
+      ],
+      "line_keywords": {
+        "1": "empathy",
+        "2": "bigotry",
+        "3": "innovation",
+        "4": "fatigue",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "14": {
+      "name": "The Power Skills",
+      "ruler": "Uranus",
+      "base": "Security",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "power",
+        "skills",
+        "resources"
+      ],
+      "line_keywords": {
+        "1": "money",
+        "2": "management",
+        "3": "innovation",
+        "4": "security",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "15": {
+      "name": "The Extremes",
+      "ruler": "Venus",
+      "base": "Action",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "extremes",
+        "modesty",
+        "rhythm"
+      ],
+      "line_keywords": {
+        "1": "compromise",
+        "2": "influence",
+        "3": "innovation",
+        "4": "acceptance",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "16": {
+      "name": "The Skills",
+      "ruler": "Neptune",
+      "base": "Pressure",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "skills",
+        "enthusiasm",
+        "identification"
+      ],
+      "line_keywords": {
+        "1": "selection",
+        "2": "influence",
+        "3": "innovation",
+        "4": "identification",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "17": {
+      "name": "The Opinion",
+      "ruler": "Moon",
+      "base": "Bonding",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "opinion",
+        "follow",
+        "organization"
+      ],
+      "line_keywords": {
+        "1": "openness",
+        "2": "influence",
+        "3": "innovation",
+        "4": "correction",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "18": {
+      "name": "The Correction",
+      "ruler": "Earth",
+      "base": "Security",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "correction",
+        "insight",
+        "judgment"
+      ],
+      "line_keywords": {
+        "1": "judgment",
+        "2": "influence",
+        "3": "innovation",
+        "4": "correction",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "19": {
+      "name": "The Wanting",
+      "ruler": "Mercury",
+      "base": "Action",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "wanting",
+        "need",
+        "approach"
+      ],
+      "line_keywords": {
+        "1": "need",
+        "2": "influence",
+        "3": "innovation",
+        "4": "approach",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "20": {
+      "name": "The Now",
+      "ruler": "Sun",
+      "base": "Pressure",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "now",
+        "contemplation",
+        "presence"
+      ],
+      "line_keywords": {
+        "1": "superficiality",
+        "2": "influence",
+        "3": "innovation",
+        "4": "transformation",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "21": {
+      "name": "The Hunter/Huntress",
+      "ruler": "Mars",
+      "base": "Bonding",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "hunter",
+        "control",
+        "biting"
+      ],
+      "line_keywords": {
+        "1": "warning",
+        "2": "influence",
+        "3": "innovation",
+        "4": "strategy",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "22": {
+      "name": "The Grace",
+      "ruler": "Jupiter",
+      "base": "Security",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "grace",
+        "openness",
+        "sensitivity"
+      ],
+      "line_keywords": {
+        "1": "second-class",
+        "2": "influence",
+        "3": "innovation",
+        "4": "acceptance",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "23": {
+      "name": "The Splitting",
+      "ruler": "Saturn",
+      "base": "Action",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "splitting",
+        "assimilation",
+        "mutation"
+      ],
+      "line_keywords": {
+        "1": "proselytization",
+        "2": "influence",
+        "3": "innovation",
+        "4": "assimilation",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "24": {
+      "name": "The Rationalizing",
+      "ruler": "Uranus",
+      "base": "Pressure",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "rationalizing",
+        "return",
+        "invention"
+      ],
+      "line_keywords": {
+        "1": "inspiration",
+        "2": "influence",
+        "3": "innovation",
+        "4": "invention",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "25": {
+      "name": "The Innocent",
+      "ruler": "Venus",
+      "base": "Bonding",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "innocent",
+        "spirit",
+        "universal love"
+      ],
+      "line_keywords": {
+        "1": "universalization",
+        "2": "influence",
+        "3": "innovation",
+        "4": "survival",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "26": {
+      "name": "The Trickster",
+      "ruler": "Neptune",
+      "base": "Security",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "trickster",
+        "ego",
+        "memory"
+      ],
+      "line_keywords": {
+        "1": "influence",
+        "2": "influence",
+        "3": "innovation",
+        "4": "cunning",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "27": {
+      "name": "The Nurturing",
+      "ruler": "Moon",
+      "base": "Action",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "nurturing",
+        "caring",
+        "responsibility"
+      ],
+      "line_keywords": {
+        "1": "selfishness",
+        "2": "influence",
+        "3": "innovation",
+        "4": "generosity",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "28": {
+      "name": "The Struggle",
+      "ruler": "Earth",
+      "base": "Pressure",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "struggle",
+        "purpose",
+        "risk"
+      ],
+      "line_keywords": {
+        "1": "preparation",
+        "2": "influence",
+        "3": "innovation",
+        "4": "immortality",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "29": {
+      "name": "The Perseverance",
+      "ruler": "Mercury",
+      "base": "Bonding",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "perseverance",
+        "commitment",
+        "deepening"
+      ],
+      "line_keywords": {
+        "1": "obsession",
+        "2": "influence",
+        "3": "innovation",
+        "4": "commitment",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "30": {
+      "name": "The Feelings",
+      "ruler": "Sun",
+      "base": "Security",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "feelings",
+        "desire",
+        "fates"
+      ],
+      "line_keywords": {
+        "1": "composure",
+        "2": "influence",
+        "3": "innovation",
+        "4": "burning",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "31": {
+      "name": "The Leading",
+      "ruler": "Mars",
+      "base": "Action",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "leading",
+        "influence",
+        "democracy"
+      ],
+      "line_keywords": {
+        "1": "manifestation",
+        "2": "influence",
+        "3": "innovation",
+        "4": "leading",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "32": {
+      "name": "The Continuity",
+      "ruler": "Jupiter",
+      "base": "Pressure",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "continuity",
+        "endurance",
+        "memory"
+      ],
+      "line_keywords": {
+        "1": "conservation",
+        "2": "influence",
+        "3": "innovation",
+        "4": "transformation",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "33": {
+      "name": "The Privacy",
+      "ruler": "Saturn",
+      "base": "Bonding",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "privacy",
+        "retreat",
+        "memory"
+      ],
+      "line_keywords": {
+        "1": "avoidance",
+        "2": "influence",
+        "3": "innovation",
+        "4": "surrender",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "34": {
+      "name": "The Power",
+      "ruler": "Uranus",
+      "base": "Security",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "power",
+        "transformation",
+        "daring"
+      ],
+      "line_keywords": {
+        "1": "annihilation",
+        "2": "influence",
+        "3": "innovation",
+        "4": "transformation",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "35": {
+      "name": "The Change",
+      "ruler": "Venus",
+      "base": "Action",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "change",
+        "progress",
+        "hunger"
+      ],
+      "line_keywords": {
+        "1": "universalization",
+        "2": "influence",
+        "3": "innovation",
+        "4": "change",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "36": {
+      "name": "The Crisis",
+      "ruler": "Neptune",
+      "base": "Pressure",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "crisis",
+        "darkening",
+        "experience"
+      ],
+      "line_keywords": {
+        "1": "resistance",
+        "2": "influence",
+        "3": "innovation",
+        "4": "transformation",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "37": {
+      "name": "The Friendship",
+      "ruler": "Moon",
+      "base": "Bonding",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "friendship",
+        "community",
+        "family"
+      ],
+      "line_keywords": {
+        "1": "mediocrity",
+        "2": "influence",
+        "3": "innovation",
+        "4": "friendship",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "38": {
+      "name": "The Opposition",
+      "ruler": "Earth",
+      "base": "Security",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "opposition",
+        "fighter",
+        "purpose"
+      ],
+      "line_keywords": {
+        "1": "qualification",
+        "2": "influence",
+        "3": "innovation",
+        "4": "struggle",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "39": {
+      "name": "The Provocation",
+      "ruler": "Mercury",
+      "base": "Action",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "provocation",
+        "dissonance",
+        "pressure"
+      ],
+      "line_keywords": {
+        "1": "disengagement",
+        "2": "influence",
+        "3": "innovation",
+        "4": "provocation",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "40": {
+      "name": "The Aloneness",
+      "ruler": "Sun",
+      "base": "Pressure",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "aloneness",
+        "deliverance",
+        "exhaustion"
+      ],
+      "line_keywords": {
+        "1": "recuperation",
+        "2": "influence",
+        "3": "innovation",
+        "4": "organization",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "41": {
+      "name": "The Contraction",
+      "ruler": "Mars",
+      "base": "Bonding",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "contraction",
+        "fantasy",
+        "dreaming"
+      ],
+      "line_keywords": {
+        "1": "reasonableness",
+        "2": "influence",
+        "3": "innovation",
+        "4": "pragmatism",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "42": {
+      "name": "The Growth",
+      "ruler": "Jupiter",
+      "base": "Security",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "growth",
+        "expansion",
+        "middle"
+      ],
+      "line_keywords": {
+        "1": "diversification",
+        "2": "influence",
+        "3": "innovation",
+        "4": "growth",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "43": {
+      "name": "The Insight",
+      "ruler": "Saturn",
+      "base": "Action",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "insight",
+        "knowing",
+        "breakthrough"
+      ],
+      "line_keywords": {
+        "1": "obsession",
+        "2": "influence",
+        "3": "innovation",
+        "4": "insight",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "44": {
+      "name": "The Alertness",
+      "ruler": "Uranus",
+      "base": "Pressure",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "alertness",
+        "interaction",
+        "instinct"
+      ],
+      "line_keywords": {
+        "1": "prevention",
+        "2": "influence",
+        "3": "innovation",
+        "4": "alertness",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "45": {
+      "name": "The Gatherer",
+      "ruler": "Venus",
+      "base": "Bonding",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "gathering",
+        "distribution",
+        "collecting"
+      ],
+      "special": "Collector/Distributor - expands space",
+      "line_keywords": {
+        "1": "materialism",
+        "2": "influence",
+        "3": "innovation",
+        "4": "gathering",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "46": {
+      "name": "The Determination",
+      "ruler": "Neptune",
+      "base": "Security",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "determination",
+        "good fortune",
+        "serendipity"
+      ],
+      "line_keywords": {
+        "1": "contribution",
+        "2": "influence",
+        "3": "innovation",
+        "4": "determination",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "47": {
+      "name": "The Realizing",
+      "ruler": "Moon",
+      "base": "Action",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "realizing",
+        "oppression",
+        "transmutation"
+      ],
+      "line_keywords": {
+        "1": "taking",
+        "2": "influence",
+        "3": "innovation",
+        "4": "realizing",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "48": {
+      "name": "The Depth",
+      "ruler": "Earth",
+      "base": "Pressure",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "depth",
+        "solution",
+        "competence"
+      ],
+      "line_keywords": {
+        "1": "inadequacy",
+        "2": "influence",
+        "3": "innovation",
+        "4": "depth",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "49": {
+      "name": "The Revolution",
+      "ruler": "Mercury",
+      "base": "Bonding",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "revolution",
+        "principles",
+        "rejection"
+      ],
+      "line_keywords": {
+        "1": "rejection",
+        "2": "influence",
+        "3": "innovation",
+        "4": "revolution",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "50": {
+      "name": "The Values",
+      "ruler": "Sun",
+      "base": "Security",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "values",
+        "immigration",
+        "correction"
+      ],
+      "line_keywords": {
+        "1": "migration",
+        "2": "influence",
+        "3": "innovation",
+        "4": "values",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "51": {
+      "name": "The Shock",
+      "ruler": "Mars",
+      "base": "Action",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "shock",
+        "awakening",
+        "initiation"
+      ],
+      "line_keywords": {
+        "1": "reference",
+        "2": "influence",
+        "3": "innovation",
+        "4": "shock",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "52": {
+      "name": "The Concentration",
+      "ruler": "Jupiter",
+      "base": "Pressure",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "concentration",
+        "inaction",
+        "meditation"
+      ],
+      "line_keywords": {
+        "1": "rest",
+        "2": "influence",
+        "3": "innovation",
+        "4": "concentration",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "53": {
+      "name": "The Beginning",
+      "ruler": "Saturn",
+      "base": "Bonding",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "beginning",
+        "development",
+        "start"
+      ],
+      "line_keywords": {
+        "1": "accumulation",
+        "2": "influence",
+        "3": "innovation",
+        "4": "development",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "54": {
+      "name": "The Ambition",
+      "ruler": "Uranus",
+      "base": "Security",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "ambition",
+        "drive",
+        "materialism"
+      ],
+      "line_keywords": {
+        "1": "influence",
+        "2": "influence",
+        "3": "innovation",
+        "4": "ambition",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "55": {
+      "name": "The Spirit",
+      "ruler": "Venus",
+      "base": "Action",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "spirit",
+        "abundance",
+        "mood"
+      ],
+      "line_keywords": {
+        "1": "spirit",
+        "2": "influence",
+        "3": "innovation",
+        "4": "abundance",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "56": {
+      "name": "The Wanderer",
+      "ruler": "Neptune",
+      "base": "Pressure",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "wanderer",
+        "stimulation",
+        "search"
+      ],
+      "line_keywords": {
+        "1": "quality",
+        "2": "influence",
+        "3": "innovation",
+        "4": "wandering",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "57": {
+      "name": "The Intuitive",
+      "ruler": "Moon",
+      "base": "Bonding",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "intuitive",
+        "clarity",
+        "instinct"
+      ],
+      "line_keywords": {
+        "1": "confusion",
+        "2": "influence",
+        "3": "innovation",
+        "4": "intuition",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "58": {
+      "name": "The Joy",
+      "ruler": "Earth",
+      "base": "Security",
+      "tone": 4,
+      "color": 4,
+      "view": 4,
+      "keywords": [
+        "joy",
+        "vitality",
+        "stimulation"
+      ],
+      "line_keywords": {
+        "1": "love",
+        "2": "influence",
+        "3": "innovation",
+        "4": "joy",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "59": {
+      "name": "The Sexuality",
+      "ruler": "Mercury",
+      "base": "Action",
+      "tone": 5,
+      "color": 5,
+      "view": 5,
+      "keywords": [
+        "sexuality",
+        "intimacy",
+        "dissemination"
+      ],
+      "line_keywords": {
+        "1": "the",
+        "2": "influence",
+        "3": "innovation",
+        "4": "sexuality",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "60": {
+      "name": "The Limitation",
+      "ruler": "Sun",
+      "base": "Pressure",
+      "tone": 6,
+      "color": 6,
+      "view": 6,
+      "keywords": [
+        "limitation",
+        "acceptance",
+        "mutation"
+      ],
+      "line_keywords": {
+        "1": "acceptance",
+        "2": "influence",
+        "3": "innovation",
+        "4": "limitation",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "61": {
+      "name": "The Mystery",
+      "ruler": "Mars",
+      "base": "Bonding",
+      "tone": 1,
+      "color": 1,
+      "view": 1,
+      "keywords": [
+        "mystery",
+        "inner truth",
+        "knowing"
+      ],
+      "line_keywords": {
+        "1": "occult",
+        "2": "influence",
+        "3": "innovation",
+        "4": "mystery",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "62": {
+      "name": "The Detail",
+      "ruler": "Jupiter",
+      "base": "Security",
+      "tone": 2,
+      "color": 2,
+      "view": 2,
+      "keywords": [
+        "detail",
+        "caution",
+        "small"
+      ],
+      "line_keywords": {
+        "1": "routine",
+        "2": "influence",
+        "3": "innovation",
+        "4": "detail",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    },
+    "63": {
+      "name": "The Doubt",
+      "ruler": "Saturn",
+      "base": "Action",
+      "tone": 3,
+      "color": 3,
+      "view": 3,
+      "keywords": [
+        "doubt",
+        "inquiry",
+        "after"
+      ],
+      "line_keywords": {
+        "1": "doubt",
+        "2": "influence",
+        "3": "innovation",
+        "4": "inquiry",
+        "5": "universalization",
+        "6": "transcendence"
+      }
+    }
+  },
+  "tones": {
+    "1": {
+      "name": "Cognition",
+      "sense": "Smell",
+      "quality": "Inner",
+      "keyword": "Know"
+    },
+    "2": {
+      "name": "Response",
+      "sense": "Taste",
+      "quality": "Outer",
+      "keyword": "Feel"
+    },
+    "3": {
+      "name": "Action",
+      "sense": "Touch",
+      "quality": "Inner",
+      "keyword": "Do"
+    },
+    "4": {
+      "name": "Meditation",
+      "sense": "Sight",
+      "quality": "Outer",
+      "keyword": "See"
+    },
+    "5": {
+      "name": "Judgment",
+      "sense": "Hearing",
+      "quality": "Inner",
+      "keyword": "Hear"
+    },
+    "6": {
+      "name": "Acceptance",
+      "sense": "Thought",
+      "quality": "Outer",
+      "keyword": "Think"
+    }
+  },
+  "colors": {
+    "1": {
+      "name": "Survival",
+      "theme": "Fear",
+      "motivation": "Need",
+      "view": "Personal"
+    },
+    "2": {
+      "name": "Possibility",
+      "theme": "Hope",
+      "motivation": "Want",
+      "view": "Probability"
+    },
+    "3": {
+      "name": "Power",
+      "theme": "Desire",
+      "motivation": "Will",
+      "view": "Wanting"
+    },
+    "4": {
+      "name": "Wanting",
+      "theme": "Guilt",
+      "motivation": "Wish",
+      "view": "Power"
+    },
+    "5": {
+      "name": "Probability",
+      "theme": "Anxiety",
+      "motivation": "Desire",
+      "view": "Possibility"
+    },
+    "6": {
+      "name": "Personal",
+      "theme": "Nostalgia",
+      "motivation": "Hope",
+      "view": "Survival"
+    }
+  },
+  "views": {
+    "1": {
+      "name": "Survival",
+      "stance": "Communalist",
+      "direction": "Left",
+      "focus": "Lower"
+    },
+    "2": {
+      "name": "Possibility",
+      "stance": "Theist",
+      "direction": "Left",
+      "focus": "Lower"
+    },
+    "3": {
+      "name": "Power",
+      "stance": "Leader",
+      "direction": "Left",
+      "focus": "Upper"
+    },
+    "4": {
+      "name": "Wanting",
+      "stance": "Master",
+      "direction": "Right",
+      "focus": "Upper"
+    },
+    "5": {
+      "name": "Probability",
+      "stance": "Conditioner",
+      "direction": "Right",
+      "focus": "Lower"
+    },
+    "6": {
+      "name": "Personal",
+      "stance": "Observer",
+      "direction": "Right",
+      "focus": "Lower"
+    }
+  },
+  "bases": {
+    "1": {
+      "name": "Action",
+      "pressure": "Active",
+      "theme": "Doing"
+    },
+    "2": {
+      "name": "Security",
+      "pressure": "Passive",
+      "theme": "Being"
+    },
+    "3": {
+      "name": "Bonding",
+      "pressure": "Interactive",
+      "theme": "Relating"
+    },
+    "4": {
+      "name": "Pulse",
+      "pressure": "Cyclic",
+      "theme": "Rhythm"
+    },
+    "5": {
+      "name": "Pressure",
+      "pressure": "Intense",
+      "theme": "Transformation"
+    }
+  },
+  "lines": {
+    "1": "The Investigator",
+    "2": "The Hermit",
+    "3": "The Martyr",
+    "4": "The Opportunist",
+    "5": "The Heretic",
+    "6": "The Role Model"
+  }
+}

@@ -1,0 +1,2627 @@
+[
+  {
+    "gate_number": 0,
+    "gate_name": "The Keeper of Keys",
+    "planetary_ruler": "Pluto",
+    "primary_base": "Pressure",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "potential",
+      "acceptance",
+      "beginning"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "introspection"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "receptivity"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "trial"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "release"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "perseverance"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "caution"
+      }
+    }
+  },
+  {
+    "gate_number": 1,
+    "gate_name": "The Initiator",
+    "planetary_ruler": "Mars",
+    "primary_base": "Action",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "creation",
+      "drive",
+      "individuality",
+      "root"
+    ],
+    "special_property": "Wuji point - the big circle",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "creative"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "magnetic"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "experimental"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "opportunistic"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "heretical"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendent"
+      }
+    }
+  },
+  {
+    "gate_number": 2,
+    "gate_name": "The Receptor",
+    "planetary_ruler": "Jupiter",
+    "primary_base": "Pulse",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "direction",
+      "guidance",
+      "receptivity"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "intention"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "genius"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "patience"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "plan"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "application"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "fixation"
+      }
+    }
+  },
+  {
+    "gate_number": 3,
+    "gate_name": "The Ordering",
+    "planetary_ruler": "Saturn",
+    "primary_base": "Bonding",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "innovation",
+      "mutation",
+      "ordering"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "synthesis"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "immaturity"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "charisma"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "triumph"
+      }
+    }
+  },
+  {
+    "gate_number": 4,
+    "gate_name": "The Formulization",
+    "planetary_ruler": "Uranus",
+    "primary_base": "Security",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "answers",
+      "formulization",
+      "logic"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "persistence"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "acceptance"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "influence"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "assimilation"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "victory"
+      }
+    }
+  },
+  {
+    "gate_number": 5,
+    "gate_name": "The Pattern",
+    "planetary_ruler": "Venus",
+    "primary_base": "Action",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "rhythm",
+      "pattern",
+      "habits"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "perseverance"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "surrender"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "universalization"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "heretical"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 6,
+    "gate_name": "The Conflict",
+    "planetary_ruler": "Neptune",
+    "primary_base": "Pressure",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "friction",
+      "conflict",
+      "growth"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "retreat"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "diplomacy"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "trial"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "victory"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "arbitration"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "peace"
+      }
+    }
+  },
+  {
+    "gate_number": 7,
+    "gate_name": "The Army",
+    "planetary_ruler": "Moon",
+    "primary_base": "Security",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "direction",
+      "leadership",
+      "organization"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "authority"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "democracy"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "influence"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "abdication"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "victory"
+      }
+    }
+  },
+  {
+    "gate_number": 8,
+    "gate_name": "The Contribution",
+    "planetary_ruler": "Earth",
+    "primary_base": "Action",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "commitment",
+      "contribution",
+      "focus"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "honesty"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "service"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "correction"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 9,
+    "gate_name": "The Focus",
+    "planetary_ruler": "Mercury",
+    "primary_base": "Bonding",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "concentration",
+      "focus",
+      "determination"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "inspection"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "dedication"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "rigor"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "perfection"
+      }
+    }
+  },
+  {
+    "gate_number": 10,
+    "gate_name": "The Behavior",
+    "planetary_ruler": "Sun",
+    "primary_base": "Security",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "self",
+      "behavior",
+      "identity"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "modesty"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "naturalness"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "courage"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 11,
+    "gate_name": "The Ideas",
+    "planetary_ruler": "Mars",
+    "primary_base": "Action",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "ideas",
+      "inspiration",
+      "seeking"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "attunement"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "genius"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "teaching"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 12,
+    "gate_name": "The Caution",
+    "planetary_ruler": "Jupiter",
+    "primary_base": "Pressure",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "caution",
+      "standstill",
+      "retreat"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "retreat"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "purification"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "discipline"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 13,
+    "gate_name": "The Listener",
+    "planetary_ruler": "Saturn",
+    "primary_base": "Bonding",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "listening",
+      "secrets",
+      "witnessing"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "empathy"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "bigotry"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "fatigue"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 14,
+    "gate_name": "The Power Skills",
+    "planetary_ruler": "Uranus",
+    "primary_base": "Security",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "power",
+      "skills",
+      "resources"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "money"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "management"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "security"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 15,
+    "gate_name": "The Extremes",
+    "planetary_ruler": "Venus",
+    "primary_base": "Action",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "extremes",
+      "modesty",
+      "rhythm"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "compromise"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "acceptance"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 16,
+    "gate_name": "The Skills",
+    "planetary_ruler": "Neptune",
+    "primary_base": "Pressure",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "skills",
+      "enthusiasm",
+      "identification"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "selection"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "identification"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 17,
+    "gate_name": "The Opinion",
+    "planetary_ruler": "Moon",
+    "primary_base": "Bonding",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "opinion",
+      "follow",
+      "organization"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "openness"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "correction"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 18,
+    "gate_name": "The Correction",
+    "planetary_ruler": "Earth",
+    "primary_base": "Security",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "correction",
+      "insight",
+      "judgment"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "judgment"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "correction"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 19,
+    "gate_name": "The Wanting",
+    "planetary_ruler": "Mercury",
+    "primary_base": "Action",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "wanting",
+      "need",
+      "approach"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "need"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "approach"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 20,
+    "gate_name": "The Now",
+    "planetary_ruler": "Sun",
+    "primary_base": "Pressure",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "now",
+      "contemplation",
+      "presence"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "superficiality"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "transformation"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 21,
+    "gate_name": "The Hunter/Huntress",
+    "planetary_ruler": "Mars",
+    "primary_base": "Bonding",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "hunter",
+      "control",
+      "biting"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "warning"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "strategy"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 22,
+    "gate_name": "The Grace",
+    "planetary_ruler": "Jupiter",
+    "primary_base": "Security",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "grace",
+      "openness",
+      "sensitivity"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "second-class"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "acceptance"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 23,
+    "gate_name": "The Splitting",
+    "planetary_ruler": "Saturn",
+    "primary_base": "Action",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "splitting",
+      "assimilation",
+      "mutation"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "proselytization"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "assimilation"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 24,
+    "gate_name": "The Rationalizing",
+    "planetary_ruler": "Uranus",
+    "primary_base": "Pressure",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "rationalizing",
+      "return",
+      "invention"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "inspiration"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "invention"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 25,
+    "gate_name": "The Innocent",
+    "planetary_ruler": "Venus",
+    "primary_base": "Bonding",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "innocent",
+      "spirit",
+      "universal love"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "universalization"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "survival"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 26,
+    "gate_name": "The Trickster",
+    "planetary_ruler": "Neptune",
+    "primary_base": "Security",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "trickster",
+      "ego",
+      "memory"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "influence"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "cunning"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 27,
+    "gate_name": "The Nurturing",
+    "planetary_ruler": "Moon",
+    "primary_base": "Action",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "nurturing",
+      "caring",
+      "responsibility"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "selfishness"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "generosity"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 28,
+    "gate_name": "The Struggle",
+    "planetary_ruler": "Earth",
+    "primary_base": "Pressure",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "struggle",
+      "purpose",
+      "risk"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "preparation"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "immortality"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 29,
+    "gate_name": "The Perseverance",
+    "planetary_ruler": "Mercury",
+    "primary_base": "Bonding",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "perseverance",
+      "commitment",
+      "deepening"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "obsession"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "commitment"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 30,
+    "gate_name": "The Feelings",
+    "planetary_ruler": "Sun",
+    "primary_base": "Security",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "feelings",
+      "desire",
+      "fates"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "composure"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "burning"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 31,
+    "gate_name": "The Leading",
+    "planetary_ruler": "Mars",
+    "primary_base": "Action",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "leading",
+      "influence",
+      "democracy"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "manifestation"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "leading"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 32,
+    "gate_name": "The Continuity",
+    "planetary_ruler": "Jupiter",
+    "primary_base": "Pressure",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "continuity",
+      "endurance",
+      "memory"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "conservation"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "transformation"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 33,
+    "gate_name": "The Privacy",
+    "planetary_ruler": "Saturn",
+    "primary_base": "Bonding",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "privacy",
+      "retreat",
+      "memory"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "avoidance"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "surrender"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 34,
+    "gate_name": "The Power",
+    "planetary_ruler": "Uranus",
+    "primary_base": "Security",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "power",
+      "transformation",
+      "daring"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "annihilation"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "transformation"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 35,
+    "gate_name": "The Change",
+    "planetary_ruler": "Venus",
+    "primary_base": "Action",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "change",
+      "progress",
+      "hunger"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "universalization"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "change"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 36,
+    "gate_name": "The Crisis",
+    "planetary_ruler": "Neptune",
+    "primary_base": "Pressure",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "crisis",
+      "darkening",
+      "experience"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "resistance"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "transformation"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 37,
+    "gate_name": "The Friendship",
+    "planetary_ruler": "Moon",
+    "primary_base": "Bonding",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "friendship",
+      "community",
+      "family"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "mediocrity"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "friendship"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 38,
+    "gate_name": "The Opposition",
+    "planetary_ruler": "Earth",
+    "primary_base": "Security",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "opposition",
+      "fighter",
+      "purpose"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "qualification"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "struggle"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 39,
+    "gate_name": "The Provocation",
+    "planetary_ruler": "Mercury",
+    "primary_base": "Action",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "provocation",
+      "dissonance",
+      "pressure"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "disengagement"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "provocation"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 40,
+    "gate_name": "The Aloneness",
+    "planetary_ruler": "Sun",
+    "primary_base": "Pressure",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "aloneness",
+      "deliverance",
+      "exhaustion"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "recuperation"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "organization"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 41,
+    "gate_name": "The Contraction",
+    "planetary_ruler": "Mars",
+    "primary_base": "Bonding",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "contraction",
+      "fantasy",
+      "dreaming"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "reasonableness"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "pragmatism"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 42,
+    "gate_name": "The Growth",
+    "planetary_ruler": "Jupiter",
+    "primary_base": "Security",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "growth",
+      "expansion",
+      "middle"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "diversification"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "growth"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 43,
+    "gate_name": "The Insight",
+    "planetary_ruler": "Saturn",
+    "primary_base": "Action",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "insight",
+      "knowing",
+      "breakthrough"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "obsession"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "insight"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 44,
+    "gate_name": "The Alertness",
+    "planetary_ruler": "Uranus",
+    "primary_base": "Pressure",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "alertness",
+      "interaction",
+      "instinct"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "prevention"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "alertness"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 45,
+    "gate_name": "The Gatherer",
+    "planetary_ruler": "Venus",
+    "primary_base": "Bonding",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "gathering",
+      "distribution",
+      "collecting"
+    ],
+    "special_property": "Collector/Distributor - expands space",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "materialism"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "gathering"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 46,
+    "gate_name": "The Determination",
+    "planetary_ruler": "Neptune",
+    "primary_base": "Security",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "determination",
+      "good fortune",
+      "serendipity"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "contribution"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "determination"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 47,
+    "gate_name": "The Realizing",
+    "planetary_ruler": "Moon",
+    "primary_base": "Action",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "realizing",
+      "oppression",
+      "transmutation"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "taking"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "realizing"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 48,
+    "gate_name": "The Depth",
+    "planetary_ruler": "Earth",
+    "primary_base": "Pressure",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "depth",
+      "solution",
+      "competence"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "inadequacy"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "depth"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 49,
+    "gate_name": "The Revolution",
+    "planetary_ruler": "Mercury",
+    "primary_base": "Bonding",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "revolution",
+      "principles",
+      "rejection"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "rejection"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "revolution"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 50,
+    "gate_name": "The Values",
+    "planetary_ruler": "Sun",
+    "primary_base": "Security",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "values",
+      "immigration",
+      "correction"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "migration"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "values"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 51,
+    "gate_name": "The Shock",
+    "planetary_ruler": "Mars",
+    "primary_base": "Action",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "shock",
+      "awakening",
+      "initiation"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "reference"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "shock"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 52,
+    "gate_name": "The Concentration",
+    "planetary_ruler": "Jupiter",
+    "primary_base": "Pressure",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "concentration",
+      "inaction",
+      "meditation"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "rest"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "concentration"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 53,
+    "gate_name": "The Beginning",
+    "planetary_ruler": "Saturn",
+    "primary_base": "Bonding",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "beginning",
+      "development",
+      "start"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "accumulation"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "development"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 54,
+    "gate_name": "The Ambition",
+    "planetary_ruler": "Uranus",
+    "primary_base": "Security",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "ambition",
+      "drive",
+      "materialism"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "influence"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "ambition"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 55,
+    "gate_name": "The Spirit",
+    "planetary_ruler": "Venus",
+    "primary_base": "Action",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "spirit",
+      "abundance",
+      "mood"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "spirit"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "abundance"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 56,
+    "gate_name": "The Wanderer",
+    "planetary_ruler": "Neptune",
+    "primary_base": "Pressure",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "wanderer",
+      "stimulation",
+      "search"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "quality"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "wandering"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 57,
+    "gate_name": "The Intuitive",
+    "planetary_ruler": "Moon",
+    "primary_base": "Bonding",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "intuitive",
+      "clarity",
+      "instinct"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "confusion"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "intuition"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 58,
+    "gate_name": "The Joy",
+    "planetary_ruler": "Earth",
+    "primary_base": "Security",
+    "tone": 4,
+    "color": 4,
+    "view": 4,
+    "keywords": [
+      "joy",
+      "vitality",
+      "stimulation"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "love"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "joy"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 59,
+    "gate_name": "The Sexuality",
+    "planetary_ruler": "Mercury",
+    "primary_base": "Action",
+    "tone": 5,
+    "color": 5,
+    "view": 5,
+    "keywords": [
+      "sexuality",
+      "intimacy",
+      "dissemination"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "the"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "sexuality"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 60,
+    "gate_name": "The Limitation",
+    "planetary_ruler": "Sun",
+    "primary_base": "Pressure",
+    "tone": 6,
+    "color": 6,
+    "view": 6,
+    "keywords": [
+      "limitation",
+      "acceptance",
+      "mutation"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "acceptance"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "limitation"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 61,
+    "gate_name": "The Mystery",
+    "planetary_ruler": "Mars",
+    "primary_base": "Bonding",
+    "tone": 1,
+    "color": 1,
+    "view": 1,
+    "keywords": [
+      "mystery",
+      "inner truth",
+      "knowing"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "occult"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "mystery"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 62,
+    "gate_name": "The Detail",
+    "planetary_ruler": "Jupiter",
+    "primary_base": "Security",
+    "tone": 2,
+    "color": 2,
+    "view": 2,
+    "keywords": [
+      "detail",
+      "caution",
+      "small"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "routine"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "detail"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  },
+  {
+    "gate_number": 63,
+    "gate_name": "The Doubt",
+    "planetary_ruler": "Saturn",
+    "primary_base": "Action",
+    "tone": 3,
+    "color": 3,
+    "view": 3,
+    "keywords": [
+      "doubt",
+      "inquiry",
+      "after"
+    ],
+    "special_property": "",
+    "lines": {
+      "1": {
+        "name": "The Investigator",
+        "keyword": "doubt"
+      },
+      "2": {
+        "name": "The Hermit",
+        "keyword": "influence"
+      },
+      "3": {
+        "name": "The Martyr",
+        "keyword": "innovation"
+      },
+      "4": {
+        "name": "The Opportunist",
+        "keyword": "inquiry"
+      },
+      "5": {
+        "name": "The Heretic",
+        "keyword": "universalization"
+      },
+      "6": {
+        "name": "The Role Model",
+        "keyword": "transcendence"
+      }
+    }
+  }
+]

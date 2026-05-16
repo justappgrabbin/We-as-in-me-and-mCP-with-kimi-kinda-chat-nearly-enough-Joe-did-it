@@ -1,0 +1,273 @@
+/**
+ * NEURAL MESH VISUALIZER
+ * 
+ * Real-time visualization of the 5-mesh 13-layer neural structure.
+ * Displays nodes, connections, coherence, and morphing state.
+ * Animated with time-driven arc degrees and dynamic color shifts.
+ */
+
+import React, { useEffect, useRef, useState } from 'react';
+import { ResonanceOrchestrator, NodeState, Address } from '@/lib/orchestrator';
+
+interface NeuralMeshVisualizerProps {
+  orchestrator: ResonanceOrchestrator;
+  width?: number;
+  height?: number;
+  interactive?: boolean;
+}
+
+const NeuralMeshVisualizer: React.FC<NeuralMeshVisualizerProps> = ({
+  orchestrator,
+  width = 1200,
+  height = 800,
+  interactive = true,
+}) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const animationRef = useRef<number | undefined>(undefined);
+  const frameCountRef = useRef(0);
+  const [selectedNode, setSelectedNode] = useState<NodeState | null>(null);
+  const [coherence, setCoherence] = useState(0.5);
+  const [morphState, setMorphState] = useState(0);
+
+  // Get only loaded mesh nodes (not all 37,440)
+  const meshNodes = React.useMemo(() => orchestrator.getLoadedNodes(), [orchestrator]);
+
+  // Color mapping based on mesh type (NO BLUE - use amber/gold/emerald)
+  const getMeshColor = (mesh: number): string => {
+    const colors = [
+      '#FF6B6B', // Physical - Red
+      '#f5c518', // Emotional - Amber
+      '#10d474', // Mental - Emerald
+      '#FFA07A', // Soul - Salmon
+      '#c084fc', // Field - Violet
+    ];
+    return colors[mesh] || '#FFFFFF';
+  };
+
+  // Get node position based on address
+  const getNodePosition = (address: Address, centerX: number, centerY: number) => {
+    // Radial distance based on mesh
+    const meshRadius = 50 + address.mesh * 40;
+    
+    // Angular position based on layer and center
+    const angle = ((address.layer * 30 + address.center * 40) * Math.PI) / 180;
+    
+    // Add arc degree rotation
+    const arcRotation = (address.arcDegree * Math.PI) / 180;
+    
+    const x = centerX + meshRadius * Math.cos(angle + arcRotation);
+    const y = centerY + meshRadius * Math.sin(angle + arcRotation);
+    
+    return { x, y };
+  };
+
+  // Render the neural mesh
+  const renderMesh = React.useCallback((ctx: CanvasRenderingContext2D) => {
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    // Clear canvas
+    ctx.fillStyle = '#0a0e27';
+    ctx.fillRect(0, 0, width, height);
+
+    // Draw mesh rings
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 5; i++) {
+      const radius = 50 + i * 40;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // Draw nodes
+    meshNodes.forEach((nodeState) => {
+      const { x, y } = getNodePosition(nodeState.address, centerX, centerY);
+      
+      // Node color based on state
+      let nodeColor = getMeshColor(nodeState.address.mesh);
+      
+      // Brighten if in changing state
+      if (nodeState.baseState === 'CHANGING') {
+        ctx.fillStyle = '#FFFF00';
+        ctx.shadowColor = '#FFFF00';
+        ctx.shadowBlur = 20;
+      } else if (nodeState.baseState === 'RESONANT') {
+        ctx.fillStyle = '#00FF00';
+        ctx.shadowColor = '#00FF00';
+        ctx.shadowBlur = 15;
+      } else {
+        ctx.fillStyle = nodeColor;
+        ctx.shadowColor = nodeColor;
+        ctx.shadowBlur = 5 + nodeState.tension * 10;
+      }
+
+      // Draw node
+      const nodeSize = 2 + nodeState.coherence * 3;
+      ctx.beginPath();
+      ctx.arc(x, y, nodeSize, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Draw tension indicator
+      if (nodeState.tension > 0.5) {
+        ctx.strokeStyle = `rgba(255, 100, 100, ${nodeState.tension})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(x, y, nodeSize + 3, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    });
+
+    // Draw connections between nearby nodes
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < meshNodes.length; i += 100) {
+      const node1 = meshNodes[i];
+      const pos1 = getNodePosition(node1.address, centerX, centerY);
+      
+      for (let j = i + 1; j < Math.min(i + 10, meshNodes.length); j++) {
+        const node2 = meshNodes[j];
+        const pos2 = getNodePosition(node2.address, centerX, centerY);
+        
+        // Only draw if in same layer
+        if (node1.address.layer === node2.address.layer) {
+          ctx.beginPath();
+          ctx.moveTo(pos1.x, pos1.y);
+          ctx.lineTo(pos2.x, pos2.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw center point
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Draw coherence indicator (amber glow, not cyan)
+    const coherenceValue = orchestrator.getGlobalCoherence();
+    const coherenceRadius = 250 + coherenceValue * 50;
+    ctx.strokeStyle = `rgba(245, 197, 24, ${coherenceValue})`; // Amber instead of cyan
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, coherenceRadius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Draw text overlay
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+    ctx.font = '14px monospace';
+    ctx.fillText(`Coherence: ${(coherenceValue * 100).toFixed(1)}%`, 20, 30);
+    ctx.fillText(`Nodes: ${meshNodes.length}`, 20, 50);
+    ctx.fillText(`Morph: ${(morphState * 100).toFixed(1)}%`, 20, 70);
+
+    // Draw personality state
+    const personality = orchestrator.getPersonality();
+    ctx.fillStyle = 'rgba(255, 200, 100, 0.9)';
+    ctx.font = 'bold 16px monospace';
+    ctx.fillText(personality.wit[Math.floor(Math.random() * personality.wit.length)], 20, height - 20);
+  }, [width, height, meshNodes, orchestrator]);
+
+  // Animation loop
+  const animate = React.useCallback(() => {
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext('2d');
+      if (ctx) {
+        renderMesh(ctx);
+        
+        // Throttle state updates: only update every 10th frame
+        if (frameCountRef.current % 10 === 0) {
+          setCoherence(orchestrator.getGlobalCoherence());
+          setMorphState(orchestrator.getMorphState());
+        }
+        frameCountRef.current++;
+      }
+    }
+    animationRef.current = requestAnimationFrame(animate);
+  }, [renderMesh]);
+
+  useEffect(() => {
+    animate();
+    return () => {
+      if (animationRef.current !== undefined) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
+  }, [animate]);
+
+  // Handle canvas click for interactivity
+  const handleCanvasClick = React.useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!interactive || !canvasRef.current) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
+    // Find nearest node
+    let nearestNode: NodeState | null = null;
+    let minDistance = Infinity;
+
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    meshNodes.forEach((nodeState) => {
+      const { x, y } = getNodePosition(nodeState.address, centerX, centerY);
+      const distance = Math.sqrt((x - clickX) ** 2 + (y - clickY) ** 2);
+
+      if (distance < minDistance && distance < 10) {
+        minDistance = distance;
+        nearestNode = nodeState;
+      }
+    });
+
+    setSelectedNode(nearestNode);
+  }, [interactive, meshNodes, width, height]);
+
+  return (
+    <div className="flex flex-col gap-4 w-full h-full">
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        onClick={handleCanvasClick}
+        className="border border-amber-500 rounded-lg cursor-crosshair bg-slate-950 block"
+      />
+
+      {selectedNode && (
+        <div className="bg-slate-900 border border-amber-500 rounded-lg p-4 text-amber-100 font-mono text-sm">
+          <div className="grid grid-cols-2 gap-2">
+            <div>Mesh: {selectedNode.address.mesh}</div>
+            <div>Layer: {selectedNode.address.layer}</div>
+            <div>Center: {selectedNode.address.center}</div>
+            <div>Node: {selectedNode.address.node}</div>
+            <div>Line: {selectedNode.address.line}</div>
+            <div>State: {selectedNode.baseState}</div>
+            <div>Tension: {(selectedNode.tension * 100).toFixed(1)}%</div>
+            <div>Coherence: {(selectedNode.coherence * 100).toFixed(1)}%</div>
+            <div>Zodiac: {selectedNode.address.zodiac}</div>
+            <div>House: {selectedNode.address.house}</div>
+            <div>Arc Degree: {selectedNode.address.arcDegree.toFixed(1)}°</div>
+            <div>Color: {selectedNode.address.color}</div>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-3 gap-2 text-amber-100 font-mono text-xs">
+        <div className="bg-slate-900 border border-amber-500 rounded p-2">
+          <div className="text-amber-400">Global Coherence</div>
+          <div className="text-lg">{(coherence * 100).toFixed(1)}%</div>
+        </div>
+        <div className="bg-slate-900 border border-amber-500 rounded p-2">
+          <div className="text-amber-400">Morph State</div>
+          <div className="text-lg">{(morphState * 100).toFixed(1)}%</div>
+        </div>
+        <div className="bg-slate-900 border border-amber-500 rounded p-2">
+          <div className="text-amber-400">Active Nodes</div>
+          <div className="text-lg">{meshNodes.length}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NeuralMeshVisualizer;

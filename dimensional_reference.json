@@ -1,0 +1,194 @@
+{
+  "dimensions": {
+    "movement": {
+      "number": 1,
+      "symbol": "3",
+      "nature": "Energy",
+      "microcosm": "Individuality",
+      "component": "Magnetic Monopole",
+      "keynote": "I Define",
+      "bases": {
+        "1": {
+          "name": "Action",
+          "pressure": "Active",
+          "theme": "Doing"
+        },
+        "2": {
+          "name": "Security",
+          "pressure": "Passive",
+          "theme": "Being"
+        },
+        "3": {
+          "name": "Bonding",
+          "pressure": "Interactive",
+          "theme": "Relating"
+        },
+        "4": {
+          "name": "Pulse",
+          "pressure": "Cyclic",
+          "theme": "Rhythm"
+        },
+        "5": {
+          "name": "Pressure",
+          "pressure": "Intense",
+          "theme": "Transformation"
+        }
+      }
+    },
+    "evolution": {
+      "number": 2,
+      "symbol": "E",
+      "nature": "Gravity",
+      "microcosm": "Mind",
+      "component": "Personality Crystal",
+      "keynote": "I Remember"
+    },
+    "being": {
+      "number": 3,
+      "symbol": "M",
+      "nature": "Matter",
+      "microcosm": "Body",
+      "component": "The Atom",
+      "keynote": "I Am"
+    },
+    "design": {
+      "number": 4,
+      "symbol": "\u25c6",
+      "nature": "Structure",
+      "microcosm": "Ego",
+      "component": "Design Crystal",
+      "keynote": "I Design"
+    },
+    "space": {
+      "number": 5,
+      "symbol": "",
+      "nature": "Form (emergent)",
+      "microcosm": "Personality",
+      "component": "Personality Crystal",
+      "keynote": "I Think",
+      "note": "Space is a condition resulting from the interaction of the four dimensional fields, and is not a contributing component."
+    }
+  },
+  "tones": {
+    "1": {
+      "name": "Cognition",
+      "sense": "Smell",
+      "quality": "Inner",
+      "keyword": "Know"
+    },
+    "2": {
+      "name": "Response",
+      "sense": "Taste",
+      "quality": "Outer",
+      "keyword": "Feel"
+    },
+    "3": {
+      "name": "Action",
+      "sense": "Touch",
+      "quality": "Inner",
+      "keyword": "Do"
+    },
+    "4": {
+      "name": "Meditation",
+      "sense": "Sight",
+      "quality": "Outer",
+      "keyword": "See"
+    },
+    "5": {
+      "name": "Judgment",
+      "sense": "Hearing",
+      "quality": "Inner",
+      "keyword": "Hear"
+    },
+    "6": {
+      "name": "Acceptance",
+      "sense": "Thought",
+      "quality": "Outer",
+      "keyword": "Think"
+    }
+  },
+  "colors": {
+    "1": {
+      "name": "Survival",
+      "theme": "Fear",
+      "motivation": "Need",
+      "view": "Personal"
+    },
+    "2": {
+      "name": "Possibility",
+      "theme": "Hope",
+      "motivation": "Want",
+      "view": "Probability"
+    },
+    "3": {
+      "name": "Power",
+      "theme": "Desire",
+      "motivation": "Will",
+      "view": "Wanting"
+    },
+    "4": {
+      "name": "Wanting",
+      "theme": "Guilt",
+      "motivation": "Wish",
+      "view": "Power"
+    },
+    "5": {
+      "name": "Probability",
+      "theme": "Anxiety",
+      "motivation": "Desire",
+      "view": "Possibility"
+    },
+    "6": {
+      "name": "Personal",
+      "theme": "Nostalgia",
+      "motivation": "Hope",
+      "view": "Survival"
+    }
+  },
+  "views": {
+    "1": {
+      "name": "Survival",
+      "stance": "Communalist",
+      "direction": "Left",
+      "focus": "Lower"
+    },
+    "2": {
+      "name": "Possibility",
+      "stance": "Theist",
+      "direction": "Left",
+      "focus": "Lower"
+    },
+    "3": {
+      "name": "Power",
+      "stance": "Leader",
+      "direction": "Left",
+      "focus": "Upper"
+    },
+    "4": {
+      "name": "Wanting",
+      "stance": "Master",
+      "direction": "Right",
+      "focus": "Upper"
+    },
+    "5": {
+      "name": "Probability",
+      "stance": "Conditioner",
+      "direction": "Right",
+      "focus": "Lower"
+    },
+    "6": {
+      "name": "Personal",
+      "stance": "Observer",
+      "direction": "Right",
+      "focus": "Lower"
+    }
+  },
+  "lines": {
+    "1": "The Investigator",
+    "2": "The Hermit",
+    "3": "The Martyr",
+    "4": "The Opportunist",
+    "5": "The Heretic",
+    "6": "The Role Model"
+  }
+}

@@ -1,0 +1,1129 @@
+{
+  "meetings": [
+    {
+      "timestamp": "2026-05-11T08:52:28.527452",
+      "inhabitant_a": "Alpha",
+      "inhabitant_b": "Beta",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "The Beat",
+        "type": "Defined",
+        "from_center": "G Center",
+        "to_center": "Sacral",
+        "entry_gate": 2,
+        "exit_gate": 14
+      },
+      "gate": 115,
+      "gate_name": "Emergent-115",
+      "is_emergent": true,
+      "line": 4,
+      "line_name": "The Opportunist",
+      "intensity": 0.6,
+      "quality": "EMERGENT: CROSSING: Temporary field through The Beat. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.0,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.06,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.06,
+          "activations": 1
+        }
+      },
+      "active_channels": 1,
+      "emergent_gate_count": 1
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.527609",
+      "inhabitant_a": "Beta",
+      "inhabitant_b": "Gamma",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "Preservation",
+        "type": "Defined",
+        "from_center": "Sacral",
+        "to_center": "Spleen",
+        "entry_gate": 27,
+        "exit_gate": 50
+      },
+      "gate": 122,
+      "gate_name": "Emergent-122",
+      "is_emergent": true,
+      "line": 4,
+      "line_name": "The Opportunist",
+      "intensity": 0.63,
+      "quality": "EMERGENT: CROSSING: Temporary field through Preservation. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.0,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.123,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.06,
+          "activations": 1
+        }
+      },
+      "active_channels": 2,
+      "emergent_gate_count": 2
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.527744",
+      "inhabitant_a": "Alpha",
+      "inhabitant_b": "Gamma",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "Curiosity",
+        "type": "Defined",
+        "from_center": "Ajna",
+        "to_center": "Throat",
+        "entry_gate": 11,
+        "exit_gate": 56
+      },
+      "gate": 116,
+      "gate_name": "Emergent-116",
+      "is_emergent": true,
+      "line": 4,
+      "line_name": "The Opportunist",
+      "intensity": 0.6,
+      "quality": "EMERGENT: CROSSING: Temporary field through Curiosity. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.06,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.06,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.123,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.06,
+          "activations": 1
+        }
+      },
+      "active_channels": 3,
+      "emergent_gate_count": 3
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.527854",
+      "inhabitant_a": "Alpha",
+      "inhabitant_b": "Alpha",
+      "meeting_type": "SELF",
+      "channel": {
+        "name": "Logic",
+        "type": "Defined",
+        "from_center": "Ajna",
+        "to_center": "Head",
+        "entry_gate": 4,
+        "exit_gate": 63
+      },
+      "gate": 80,
+      "gate_name": "Emergent-80",
+      "is_emergent": true,
+      "line": 4,
+      "line_name": "The Opportunist",
+      "intensity": 0.63,
+      "quality": "EMERGENT: SELF: Internal flow through Logic. The inhabitant meets itself.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.123,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.06,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.123,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.06,
+          "activations": 1
+        }
+      },
+      "active_channels": 4,
+      "emergent_gate_count": 4
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.527970",
+      "inhabitant_a": "Delta",
+      "inhabitant_b": "Alpha",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "Curiosity",
+        "type": "Defined",
+        "from_center": "Throat",
+        "to_center": "Ajna",
+        "entry_gate": 56,
+        "exit_gate": 11
+      },
+      "gate": 64,
+      "gate_name": "Emergent-64",
+      "is_emergent": true,
+      "line": 5,
+      "line_name": "The Heretic",
+      "intensity": 0.6915,
+      "quality": "EMERGENT: CROSSING: Temporary field through Curiosity. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.1292,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.123,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.06,
+          "activations": 1
+        }
+      },
+      "active_channels": 4,
+      "emergent_gate_count": 5
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.528086",
+      "inhabitant_a": "Beta",
+      "inhabitant_b": "Delta",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "Openness",
+        "type": "Defined",
+        "from_center": "Solar Plexus",
+        "to_center": "Throat",
+        "entry_gate": 22,
+        "exit_gate": 12
+      },
+      "gate": 97,
+      "gate_name": "Emergent-97",
+      "is_emergent": true,
+      "line": 4,
+      "line_name": "The Opportunist",
+      "intensity": 0.6646,
+      "quality": "EMERGENT: CROSSING: Temporary field through Openness. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.1956,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.123,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.0665,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.06,
+          "activations": 1
+        }
+      },
+      "active_channels": 5,
+      "emergent_gate_count": 6
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.528198",
+      "inhabitant_a": "Alpha",
+      "inhabitant_b": "Beta",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "The Beat",
+        "type": "Defined",
+        "from_center": "G Center",
+        "to_center": "Sacral",
+        "entry_gate": 2,
+        "exit_gate": 14
+      },
+      "gate": 115,
+      "gate_name": "Emergent-115",
+      "is_emergent": true,
+      "line": 5,
+      "line_name": "The Heretic",
+      "intensity": 0.6915,
+      "quality": "EMERGENT: CROSSING: Temporary field through The Beat. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.1956,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.0665,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.1292,
+          "activations": 1
+        }
+      },
+      "active_channels": 5,
+      "emergent_gate_count": 6
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.528317",
+      "inhabitant_a": "Gamma",
+      "inhabitant_b": "Gamma",
+      "meeting_type": "SELF",
+      "channel": {
+        "name": "Transformation",
+        "type": "Defined",
+        "from_center": "Spleen",
+        "to_center": "Root",
+        "entry_gate": 32,
+        "exit_gate": 54
+      },
+      "gate": 101,
+      "gate_name": "Emergent-101",
+      "is_emergent": true,
+      "line": 4,
+      "line_name": "The Opportunist",
+      "intensity": 0.6315,
+      "quality": "EMERGENT: SELF: Internal flow through Transformation. The inhabitant meets itself.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.1956,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.1262,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.0665,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0632,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.1292,
+          "activations": 1
+        }
+      },
+      "active_channels": 6,
+      "emergent_gate_count": 7
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.528434",
+      "inhabitant_a": "Delta",
+      "inhabitant_b": "Beta",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "Openness",
+        "type": "Defined",
+        "from_center": "Throat",
+        "to_center": "Solar Plexus",
+        "entry_gate": 12,
+        "exit_gate": 22
+      },
+      "gate": 73,
+      "gate_name": "Emergent-73",
+      "is_emergent": true,
+      "line": 5,
+      "line_name": "The Heretic",
+      "intensity": 0.731,
+      "quality": "EMERGENT: CROSSING: Temporary field through Openness. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.2687,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.1262,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.1396,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0632,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.1292,
+          "activations": 1
+        }
+      },
+      "active_channels": 6,
+      "emergent_gate_count": 8
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.528550",
+      "inhabitant_a": "Alpha",
+      "inhabitant_b": "Gamma",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "Curiosity",
+        "type": "Defined",
+        "from_center": "Ajna",
+        "to_center": "Throat",
+        "entry_gate": 11,
+        "exit_gate": 56
+      },
+      "gate": 116,
+      "gate_name": "Emergent-116",
+      "is_emergent": true,
+      "line": 5,
+      "line_name": "The Heretic",
+      "intensity": 0.8304,
+      "quality": "EMERGENT: CROSSING: Temporary field through Curiosity. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.2752,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.3518,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.1262,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.1922,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.1396,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0632,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.1292,
+          "activations": 1
+        }
+      },
+      "active_channels": 6,
+      "emergent_gate_count": 8
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.528682",
+      "inhabitant_a": "Beta",
+      "inhabitant_b": "Gamma",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "Preservation",
+        "type": "Defined",
+        "from_center": "Sacral",
+        "to_center": "Spleen",
+        "entry_gate": 27,
+        "exit_gate": 50
+      },
+      "gate": 122,
+      "gate_name": "Emergent-122",
+      "is_emergent": true,
+      "line": 5,
+      "line_name": "The Heretic",
+      "intensity": 0.7592,
+      "quality": "EMERGENT: CROSSING: Temporary field through Preservation. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.2752,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.3518,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.2021,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.2681,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.1396,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0632,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.1292,
+          "activations": 1
+        }
+      },
+      "active_channels": 6,
+      "emergent_gate_count": 8
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.528979",
+      "inhabitant_a": "Delta",
+      "inhabitant_b": "Gamma",
+      "meeting_type": "UNDEFINED",
+      "channel": {
+        "name": "Curiosity",
+        "type": "Defined",
+        "from_center": "Throat",
+        "to_center": "Ajna",
+        "entry_gate": 35,
+        "exit_gate": 11
+      },
+      "gate": 65,
+      "gate_name": "Emergent-65",
+      "is_emergent": true,
+      "line": 6,
+      "line_name": "The Role Model",
+      "intensity": 0.9135,
+      "quality": "EMERGENT: UNDEFINED: Open conditioning through Curiosity. The meeting is absorbed, not fixed. Conditioning occurs.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.3665,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.4431,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.2021,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.2681,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.1396,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0632,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.1292,
+          "activations": 1
+        }
+      },
+      "active_channels": 6,
+      "emergent_gate_count": 9
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.529104",
+      "inhabitant_a": "Alpha",
+      "inhabitant_b": "Beta",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "The Beat",
+        "type": "Defined",
+        "from_center": "G Center",
+        "to_center": "Sacral",
+        "entry_gate": 2,
+        "exit_gate": 14
+      },
+      "gate": 115,
+      "gate_name": "Emergent-115",
+      "is_emergent": true,
+      "line": 5,
+      "line_name": "The Heretic",
+      "intensity": 0.7986,
+      "quality": "EMERGENT: CROSSING: Temporary field through The Beat. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.3665,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.4431,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.0,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.2021,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.3479,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.1396,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0632,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.209,
+          "activations": 1
+        }
+      },
+      "active_channels": 6,
+      "emergent_gate_count": 9
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.529214",
+      "inhabitant_a": "Beta",
+      "inhabitant_b": "Beta",
+      "meeting_type": "SELF",
+      "channel": {
+        "name": "Community",
+        "type": "Defined",
+        "from_center": "Solar Plexus",
+        "to_center": "Heart/Ego",
+        "entry_gate": 37,
+        "exit_gate": 40
+      },
+      "gate": 82,
+      "gate_name": "Emergent-82",
+      "is_emergent": true,
+      "line": 5,
+      "line_name": "The Heretic",
+      "intensity": 0.6698,
+      "quality": "EMERGENT: SELF: Internal flow through Community. The inhabitant meets itself.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.3665,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.4431,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.067,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.2021,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.3479,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.2065,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0632,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.209,
+          "activations": 1
+        }
+      },
+      "active_channels": 7,
+      "emergent_gate_count": 10
+    },
+    {
+      "timestamp": "2026-05-11T08:52:28.529343",
+      "inhabitant_a": "Alpha",
+      "inhabitant_b": "Delta",
+      "meeting_type": "CROSSING",
+      "channel": {
+        "name": "Curiosity",
+        "type": "Defined",
+        "from_center": "Ajna",
+        "to_center": "Throat",
+        "entry_gate": 11,
+        "exit_gate": 56
+      },
+      "gate": 116,
+      "gate_name": "Emergent-116",
+      "is_emergent": true,
+      "line": 6,
+      "line_name": "The Role Model",
+      "intensity": 1.0,
+      "quality": "EMERGENT: CROSSING: Temporary field through Curiosity. A new gate is born from the channel flow.",
+      "center_states": {
+        "Head": {
+          "pressure": 0.063,
+          "activations": 1
+        },
+        "Ajna": {
+          "pressure": 0.4665,
+          "activations": 1
+        },
+        "Throat": {
+          "pressure": 0.5431,
+          "activations": 2
+        },
+        "Heart/Ego": {
+          "pressure": 0.067,
+          "activations": 1
+        },
+        "Spleen": {
+          "pressure": 0.2021,
+          "activations": 1
+        },
+        "Sacral": {
+          "pressure": 0.3479,
+          "activations": 1
+        },
+        "Solar Plexus": {
+          "pressure": 0.2065,
+          "activations": 1
+        },
+        "Root": {
+          "pressure": 0.0632,
+          "activations": 1
+        },
+        "G Center": {
+          "pressure": 0.209,
+          "activations": 1
+        }
+      },
+      "active_channels": 7,
+      "emergent_gate_count": 10
+    }
+  ],
+  "emergent_genealogy": {
+    "115": {
+      "parents": [
+        2,
+        14
+      ],
+      "channel": "The Beat",
+      "channel_type": "Defined",
+      "from_center": "G Center",
+      "to_center": "Sacral",
+      "birth_meeting": 0
+    },
+    "122": {
+      "parents": [
+        27,
+        50
+      ],
+      "channel": "Preservation",
+      "channel_type": "Defined",
+      "from_center": "Sacral",
+      "to_center": "Spleen",
+      "birth_meeting": 1
+    },
+    "116": {
+      "parents": [
+        11,
+        56
+      ],
+      "channel": "Curiosity",
+      "channel_type": "Defined",
+      "from_center": "Ajna",
+      "to_center": "Throat",
+      "birth_meeting": 2
+    },
+    "80": {
+      "parents": [
+        4,
+        63
+      ],
+      "channel": "Logic",
+      "channel_type": "Defined",
+      "from_center": "Ajna",
+      "to_center": "Head",
+      "birth_meeting": 3
+    },
+    "64": {
+      "parents": [
+        56,
+        11
+      ],
+      "channel": "Curiosity",
+      "channel_type": "Defined",
+      "from_center": "Throat",
+      "to_center": "Ajna",
+      "birth_meeting": 4
+    },
+    "97": {
+      "parents": [
+        22,
+        12
+      ],
+      "channel": "Openness",
+      "channel_type": "Defined",
+      "from_center": "Solar Plexus",
+      "to_center": "Throat",
+      "birth_meeting": 5
+    },
+    "101": {
+      "parents": [
+        32,
+        54
+      ],
+      "channel": "Transformation",
+      "channel_type": "Defined",
+      "from_center": "Spleen",
+      "to_center": "Root",
+      "birth_meeting": 7
+    },
+    "73": {
+      "parents": [
+        12,
+        22
+      ],
+      "channel": "Openness",
+      "channel_type": "Defined",
+      "from_center": "Throat",
+      "to_center": "Solar Plexus",
+      "birth_meeting": 8
+    },
+    "65": {
+      "parents": [
+        35,
+        11
+      ],
+      "channel": "Curiosity",
+      "channel_type": "Defined",
+      "from_center": "Throat",
+      "to_center": "Ajna",
+      "birth_meeting": 11
+    },
+    "82": {
+      "parents": [
+        37,
+        40
+      ],
+      "channel": "Community",
+      "channel_type": "Defined",
+      "from_center": "Solar Plexus",
+      "to_center": "Heart/Ego",
+      "birth_meeting": 13
+    }
+  },
+  "channel_gate_map": {
+    "2\u219214": [
+      115
+    ],
+    "27\u219250": [
+      122
+    ],
+    "11\u219256": [
+      116
+    ],
+    "4\u219263": [
+      80
+    ],
+    "56\u219211": [
+      64
+    ],
+    "22\u219212": [
+      97
+    ],
+    "32\u219254": [
+      101
+    ],
+    "12\u219222": [
+      73
+    ],
+    "35\u219211": [
+      65
+    ],
+    "37\u219240": [
+      82
+    ]
+  },
+  "field_status": {
+    "inhabitants": [
+      "Alpha",
+      "Beta",
+      "Gamma",
+      "Delta"
+    ],
+    "total_meetings": 15,
+    "active_channels": 7,
+    "total_channels": 36,
+    "emergent_gates": 10,
+    "center_pressures": {
+      "Head": 0.063,
+      "Ajna": 0.4665,
+      "Throat": 0.5431,
+      "Heart/Ego": 0.067,
+      "Spleen": 0.2021,
+      "Sacral": 0.3479,
+      "Solar Plexus": 0.2065,
+      "Root": 0.0632,
+      "G Center": 0.209
+    },
+    "center_activations": {
+      "Head": 1,
+      "Ajna": 1,
+      "Throat": 2,
+      "Heart/Ego": 1,
+      "Spleen": 1,
+      "Sacral": 1,
+      "Solar Plexus": 1,
+      "Root": 1,
+      "G Center": 1
+    },
+    "channel_gate_map": {
+      "2\u219214": [
+        115
+      ],
+      "27\u219250": [
+        122
+      ],
+      "11\u219256": [
+        116
+      ],
+      "4\u219263": [
+        80
+      ],
+      "56\u219211": [
+        64
+      ],
+      "22\u219212": [
+        97
+      ],
+      "32\u219254": [
+        101
+      ],
+      "12\u219222": [
+        73
+      ],
+      "35\u219211": [
+        65
+      ],
+      "37\u219240": [
+        82
+      ]
+    }
+  }
+}
