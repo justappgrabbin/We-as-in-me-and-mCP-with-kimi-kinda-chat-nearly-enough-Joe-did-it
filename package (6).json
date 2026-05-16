@@ -1,0 +1,54 @@
+{
+  "name": "mrnn-inference-engine",
+  "version": "1.0.0",
+  "description": "Multi-layer Recursive Neural Network Inference Engine with MCP-native orchestration",
+  "main": "dist/mrnn-inference-engine.js",
+  "types": "dist/mrnn-inference-engine.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/mrnn-inference-engine.js",
+    "start:config": "node dist/mrnn-inference-engine.js ./mrnn-config.json",
+    "client": "node dist/mrnn-mcp-client.js",
+    "morph": "node dist/mrnn-morph-bridge.js",
+    "dev": "ts-node mrnn-inference-engine.ts",
+    "dev:client": "ts-node mrnn-mcp-client.ts",
+    "dev:morph": "ts-node mrnn-morph-bridge.ts",
+    "lint": "eslint src/**/*.ts",
+    "test": "jest",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "mrnn",
+    "neural-network",
+    "recursive",
+    "mcp",
+    "local-llm",
+    "llama.cpp",
+    "astrology",
+    "human-design",
+    "message-passing",
+    "graph-topology"
+  ],
+  "author": "stellarproximology",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "ws": "^8.16.0",
+    "events": "^3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/ws": "^8.5.10",
+    "typescript": "^5.3.0",
+    "ts-node": "^10.9.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.0",
+    "ts-jest": "^29.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

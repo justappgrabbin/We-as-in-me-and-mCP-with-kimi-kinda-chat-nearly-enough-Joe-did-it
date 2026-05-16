@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="https://unpkg.com/@xyflow/react@12.0.0/dist/style.css" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #12091f; overflow: hidden; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+    body { background: #0f172a; overflow: hidden; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
     #root { width: 100vw; height: 100vh; }
 
     @keyframes node-morph {
@@ -33,7 +33,7 @@
 
     /* Custom scrollbar */
     ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #12091f; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
   </style>
 </head>
@@ -43,8 +43,6 @@
   <script type="text/babel">
     const { useState, useEffect, useRef, useCallback, useMemo } = React;
     const { ReactFlow, ReactFlowProvider, Background, Controls, MiniMap, Panel, Handle, Position } = window.ReactFlow;
-    const API_BASE = new URLSearchParams(location.search).get('api') || localStorage.getItem('RENDER_API_BASE') || window.location.origin;
-    window.RENDER_API_BASE = API_BASE;
 
     // ============================================================
     // CIRCUIT PALETTE
@@ -439,7 +437,7 @@
                 <div style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(75, 85, 99, 0.3)', fontSize: 10, color: '#6b7280' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#f59e0b' }} />
-                    <span>Demo Mode · API {API_BASE}</span>
+                    <span>Demo Mode</span>
                   </div>
                 </div>
               </div>

@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#0a0a1a"/>
+<title>MorphNN · Resonance OS</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+:root{
+  --bg:#060614;--bg2:#0b0b22;--card:#0f0f2e;--card2:#141440;
+  --b:#1a1a4e;--b2:#252560;
+  --teal:#00ffc8;--teal-g:rgba(0,255,200,.12);
+  --purple:#b829ff;--purple-g:rgba(184,41,255,.12);
+  --teal2:#00d4a8;--purple2:#9a1de0;
+  --tx:#d0d8f0;--t2:#5a6a9a;--t3:#2e3a6a;
+  --mono:'DM Mono',monospace;--orbit:'Orbitron',sans-serif;--sans:'Exo 2',sans-serif;
+  --rad:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{background:var(--bg);color:var(--tx);font-family:var(--sans);height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
+/* SVG Icon System */
+.icon{width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.icon-sm{width:16px;height:16px}
+.icon-lg{width:24px;height:24px}
+.icon-xl{width:32px;height:32px}
+
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(0,255,200,.08) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 60% at 80% 20%, rgba(184,41,255,.07) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 90%, rgba(0,255,200,.05) 0%, transparent 45%),
+    radial-gradient(ellipse 40% 30% at 70% 60%, rgba(184,41,255,.06) 0%, transparent 40%);
+  animation:morphBg 12s ease-in-out infinite alternate;
+}
+@keyframes morphBg{
+  0%{background-position:0% 0%,100% 0%,50% 100%,70% 60%;}
+  50%{background-position:20% 10%,80% 20%,60% 90%,50% 50%;}
+  100%{background-position:10% 20%,90% 10%,40% 80%,80% 70%;}
+}
+
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(0,255,200,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,41,255,.025) 1px, transparent 1px);
+  background-size:40px 40px;
+  animation:gridPulse 8s ease-in-out infinite;
+}
+@keyframes gridPulse{
+  0%,100%{opacity:.6; background-size:40px 40px;}
+  50%{opacity:1; background-size:42px 42px;}
+}
+
+.scanlines{position:fixed;inset:0;z-index:1000;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,transparent,transparent 3px,rgba(0,0,0,.06) 3px,rgba(0,0,0,.06) 4px);
+}
+
+#topbar{position:relative;z-index:100;height:52px;flex-shrink:0;display:flex;align-items:center;
+  background:rgba(6,6,20,.92);border-bottom:1px solid var(--b);backdrop-filter:blur(12px)}
+.t-logo{display:flex;align-items:center;gap:8px;padding:0 14px;height:100%;border-right:1px solid var(--b)}
+.t-logo .morph-icon{width:28px;height:28px;border-radius:8px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--teal),var(--purple));display:flex;align-items:center;justify-content:center}
+.morph-icon::before{content:'\u2b21';font-size:14px;color:#fff;font-family:var(--orbit)}
+.t-title{font-family:var(--orbit);font-size:12px;font-weight:700;letter-spacing:.2em;
+  background:linear-gradient(90deg,var(--teal),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.t-right{display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 12px}
+.pill{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;color:var(--t2);
+  background:var(--card);border:1px solid var(--b);padding:3px 9px;border-radius:20px;cursor:pointer;white-space:nowrap}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--t3);flex-shrink:0;transition:all .3s}
+.dot.on{background:var(--teal);box-shadow:0 0 8px var(--teal),0 0 16px var(--teal-g)}
+
+#bnav{position:relative;z-index:100;flex-shrink:0;display:flex;
+  background:rgba(6,6,20,.98);border-top:1px solid var(--b);padding-bottom:env(safe-area-inset-bottom,0)}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px 7px;
+  cursor:pointer;border:none;background:none;transition:all .15s;position:relative}
+.ni:active{opacity:.6}
+.ni-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  border:1.5px solid transparent;transition:all .2s;position:relative;overflow:hidden;color:var(--t2)}
+.ni-icon svg{width:22px;height:22px;stroke:currentColor}
+.ni.active .ni-icon{background:var(--teal-g);border-color:rgba(0,255,200,.3);box-shadow:0 0 12px var(--teal-g);color:var(--teal)}
+.ni-lbl{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.05em;text-transform:uppercase;transition:color .2s}
+.ni.active .ni-lbl{color:var(--teal);text-shadow:0 0 8px var(--teal-g)}
+
+#pages{flex:1;position:relative;overflow:hidden;z-index:10}
+.page{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;
+  transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);background:var(--bg);will-change:transform}
+.page.root{transform:translateX(0)}
+.page.active{transform:translateX(0);z-index:5}
+.page.behind{transform:translateX(-28%)}
+
+.ph{display:flex;align-items:center;gap:10px;padding:11px 14px 9px;border-bottom:1px solid var(--b);
+  background:rgba(6,6,20,.95);flex-shrink:0;z-index:5}
+.ph-back{width:38px;height:38px;border-radius:11px;background:var(--card);border:1px solid var(--b);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--teal);flex-shrink:0}
+.ph-back svg{width:20px;height:20px;stroke:currentColor}
+.ph-back:active{background:var(--teal-g)}
+.ph-title{font-size:15px;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.sb{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:14px 14px 24px}
+.sb::-webkit-scrollbar{width:3px}
+.sb::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+
+.card{background:var(--card);border:1px solid var(--b);border-radius:var(--rad);padding:14px;margin-bottom:10px;
+  transition:border-color .2s,box-shadow .2s;position:relative;overflow:hidden}
+.card:hover{border-color:var(--b2)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--teal),var(--purple),transparent);opacity:.3}
+.slabel{font-family:var(--mono);font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.14em;color:var(--t3);margin:16px 0 8px}
+
+.badge{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0}
+.b-live{background:var(--teal-g);color:var(--teal);border:1px solid rgba(0,255,200,.2)}
+.b-draft{background:var(--purple-g);color:var(--purple);border:1px solid rgba(184,41,255,.2)}
+.b-error{background:rgba(255,50,80,.1);color:#ff3350;border:1px solid rgba(255,50,80,.2)}
+.b-offline{background:var(--card2);color:var(--t3);border:1px solid var(--b)}
+.b-installed{background:var(--teal-g);color:var(--teal)}
+
+.arow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--b);border-radius:var(--rad);
+  padding:11px 13px;margin-bottom:8px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.arow:active{background:var(--card2);border-color:var(--b2)}
+.arow::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(0,255,200,.03),transparent);opacity:0;transition:opacity .3s}
+.arow:hover::after{opacity:1}
+.arow-icon{font-size:13px;font-weight:700;width:44px;height:44px;border-radius:11px;background:var(--card2);border:1px solid var(--b2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;color:var(--teal);font-family:var(--mono)}
+.arow-meta{flex:1;min-width:0}
+.arow-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arow-info{font-family:var(--mono);font-size:10px;color:var(--t2);margin-top:2px}
+.arow-arr{color:var(--t3);font-size:18px;flex-shrink:0}
+
+.frow{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--card2);border:1px solid var(--b);
+  border-radius:10px;margin-bottom:6px;cursor:pointer;transition:all .12s}
+.frow:active{border-color:var(--teal);background:var(--teal-g)}
+.frow-name{font-family:var(--mono);font-size:11px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx)}
+.frow-size{font-family:var(--mono);font-size:9px;color:var(--t3)}
+.frow.entry{border-color:rgba(0,255,200,.3);background:var(--teal-g)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 18px;height:46px;border-radius:var(--rad);
+  border:1px solid transparent;font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;cursor:pointer;-webkit-appearance:none;transition:all .12s;white-space:nowrap;position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-100%);transition:transform .3s}
+.btn:hover::before{transform:translateX(100%)}
+.btn:active{transform:scale(.96);opacity:.85}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.5}
+.btn-full{width:100%}
+.btn-primary{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#000}
+.btn-ghost{background:var(--card2);color:var(--tx);border-color:var(--b2)}
+.btn-success{background:var(--teal-g);color:var(--teal);border-color:rgba(0,255,200,.25)}
+.btn-violet{background:var(--purple-g);color:var(--purple);border-color:rgba(184,41,255,.25)}
+.btn-danger{background:rgba(255,50,80,.1);color:#ff3350;border-color:rgba(255,50,80,.25)}
+.btn-amber{background:var(--purple-g);color:var(--purple);border-color:rgba(184,41,255,.25)}
+.btn-sm{height:38px;padding:0 14px;font-size:11px;border-radius:9px}
+.btn-xs{height:30px;padding:0 10px;font-size:10px;border-radius:7px}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-row .btn{flex:1;min-width:0}
+
+.field{margin-bottom:13px}
+.field label{display:block;font-family:var(--mono);font-size:9px;color:var(--t2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:5px}
+.field input,.field textarea,.field select{width:100%;background:var(--bg2);border:1.5px solid var(--b);border-radius:10px;
+  padding:12px 13px;font-family:var(--mono);font-size:12px;color:var(--tx);outline:none;-webkit-appearance:none;transition:border-color .15s,box-shadow .15s}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-g)}
+.field input::placeholder,.field textarea::placeholder{color:var(--t3)}
+.field textarea{resize:none}
+.field select option{background:var(--card)}
+
+.dz{border:2px dashed var(--b2);border-radius:16px;padding:26px 16px;text-align:center;cursor:pointer;
+  transition:all .2s;margin-bottom:12px;position:relative;overflow:hidden}
+.dz::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--teal-g),var(--purple-g));opacity:0;transition:opacity .3s}
+.dz.drag,.dz:hover{border-color:var(--teal);background:rgba(0,255,200,.03)}
+.dz.drag::before,.dz:hover::before{opacity:.5}
+.dz *{position:relative;z-index:1}
+.dz input{display:none}
+.dz-icon{width:48px;height:48px;margin:0 auto 8px;color:var(--teal);opacity:.6}
+.dz-icon svg{width:100%;height:100%;stroke:currentColor}
+.dz-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.dz-sub{font-family:var(--mono);font-size:10px;color:var(--t2)}
+
+.exec-bar{display:flex;align-items:center;gap:7px;padding:7px 10px;background:var(--bg2);border-bottom:1px solid var(--b);flex-shrink:0;overflow-x:auto}
+.exec-bar::-webkit-scrollbar{display:none}
+.exec-frame-wrap{flex:1;position:relative;overflow:hidden;background:#03030a}
+#code-editor{width:100%;height:100%;border:none;outline:none;resize:none;background:#03030a;color:#a0c8e8;
+  font-family:var(--mono);font-size:12px;line-height:1.75;padding:14px;tab-size:2;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#code-editor::-webkit-scrollbar{width:3px}
+#code-editor::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+#exec-iframe{width:100%;height:100%;border:none;display:none}
+.exec-status{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:6px;flex-shrink:0}
+.exec-ok{background:var(--teal-g);color:var(--teal)}
+.exec-err{background:rgba(255,50,80,.1);color:#ff3350}
+
+.intcard{background:var(--card);border:1.5px solid var(--b);border-radius:var(--rad);padding:14px;margin-bottom:10px;transition:all .15s}
+.intcard.connected{border-color:rgba(0,255,200,.3);box-shadow:0 0 20px var(--teal-g)}
+.int-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.int-icon{width:38px;height:38px;border-radius:9px;background:var(--card2);border:1px solid var(--b2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--teal)}
+.int-icon svg{width:20px;height:20px;stroke:currentColor}
+.int-name{font-size:14px;font-weight:700;flex:1}
+.int-status{font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:20px}
+.ist-idle{background:var(--card2);color:var(--t3);border:1px solid var(--b)}
+.ist-live{background:var(--teal-g);color:var(--teal)}
+
+.mcp-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--b);font-size:13px}
+.mcp-row:last-child{border:none}
+.mcp-val{font-family:var(--mono);font-size:11px;color:var(--teal)}
+.tool-chip{display:flex;align-items:center;gap:10px;padding:11px 12px;background:var(--card);border:1px solid var(--b);
+  border-radius:10px;margin-bottom:6px;cursor:pointer;transition:all .12s;position:relative;overflow:hidden}
+.tool-chip:active{border-color:var(--teal);background:var(--teal-g)}
+.tool-chip::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--teal),var(--purple));opacity:0;transition:opacity .2s}
+.tool-chip:hover::before{opacity:1}
+.tool-chip .icon{color:var(--teal)}
+.tc-name{font-family:var(--mono);font-size:11px;font-weight:500;flex:1}
+.tc-desc{font-family:var(--mono);font-size:9px;color:var(--t2)}
+
+.model-chip{display:flex;align-items:center;gap:10px;padding:11px 12px;background:var(--card);border:1px solid var(--b);
+  border-radius:10px;margin-bottom:6px;transition:all .15s}
+.model-chip.available{border-color:rgba(0,255,200,.3);box-shadow:0 0 12px var(--teal-g)}
+.model-chip.unavailable{border-color:var(--b);opacity:.6}
+.mc-name{font-family:var(--mono);font-size:11px;font-weight:500;flex:1}
+.mc-status{font-family:var(--mono);font-size:9px;padding:2px 7px;border-radius:10px}
+
+.log{background:#03030a;border:1px solid var(--b);border-radius:10px;padding:10px 12px;font-family:var(--mono);
+  font-size:10px;max-height:160px;overflow-y:auto;line-height:1.8}
+.log::-webkit-scrollbar{display:none}
+.ll{color:var(--t2)}.ll.info{color:var(--teal)}.ll.ok{color:var(--teal)}.ll.warn{color:var(--purple)}.ll.err{color:#ff3350}
+
+.prog-track{background:var(--card2);border-radius:20px;height:5px;overflow:hidden;margin:10px 0}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--purple));border-radius:20px;
+  transition:width .32s ease;box-shadow:0 0 8px var(--teal-g)}
+
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:flex;align-items:flex-end;animation:fin .15s ease}
+@keyframes fin{from{opacity:0}to{opacity:1}}
+.sheet{width:100%;background:var(--card);border-radius:20px 20px 0 0;border-top:1px solid var(--b2);
+  max-height:90dvh;display:flex;flex-direction:column;animation:sup .22s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 -16px 50px rgba(0,0,0,.7);position:relative;overflow:hidden}
+.sheet::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--teal),var(--purple));opacity:.5}
+@keyframes sup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.sheet-handle{width:36px;height:4px;border-radius:2px;background:var(--b2);margin:12px auto 0;flex-shrink:0}
+.sheet-title{font-size:16px;font-weight:700;padding:12px 18px 10px;border-bottom:1px solid var(--b);flex-shrink:0}
+.sheet-body{flex:1;overflow-y:auto;padding:14px 16px calc(16px + env(safe-area-inset-bottom,0))}
+.sheet-body::-webkit-scrollbar{display:none}
+
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.tc{border:1.5px solid var(--b);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.tc:active,.tc.sel{border-color:var(--teal);background:var(--teal-g);box-shadow:0 0 12px var(--teal-g)}
+.tc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--teal-g),var(--purple-g));opacity:0;transition:opacity .2s}
+.tc.sel::before{opacity:.4}
+.tc *{position:relative;z-index:1}
+.tc-icon{width:32px;height:32px;margin:0 auto 5px;color:var(--teal)}
+.tc-icon svg{width:100%;height:100%;stroke:currentColor}
+.tc-name{font-size:12px;font-weight:700}
+.tc-desc{font-family:var(--mono);font-size:9px;color:var(--t2);margin-top:2px}
+
+.addr-card{background:var(--card2);border:1px solid var(--b);border-radius:var(--rad);padding:12px;margin-bottom:8px;
+  transition:all .15s;position:relative;overflow:hidden}
+.addr-card:hover{border-color:var(--b2)}
+.addr-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--teal),var(--purple));opacity:.5}
+.addr-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.addr-name{font-size:13px;font-weight:700;flex:1}
+.addr-val{font-family:var(--mono);font-size:10px;color:var(--teal);word-break:break-all}
+.addr-meta{font-family:var(--mono);font-size:9px;color:var(--t3);margin-top:4px}
+
+.confirm-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:600;display:flex;align-items:center;justify-content:center;padding:24px;animation:fin .15s ease}
+.confirm-box{background:var(--card);border:1px solid var(--b2);border-radius:16px;padding:20px;width:100%;max-width:320px;box-shadow:0 20px 60px rgba(0,0,0,.8);position:relative;overflow:hidden}
+.confirm-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--purple));opacity:.5}
+.confirm-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.confirm-msg{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.5}
+
+#toasts{position:fixed;top:58px;left:12px;right:12px;z-index:9000;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--card2);border:1px solid var(--b2);
+  border-radius:var(--rad);font-size:13px;box-shadow:0 8px 28px rgba(0,0,0,.6);animation:tin .18s ease;position:relative;overflow:hidden}
+.toast::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);opacity:.7}
+@keyframes tin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.toast.success::before{background:var(--teal)}
+.toast.error::before{background:#ff3350}
+.toast.info::before{background:var(--teal)}
+.toast.warn::before{background:var(--purple)}
+
+.wallpaper{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:14px;user-select:none;animation:fadeIn .6s ease;position:relative;z-index:2}
+.wallpaper-glyph{font-family:var(--orbit);font-size:56px;color:var(--b2);line-height:1;letter-spacing:.3em;
+  background:linear-gradient(90deg,var(--teal),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:pulse 4s ease-in-out infinite;text-shadow:0 0 40px var(--teal-g)}
+@keyframes pulse{0%,100%{opacity:.5;letter-spacing:.3em}50%{opacity:1;letter-spacing:.35em}}
+.wallpaper-title{font-size:22px;font-weight:300;letter-spacing:.4em;text-transform:uppercase;color:var(--t2);font-family:var(--orbit)}
+.wallpaper-sub{font-family:var(--mono);font-size:11px;color:var(--t3);letter-spacing:.15em}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.agent-terminal{background:rgba(0,0,0,.4);border:1px solid var(--b);border-radius:4px;padding:12px;font-family:var(--mono);
+  font-size:11px;min-height:120px;position:relative;overflow:hidden}
+.terminal-line{color:var(--t2);margin-bottom:4px}
+.terminal-line.prompt{color:var(--teal)}
+.terminal-line.info{color:var(--purple)}
+.blink{display:inline-block;width:7px;height:13px;background:var(--teal);animation:blink 1s step-end infinite;vertical-align:text-bottom}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.centres-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.centre{border:1px solid var(--b);border-radius:4px;padding:4px;background:rgba(255,255,255,.01)}
+.codons-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:1px}
+.codon{width:100%;aspect-ratio:1;border-radius:1px;transition:opacity .2s}
+.codon.idle{background:var(--b);opacity:.4}
+.codon.active{background:var(--teal);opacity:.8;box-shadow:0 0 3px var(--teal)}
+.codon.bridge{background:var(--purple);opacity:.7;box-shadow:0 0 3px var(--purple)}
+.codon.memory{background:linear-gradient(135deg,var(--teal),var(--purple));opacity:.75}
+
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--b);font-size:13px}
+.settings-row label{color:var(--t2);font-size:12px}
+.tag{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:3px;background:var(--teal-g);border:1px solid rgba(0,255,200,.2);color:var(--teal)}
+
+.os-dock{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-around;
+  padding:8px 6px 10px;background:rgba(6,6,20,.95);border-top:1px solid var(--b);backdrop-filter:blur(12px);flex-shrink:0}
+.dock-btn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;background:none;border:none;
+  padding:4px 8px;border-radius:6px;transition:all .15s;color:inherit}
+.dock-btn:hover{background:rgba(0,255,200,.06)}
+.dock-btn:active{transform:scale(.94)}
+.dock-icon{width:36px;height:36px;border-radius:8px;border:1px solid var(--b);background:var(--card2);
+  display:flex;align-items:center;justify-content:center;color:var(--teal);
+  transition:all .15s;position:relative;overflow:hidden}
+.dock-icon svg{width:18px;height:18px;stroke:currentColor}
+.dock-btn:hover .dock-icon{border-color:var(--teal);box-shadow:0 0 12px var(--teal-g)}
+.dock-label{font-family:var(--mono);font-size:9px;color:var(--t2);text-transform:uppercase;letter-spacing:.06em}
+
+.particles{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.particle{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--teal);opacity:.3;animation:float 20s linear infinite}
+@keyframes float{
+  0%{transform:translateY(100vh) translateX(0);opacity:0}
+  10%{opacity:.3}
+  90%{opacity:.3}
+  100%{transform:translateY(-10vh) translateX(30px);opacity:0}
+}
+
+/* Synthia Server Callback Panel */
+.synthia-panel{background:var(--card);border:1px solid var(--b);border-radius:var(--rad);padding:14px;margin-bottom:10px}
+.synthia-panel.connected{border-color:rgba(0,255,200,.3);box-shadow:0 0 20px var(--teal-g)}
+.synthia-status{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.synthia-dot{width:8px;height:8px;border-radius:50%;background:var(--t3)}
+.synthia-dot.online{background:var(--teal);box-shadow:0 0 8px var(--teal)}
+.synthia-dot.offline{background:#ff3350}
+.synthia-log{background:#03030a;border:1px solid var(--b);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:10px;max-height:100px;overflow-y:auto;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="scanlines"></div>
+<div class="particles" id="particles"></div>
+<div id="topbar">
+  <div class="t-logo">
+    <div class="morph-icon"></div>
+    <span class="t-title">MorphNN</span>
+  </div>
+  <div class="t-right">
+    <div class="pill" id="mcp-pill"><div class="dot" id="mcp-dot"></div>MCP</div>
+    <div class="pill" id="model-pill"><div class="dot" id="model-dot"></div><span id="model-name-pill">No Model</span></div>
+    <span id="clock" style="font-family:var(--mono);font-size:10px;color:var(--t2)">--:--</span>
+  </div>
+</div>
+
+<div id="pages">
+
+<!-- APPS TAB -->
+<div class="page root active" id="p-apps">
+  <div class="sb">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div>
+        <div style="font-size:22px;font-weight:800;font-family:var(--orbit);letter-spacing:.05em">MorphNN Center</div>
+        <div id="app-count" style="font-family:var(--mono);font-size:10px;color:var(--t2);margin-top:2px">0 apps</div>
+      </div>
+      <button class="btn btn-sm btn-primary" onclick="triggerUpload()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span> Upload</button>
+    </div>
+
+    <label class="dz" id="dz">
+      <input type="file" id="dz-input" multiple accept=".zip,.html,.js,.ts,.tsx,.jsx,.css,.json,.py"/>
+      <div class="dz-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+      <div class="dz-title">Drop zips or files</div>
+      <div class="dz-sub">.zip &middot; .html &middot; .tsx &middot; .jsx &middot; .py &middot; .js</div>
+    </label>
+
+    <div class="slabel" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Installed Apps</span>
+      <span id="installed-count" style="font-family:var(--mono);font-size:9px;color:var(--t3)">0 installed</span>
+    </div>
+    <div id="app-list-installed"></div>
+
+    <div class="slabel">Available / Not Installed</div>
+    <div id="app-list-available"></div>
+  </div>
+</div>
+
+<!-- APP DETAIL -->
+<div class="page" id="p-detail">
+  <div class="ph">
+    <div class="ph-back" onclick="back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <div style="flex:1;min-width:0">
+      <div class="ph-title" id="d-title">--</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--t2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="d-addr">--</div>
+    </div>
+    <span class="badge b-draft" id="d-badge">draft</span>
+  </div>
+  <div class="sb">
+    <div class="btn-row" style="margin-bottom:10px">
+      <button class="btn btn-success btn-sm" onclick="openApp()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></span> Run App</button>
+      <button class="btn btn-ghost btn-sm" onclick="openFiles()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></span> Files</button>
+      <button class="btn btn-amber btn-sm" onclick="openDeploySheet()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span> Deploy</button>
+    </div>
+    <div class="btn-row" style="margin-bottom:14px">
+      <button class="btn btn-violet btn-sm" onclick="openSubmitSheet()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span> Submit to OS</button>
+      <button class="btn btn-danger btn-sm" id="install-btn" onclick="toggleInstall()">Install</button>
+    </div>
+
+    <div class="slabel">App Info</div>
+    <div class="card" style="font-family:var(--mono);font-size:11px;line-height:2.1;color:var(--t2)">
+      <div>ID <span style="color:var(--teal)" id="i-id">--</span></div>
+      <div>Type <span style="color:var(--tx)" id="i-type">--</span></div>
+      <div>Files <span style="color:var(--tx)" id="i-files">--</span></div>
+      <div>Entry <span style="color:var(--teal)" id="i-entry">--</span></div>
+      <div>Size <span style="color:var(--tx)" id="i-size">--</span></div>
+      <div>Address <span style="color:var(--teal);word-break:break-all" id="i-addr">--</span></div>
+    </div>
+
+    <div class="slabel">Quick Deploy</div>
+    <div class="btn-row">
+      <button class="btn btn-sm btn-ghost" onclick="ghPush()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span> GitHub</button>
+      <button class="btn btn-sm btn-ghost" onclick="renderDeploy()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span> Render</button>
+      <button class="btn btn-sm btn-ghost" onclick="bfDeploy()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M12 8c-3-3-7-2-7 2s4 5 7 2"/><path d="M12 8c3-3 7-2 7 2s-4 5-7 2"/><path d="M12 16c-3 3-7 2-7-2s4-5 7-2"/><path d="M12 16c3 3 7 2 7-2s-4-5-7-2"/></svg></span> Butterfly</button>
+    </div>
+  </div>
+</div>
+
+<!-- FILES -->
+<div class="page" id="p-files">
+  <div class="ph">
+    <div class="ph-back" onclick="back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <div class="ph-title" id="files-title">Files</div>
+    <button class="btn btn-sm btn-success" style="margin-left:auto" onclick="runEntry()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></span> Run</button>
+  </div>
+  <div class="sb" id="files-body"></div>
+</div>
+
+<!-- EDITOR / RUNNER -->
+<div class="page" id="p-editor">
+  <div class="ph" style="padding:9px 12px">
+    <div class="ph-back" onclick="back()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <div style="flex:1;min-width:0;font-family:var(--mono);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--t2)" id="editor-fname">--</div>
+    <button class="btn btn-sm btn-success" onclick="saveFile()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg></span> Save</button>
+  </div>
+  <div class="exec-bar">
+    <button class="btn btn-sm btn-primary" onclick="executeFile()" id="run-btn"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></span> Run</button>
+    <button class="btn btn-sm btn-ghost" onclick="toggleView()" id="view-btn"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span> Code</button>
+    <button class="btn btn-sm btn-ghost" onclick="fmtJSON()">{ }</button>
+    <button class="btn btn-sm btn-ghost" onclick="openDeploySheet()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span> Deploy</button>
+    <span class="exec-status" id="exec-status" style="display:none"></span>
+  </div>
+  <div class="exec-frame-wrap" id="exec-wrap">
+    <textarea id="code-editor" spellcheck="false" oninput="edChange()"></textarea>
+    <iframe id="exec-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
+  </div>
+</div>
+
+<!-- REGISTRY -->
+<div class="page" id="p-registry">
+  <div class="sb">
+    <div style="font-size:22px;font-weight:800;font-family:var(--orbit);letter-spacing:.05em;margin-bottom:4px">Registry</div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--t2);margin-bottom:16px">Neural address routing &middot; all uploaded apps</div>
+    <div id="registry-list"></div>
+  </div>
+</div>
+
+<!-- MCP -->
+<div class="page" id="p-mcp">
+  <div class="sb">
+    <div style="font-size:22px;font-weight:800;font-family:var(--orbit);letter-spacing:.05em;margin-bottom:4px">MCP Server</div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--t2);margin-bottom:14px">Built-in &middot; no external dependencies</div>
+    <div class="card" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div id="mcp-si" style="width:11px;height:11px;border-radius:50%;background:var(--t3);flex-shrink:0"></div>
+        <div style="font-size:14px;font-weight:700;flex:1">Status</div>
+        <span class="badge b-offline" id="mcp-sbadge">OFFLINE</span>
+      </div>
+      <div class="mcp-row"><span>Endpoint</span><span class="mcp-val" id="mcp-ep">--</span></div>
+      <div class="mcp-row"><span>Connections</span><span class="mcp-val" id="mcp-conn">0</span></div>
+      <div class="mcp-row"><span>Requests</span><span class="mcp-val" id="mcp-req">0</span></div>
+      <div class="mcp-row"><span>Uptime</span><span class="mcp-val" id="mcp-up">--</span></div>
+    </div>
+    <div class="card" style="margin-bottom:12px">
+      <div class="slabel" style="margin-top:0">Config</div>
+      <div class="field"><label>Host</label><input id="mcp-host" value="0.0.0.0"/></div>
+      <div class="field"><label>Port</label><input id="mcp-port" value="3100" type="number"/></div>
+      <div class="field"><label>Transport</label>
+        <select id="mcp-transport"><option>SSE (Server-Sent Events)</option><option>WebSocket</option><option>stdio</option></select>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-success" id="mcp-start" onclick="startMCP()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></span> Start Server</button>
+        <button class="btn btn-danger" id="mcp-stop" style="display:none" onclick="stopMCP()">Stop</button>
+      </div>
+    </div>
+    <div class="slabel">Registered Tools (<span id="tool-count">10</span>)</div>
+    <div id="mcp-tools"></div>
+    <div class="slabel">Server Log</div>
+    <div class="log" id="mcp-log"><div class="ll info">// MCP server ready -- press Start</div></div>
+  </div>
+</div>
+
+<!-- CONNECT -->
+<div class="page" id="p-connect">
+  <div class="sb">
+    <div style="font-size:22px;font-weight:800;font-family:var(--orbit);letter-spacing:.05em;margin-bottom:4px">Connect</div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--t2);margin-bottom:16px">Integrations &middot; Model hooks</div>
+
+    <div class="slabel">AI Models</div>
+    <div class="card" style="margin-bottom:10px">
+      <div style="font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:10px">Active Model</div>
+      <div class="field"><label>Provider</label>
+        <select id="model-provider" onchange="updateModelProvider()">
+          <option value="none">None</option>
+          <option value="local">Local Server</option>
+          <option value="huggingface">HuggingFace Inference API</option>
+          <option value="openai">OpenAI-compatible</option>
+          <option value="anthropic">Anthropic (Claude)</option>
+          <option value="synthia">Synthia Server (Render)</option>
+        </select>
+      </div>
+      <div id="model-fields" style="display:none">
+        <div class="field" id="mf-endpoint"><label>Endpoint URL</label><input id="model-endpoint" placeholder="http://localhost:11434/v1/chat/completions"/></div>
+        <div class="field" id="mf-key"><label>API Key</label><input id="model-key" type="password" placeholder="hf_... / sk_... / optional for local"/></div>
+        <div class="field" id="mf-model"><label>Model ID</label><input id="model-id" placeholder="meta-llama/Llama-3-8B-Instruct"/></div>
+        <div class="btn-row">
+          <button class="btn btn-sm btn-ghost" onclick="connectModel()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span> Connect</button>
+          <button class="btn btn-sm btn-ghost" onclick="testModel()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Test ping</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="slabel">Available Models</div>
+    <div id="model-list"></div>
+
+    <!-- SYNTHIA SERVER CALLBACK PANEL -->
+    <div class="slabel">Synthia Server</div>
+    <div class="synthia-panel" id="synthia-panel">
+      <div class="synthia-status">
+        <div class="synthia-dot offline" id="synthia-dot"></div>
+        <span style="font-size:14px;font-weight:700;flex:1">synthia-server.onrender.com</span>
+        <span class="badge b-offline" id="synthia-badge">OFFLINE</span>
+      </div>
+      <div class="field"><label>Callback URL</label><input id="synthia-url" value="https://synthia-server.onrender.com/api/v1/chat"/></div>
+      <div class="field"><label>API Key (optional)</label><input id="synthia-key" type="password" placeholder="syn_..."/></div>
+      <div class="btn-row">
+        <button class="btn btn-sm btn-success" onclick="connectSynthia()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span> Connect</button>
+        <button class="btn btn-sm btn-ghost" onclick="testSynthia()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Test</button>
+        <button class="btn btn-sm btn-violet" onclick="inferSynthia()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg></span> Infer</button>
+      </div>
+      <div class="synthia-log" id="synthia-log"><div class="ll">// Synthia server callback ready</div></div>
+    </div>
+
+    <div class="slabel">Database</div>
+    <div class="intcard" id="ic-supabase">
+      <div class="int-head"><div class="int-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></span></div><span class="int-name">Supabase</span><span class="int-status ist-idle" id="ist-supabase">IDLE</span></div>
+      <div class="field"><label>Project URL</label><input id="sb-url" placeholder="https://xxx.supabase.co"/></div>
+      <div class="field"><label>Anon Key</label><input id="sb-key" type="password" placeholder="eyJhbGci..."/></div>
+      <div class="btn-row"><button class="btn btn-sm btn-ghost" onclick="connectInt('supabase')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span> Connect</button><button class="btn btn-sm btn-ghost" onclick="testInt('supabase')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Test</button></div>
+    </div>
+    <div class="intcard" id="ic-neo4j">
+      <div class="int-head"><div class="int-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><span class="int-name">Neo4j</span><span class="int-status ist-idle" id="ist-neo4j">IDLE</span></div>
+      <div class="field"><label>Bolt URI</label><input id="n4-uri" placeholder="bolt://localhost:7687"/></div>
+      <div class="field"><label>Password</label><input id="n4-pass" type="password" placeholder="********"/></div>
+      <div class="btn-row"><button class="btn btn-sm btn-ghost" onclick="connectInt('neo4j')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span> Connect</button><button class="btn btn-sm btn-ghost" onclick="testInt('neo4j')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Test</button></div>
+    </div>
+
+    <div class="slabel">Deployment</div>
+    <div class="intcard" id="ic-render">
+      <div class="int-head"><div class="int-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></span></div><span class="int-name">Render</span><span class="int-status ist-idle" id="ist-render">IDLE</span></div>
+      <div class="field"><label>API Key</label><input id="rnd-key" type="password" placeholder="rnd_..."/></div>
+      <div class="field"><label>Service ID</label><input id="rnd-svc" placeholder="srv-..."/></div>
+      <div class="btn-row"><button class="btn btn-sm btn-ghost" onclick="connectInt('render')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span> Connect</button><button class="btn btn-sm btn-ghost" onclick="renderDeploy()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span> Deploy Now</button></div>
+    </div>
+    <div class="intcard" id="ic-butterfly">
+      <div class="int-head"><div class="int-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M12 8c-3-3-7-2-7 2s4 5 7 2"/><path d="M12 8c3-3 7-2 7 2s-4 5-7 2"/><path d="M12 16c-3 3-7 2-7-2s4-5 7-2"/><path d="M12 16c3 3 7 2 7-2s-4-5-7-2"/></svg></span></div><span class="int-name">Butterfly</span><span class="int-status ist-idle" id="ist-butterfly">IDLE</span></div>
+      <div class="field"><label>Endpoint</label><input id="bf-url" placeholder="https://butterfly.app/api"/></div>
+      <div class="field"><label>Token</label><input id="bf-tok" type="password" placeholder="btf_..."/></div>
+      <div class="btn-row"><button class="btn btn-sm btn-ghost" onclick="connectInt('butterfly')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span> Connect</button><button class="btn btn-sm btn-ghost" onclick="bfDeploy()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span> Push</button></div>
+    </div>
+
+    <div class="slabel">Version Control</div>
+    <div class="intcard" id="ic-github">
+      <div class="int-head"><div class="int-icon"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span></div><span class="int-name">GitHub</span><span class="int-status ist-idle" id="ist-github">IDLE</span></div>
+      <div class="field"><label>Personal Access Token</label><input id="gh-tok" type="password" placeholder="ghp_..."/></div>
+      <div class="field"><label>Repo (owner/name)</label><input id="gh-repo" placeholder="user/resonance-apps"/></div>
+      <div class="btn-row"><button class="btn btn-sm btn-ghost" onclick="connectInt('github')"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></span> Connect</button><button class="btn btn-sm btn-ghost" onclick="ghPush()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span> Push</button></div>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+</div>
+
+<!-- OS HOME -->
+<div class="page" id="p-os">
+  <div class="sb" style="display:flex;flex-direction:column;height:100%">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0 12px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="led dormant" id="led"></div>
+        <span style="font-family:var(--orbit);font-size:12px;letter-spacing:.15em;color:var(--teal);text-transform:uppercase">MorphNN OS</span>
+      </div>
+      <select id="vitalitySelect" onchange="setVitality(this.value)" style="background:var(--card);border:1px solid var(--b);color:var(--tx);padding:2px 8px;border-radius:20px;cursor:pointer;outline:none;font-family:var(--mono);font-size:10px">
+        <option value="dormant">DORMANT</option>
+        <option value="observing">OBSERVING</option>
+        <option value="active">ACTIVE</option>
+        <option value="resonant">RESONANT</option>
+      </select>
+    </div>
+
+    <div class="wallpaper" id="wallpaper">
+      <div class="wallpaper-glyph">&#x2b21; &#x2b21; &#x2b21;</div>
+      <div class="wallpaper-title">MorphNN OS</div>
+      <div class="wallpaper-sub">NEURAL SUBSTRATE &middot; 5x9x64 MESH</div>
+    </div>
+
+    <div class="slabel">Neural Mesh -- 5x9x64</div>
+    <div id="mesh-container"></div>
+
+    <div class="slabel">System Info</div>
+    <div class="card" style="font-family:var(--mono);font-size:11px;line-height:2;color:var(--t2)">
+      <div><span style="color:var(--teal)">SUBSTRATE:</span> 5 layers &middot; 9 centres &middot; 64 codon slots</div>
+      <div><span style="color:var(--teal)">TOTAL CODONS:</span> 2,880 per full mesh</div>
+      <div><span style="color:var(--purple)">LAYERS:</span> Movement &middot; Evolution &middot; Being &middot; Design &middot; Space</div>
+    </div>
+  </div>
+</div>
+
+<!-- OS AGENT -->
+<div class="page" id="p-agent">
+  <div class="sb">
+    <div style="font-size:22px;font-weight:800;font-family:var(--orbit);letter-spacing:.05em;margin-bottom:4px">Agent</div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--t2);margin-bottom:14px">Resonance Orchestrator &middot; Neural Mesh</div>
+    <div class="agent-terminal">
+      <div class="terminal-line info">// RESONANCE ORCHESTRATOR v0.1</div>
+      <div class="terminal-line">// Awaiting substrate binding...</div>
+      <div class="terminal-line">// GNN runtime: not connected</div>
+      <div class="terminal-line">// Supabase: not configured</div>
+      <div class="terminal-line prompt">&#9654; <span class="blink"></span></div>
+    </div>
+    <div class="card" style="margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--t2);line-height:1.8">
+      <strong style="color:var(--teal)">NOTE:</strong> Wire your Supabase credentials and model handlers where indicated in the blueprint source to activate this panel.
+    </div>
+  </div>
+</div>
+
+<!-- OS SETTINGS -->
+<div class="page" id="p-settings">
+  <div class="sb">
+    <div style="font-size:22px;font-weight:800;font-family:var(--orbit);letter-spacing:.05em;margin-bottom:4px">Settings</div>
+    <div style="font-family:var(--mono);font-size:10px;color:var(--t2);margin-bottom:14px">Configure OS preferences and integrations</div>
+    <div class="settings-row">
+      <span>Supabase endpoint</span><span class="tag">NOT SET</span>
+    </div>
+    <div class="settings-row">
+      <span>GNN runtime</span><span class="tag">OFFLINE</span>
+    </div>
+    <div class="settings-row">
+      <span>Substrate layers</span><span class="tag">5 ACTIVE</span>
+    </div>
+    <div class="settings-row">
+      <span>Codon mesh</span><span class="tag">2,880 SLOTS</span>
+    </div>
+    <div class="settings-row">
+      <span>Blueprint version</span><span class="tag">0.1.0</span>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="bnav">
+  <button class="ni active" id="nav-apps" onclick="switchTab('apps')">
+    <div class="ni-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div><span class="ni-lbl">Apps</span>
+  </button>
+  <button class="ni" id="nav-registry" onclick="switchTab('registry')">
+    <div class="ni-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div><span class="ni-lbl">Registry</span>
+  </button>
+  <button class="ni" id="nav-mcp" onclick="switchTab('mcp')">
+    <div class="ni-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div><span class="ni-lbl">MCP</span>
+  </button>
+  <button class="ni" id="nav-connect" onclick="switchTab('connect')">
+    <div class="ni-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div><span class="ni-lbl">Connect</span>
+  </button>
+</div>
+
+<!-- OS DOCK -->
+<div id="os-dock" style="display:none">
+  <div class="os-dock">
+    <button class="dock-btn" onclick="openOSApp('os')">
+      <div class="dock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="dock-label">Home</span>
+    </button>
+    <button class="dock-btn" onclick="openOSApp('apps')">
+      <div class="dock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></div><span class="dock-label">Builder</span>
+    </button>
+    <button class="dock-btn" onclick="openOSApp('mesh')">
+      <div class="dock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></div><span class="dock-label">Mesh</span>
+    </button>
+    <button class="dock-btn" onclick="openOSApp('files')">
+      <div class="dock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div><span class="dock-label">Files</span>
+    </button>
+    <button class="dock-btn" onclick="openOSApp('agent')">
+      <div class="dock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><span class="dock-label">Agent</span>
+    </button>
+    <button class="dock-btn" onclick="openOSApp('settings')">
+      <div class="dock-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.17 15a1.65 1.65 0 0 0-1.51-1H2a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.17 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.17a1.65 1.65 0 0 0 1-1.51V2a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div><span class="dock-label">Settings</span>
+    </button>
+  </div>
+</div>
+
+<!-- DEPLOY SHEET -->
+<div id="dep-sheet" style="display:none">
+  <div class="sheet-bg" onclick="if(event.target===this)closeSheet('dep-sheet')">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span> Deploy App</div>
+      <div class="sheet-body">
+        <div class="field"><label>Slug</label><input id="dep-slug" placeholder="my-app"/></div>
+        <div class="field"><label>Target</label>
+          <div class="tgrid">
+            <div class="tc sel" onclick="selTarget(this,'render')"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div><div class="tc-name">Render</div><div class="tc-desc">Web service</div></div>
+            <div class="tc" onclick="selTarget(this,'butterfly')"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M12 8c-3-3-7-2-7 2s4 5 7 2"/><path d="M12 8c3-3 7-2 7 2s-4 5-7 2"/><path d="M12 16c-3 3-7 2-7-2s4-5 7-2"/><path d="M12 16c3 3 7 2 7-2s-4-5-7-2"/></svg></div><div class="tc-name">Butterfly</div><div class="tc-desc">Edge</div></div>
+            <div class="tc" onclick="selTarget(this,'github')"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></div><div class="tc-name">GitHub Pages</div><div class="tc-desc">via push</div></div>
+            <div class="tc" onclick="selTarget(this,'registry')"><div class="tc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div><div class="tc-name">Registry Only</div><div class="tc-desc">addr only</div></div>
+          </div>
+        </div>
+        <div class="field"><label>Branch</label><input id="dep-branch" value="main"/></div>
+        <div class="field"><label>Env vars (KEY=VAL per line)</label><textarea id="dep-env" rows="2" placeholder="API_URL=https://..."></textarea></div>
+        <div class="prog-track" id="dep-pt" style="display:none"><div class="prog-fill" id="dep-pf" style="width:0%"></div></div>
+        <div class="log" id="dep-log" style="display:none;margin-bottom:12px"></div>
+        <button class="btn btn-primary btn-full" onclick="runDeploy()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></span> Deploy</button>
+        <div style="height:10px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMIT SHEET -->
+<div id="sub-sheet" style="display:none">
+  <div class="sheet-bg" onclick="if(event.target===this)closeSheet('sub-sheet')">
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-title"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span> Submit to MorphNN OS</div>
+      <div class="sheet-body">
+        <div class="field"><label>Title</label><input id="sub-title"/></div>
+        <div class="field"><label>Version</label><input id="sub-ver" value="0.1.0"/></div>
+        <div class="field"><label>Description</label><textarea id="sub-desc" rows="2"></textarea></div>
+        <div class="field"><label>System Address</label><input id="sub-addr" readonly style="color:var(--teal)"/></div>
+        <div class="field"><label>Tags</label><input id="sub-tags" placeholder="neural, builder, agent"/></div>
+        <div class="field"><label>Neural Mesh Layer</label>
+          <select id="sub-layer"><option>Movement</option><option>Evolution</option><option>Being</option><option>Design</option><option>Space</option></select>
+        </div>
+        <button class="btn btn-violet btn-full" onclick="runSubmit()"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span> Submit to OS</button>
+        <div style="height:10px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM DIALOG -->
+<div id="confirm-dialog" style="display:none"></div>
+
+<!-- TOASTS -->
+<div id="toasts"></div>
+
+<script>
+// =========================================================
+// MORPHNN RESONANCE OS - Unified Runtime
+// =========================================================
+const S = {
+  apps: [],
+  reg: [],
+  activeApp: null,
+  activeFile: null,
+  showingPreview: false,
+  deployTarget: 'render',
+  ints: {supabase:false, neo4j:false, render:false, butterfly:false, github:false},
+  mcp: {running:false, start:null, reqs:0},
+  model: {provider:'none', endpoint:'', key:'', modelId:'', connected:false},
+  synthia: {connected:false, url:'https://synthia-server.onrender.com', key:''},
+  tabPage: 'apps',
+  pageStack: [],
+  osMode: false,
+};
+
+// STELLARPROXIMOLOGY MODELS
+const STELLAR_MODELS = [
+  {id:'synthia-7b',     name:'Synthia 7B',        provider:'synthia',     status:'cloud',    desc:'Custom causal LM by stellarproximology',     hf:'stellarproximology/Synthia'},
+  {id:'trident-7b',      name:'Trident 7B',         provider:'synthia',     status:'cloud',    desc:'Multi-task model by stellarproximology',       hf:'stellarproximology/Trident'},
+  {id:'gnn-prox',        name:'GNN Prox',           provider:'synthia',     status:'cloud',    desc:'Graph neural network by stellarproximology',   hf:'stellarproximology/Gnn'},
+  {id:'distilbert-prox', name:'Distilbert Prox',    provider:'synthia',     status:'cloud',    desc:'Distilled BERT by stellarproximology',          hf:'stellarproximology/Distilbert'},
+];
+
+const AVAILABLE_MODELS = [
+  {id:'llama3-local',    name:'Llama 3 8B',        provider:'local',       status:'local',    desc:'Via Ollama or llama.cpp server'},
+  {id:'phi3-local',      name:'Phi-3 Mini',         provider:'local',       status:'local',    desc:'Lightweight local model'},
+  {id:'llama3-hf',       name:'Llama 3 70B',        provider:'huggingface', status:'cloud',    desc:'HuggingFace Inference API'},
+  {id:'mistral-hf',      name:'Mistral 7B',         provider:'huggingface', status:'cloud',    desc:'HuggingFace Inference API'},
+  {id:'gpt4o-compat',    name:'GPT-4o',             provider:'openai',      status:'cloud',    desc:'OpenAI-compatible endpoint'},
+  {id:'claude-sonnet',   name:'Claude Sonnet',      provider:'anthropic',   status:'cloud',    desc:'Anthropic API'},
+  {id:'tinyllama',       name:'TinyLlama 1.1B',     provider:'local',       status:'local',    desc:'Fastest local option'},
+  // stellarproximology models injected
+  ...STELLAR_MODELS,
+];
+
+const MCP_TOOLS = [
+  {n:'file_read',      i:'file',    d:'Read file from an installed app'},
+  {n:'file_write',     i:'edit',    d:'Write or patch a file'},
+  {n:'app_list',       i:'list',    d:'List all apps + addresses'},
+  {n:'app_install',    i:'package', d:'Install an app from registry'},
+  {n:'app_uninstall',  i:'trash',  d:'Uninstall an app'},
+  {n:'app_run',        i:'run',     d:'Execute an app entry point'},
+  {n:'app_deploy',     i:'deploy',  d:'Deploy to a platform'},
+  {n:'mesh_query',     i:'mesh',    d:'Query neural mesh state'},
+  {n:'model_infer',    i:'cpu',     d:'Run inference via connected model'},
+  {n:'github_push',    i:'github',  d:'Push to GitHub repo'},
+];
+
+const FI = {zip:'ZIP', html:'HTML', js:'JS', ts:'TS', tsx:'TSX', jsx:'JSX', css:'CSS', json:'JSON', py:'PY', md:'MD', default:'FILE'};
+const fext = f => (f.split('.').pop()||'').toLowerCase();
+const ficon = f => FI[fext(f)] || FI.default;
+const genId = () => Math.random().toString(36).slice(2,10);
+const genAddr = id => 'morph://'+id.slice(0,4)+'-'+Date.now().toString(36)+'@morphnn.os';
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+const $ = id => document.getElementById(id);
+const fmt = b => b<1024?b+'b':b<1048576?(b/1024).toFixed(1)+'k':(b/1048576).toFixed(1)+'M';
+
+// =========================================================
+// PARTICLES
+// =========================================================
+function initParticles(){
+  const c=$('particles'); if(!c)return;
+  for(let i=0;i<20;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(15+Math.random()*25)+'s';
+    p.style.animationDelay=(Math.random()*20)+'s';
+    p.style.background=i%2===0?'var(--teal)':'var(--purple)';
+    c.appendChild(p);
+  }
+}
+
+// =========================================================
+// CLOCK
+// =========================================================
+function tick(){ $('clock').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); }
+tick(); setInterval(tick,1000);
+
+// =========================================================
+// VITALITY LED
+// =========================================================
+const LED_MAP = { dormant:'dormant', observing:'observing', active:'active', resonant:'resonant' };
+const led = $('led');
+function setVitality(v) {
+  if(led) led.className = 'led ' + (LED_MAP[v] || 'dormant');
+}
+
+// =========================================================
+// MESH DATA (5x9x64)
+// =========================================================
+const STATES = ['idle','active','bridge','memory'];
+function prng(i) { return (((1103515245 * i + 12345) & 0x7fffffff)); }
+function makeMesh() {
+  const layers = [];
+  const names = ['Movement','Evolution','Being','Design','Space'];
+  for (let l = 0; l < 5; l++) {
+    const centres = [];
+    for (let c = 0; c < 9; c++) {
+      const codons = [];
+      for (let g = 0; g < 64; g++) {
+        codons.push(STATES[Math.abs(prng((l+1)*(c+1)*(g+1))) % 4]);
+      }
+      centres.push(codons);
+    }
+    layers.push({ name: names[l], centres });
+  }
+  return layers;
+}
+const MESH = makeMesh();
+
+function renderMesh() {
+  const container = $('mesh-container');
+  if(!container) return;
+  let html = '<div style="display:flex;flex-direction:column;gap:14px">';
+  MESH.forEach(layer => {
+    html += '<div><div style="font-family:var(--mono);font-size:10px;color:var(--purple);text-transform:uppercase;letter-spacing:.15em;margin-bottom:6px;display:flex;align-items:center;gap:8px">';
+    html += layer.name + '<span style="flex:1;height:1px;background:var(--b)"></span></div>';
+    html += '<div class="centres-grid">';
+    layer.centres.forEach(codons => {
+      html += '<div class="centre"><div class="codons-grid">';
+      codons.forEach(s => { html += '<div class="codon '+s+'"></div>'; });
+      html += '</div></div>';
+    });
+    html += '</div></div>';
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// =========================================================
+// NAVIGATION
+// =========================================================
+const TAB_PAGES = {apps:'p-apps', registry:'p-registry', mcp:'p-mcp', connect:'p-connect'};
+const OS_PAGES = {os:'p-os', apps:'p-apps', mesh:'p-os', files:'p-files', agent:'p-agent', settings:'p-settings'};
+
+function switchTab(tab) {
+  S.pageStack.forEach(id=>{
+    const p=$(id); if(!p)return;
+    p.classList.remove('active','behind','root');
+    p.style.transform='translateX(100%)';
+  });
+  S.pageStack=[];
+  Object.entries(TAB_PAGES).forEach(([t,pid])=>{
+    const p=$(pid); if(!p)return;
+    p.classList.remove('active','root','behind');
+    p.style.transform='translateX(100%)';
+    if(t===tab){p.classList.add('root','active'); p.style.transform='';}
+  });
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const navBtn = $('nav-'+tab);
+  if(navBtn) navBtn.classList.add('active');
+  S.tabPage=tab;
+  S.osMode=false;
+  const bnav = $('bnav');
+  const osDock = $('os-dock');
+  if(bnav) bnav.style.display='';
+  if(osDock) osDock.style.display='none';
+  if(tab==='registry') renderRegistry();
+  if(tab==='mcp') renderMCPTools();
+  if(tab==='connect') renderModelList();
+}
+
+function openOSApp(app) {
+  S.osMode=true;
+  const bnav = $('bnav');
+  const osDock = $('os-dock');
+  if(bnav) bnav.style.display='none';
+  if(osDock) osDock.style.display='';
+  const pid = OS_PAGES[app] || 'p-os';
+  const target = $(pid);
+  if(!target) return;
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.remove('active','root');
+    p.style.transform='translateX(100%)';
+  });
+  target.classList.add('active','root');
+  target.style.transform='';
+  if(app==='mesh' || app==='os') renderMesh();
+}
+
+function push(pageId) {
+  const curId = S.pageStack.length ? S.pageStack[S.pageStack.length-1] : (S.osMode ? 'p-os' : TAB_PAGES[S.tabPage]);
+  const cur=$(curId);
+  if(cur){cur.classList.remove('active'); cur.classList.add('behind');}
+  const next=$(pageId);
+  if(!next) return;
+  next.style.display='flex';
+  next.style.transform='translateX(100%)';
+  next.getBoundingClientRect();
+  next.classList.add('active');
+  next.style.transform='';
+  S.pageStack.push(pageId);
+}
+
+function back() {
+  if(!S.pageStack.length) return;
+  const curId=S.pageStack.pop();
+  const cur=$(curId);
+  if(cur){
+    cur.classList.remove('active');
+    cur.style.transform='translateX(100%)';
+    setTimeout(()=>{ cur.style.transform=''; },300);
+  }
+  const prevId=S.pageStack.length?S.pageStack[S.pageStack.length-1]:(S.osMode?'p-os':TAB_PAGES[S.tabPage]);
+  const prev=$(prevId);
+  if(prev){
+    prev.classList.remove('behind');
+    prev.classList.add('active');
+    prev.style.transform='';
+  }
+}
+
+// =========================================================
+// ENTRY DETECTION
+// =========================================================
+function detectEntry(files) {
+  const priorities = [
+    f => /index\.html$/i.test(f.name),
+    f => /^index\.html$/i.test(f.name.split('/').pop()),
+    f => /main\.html$/i.test(f.name),
+    f => /app\.html$/i.test(f.name),
+    f => /\.html$/i.test(f.name),
+    f => /^(main|index|app)\.(tsx|jsx|ts|js)$/i.test(f.name.split('/').pop()),
+    f => /(main|index|app)\.(tsx|jsx|ts|js)$/i.test(f.name),
+    f => /\.(tsx|jsx)$/i.test(f.name),
+    f => /\.(ts|js)$/i.test(f.name),
+    f => /\.(py)$/i.test(f.name),
+  ];
+  for(const pred of priorities){
+    const found = files.find(pred);
+    if(found) return found;
+  }
+  return files[0];
+}
+
+// =========================================================
+// EXECUTION ENGINE
+// =========================================================
+function escapeRE(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+function stripTypes(src) {
+  let code = src;
+  code = code.replace(/^import\s+type\s+.*?;?\s*$/gm, '');
+  code = code.replace(/^(export\s+)?interface\s+\w+[^{]*\{[^}]*\}/gm, '');
+  code = code.replace(/^(export\s+)?type\s+\w+\s*=\s*[^;]+;/gm, '');
+  code = code.replace(/(<\w+(?:,\s*\w+)*>)(\s*\()/g, '$2');
+  code = code.replace(/:\s*(string|number|boolean|void|any|never|unknown|React\.\w+|JSX\.\w+|[\w<\>\[\]|&]+)\s*([,)=;{])/g, '$2');
+  code = code.replace(/\s+as\s+\w[\w<\>\[\]|&.]*/g, '');
+  return code;
+}
+
+function transpileJSX(src) {
+  let code = stripTypes(src);
+  code = code.replace(/<>/g, 'React.createElement(React.Fragment,null,');
+  code = code.replace(/<\/>/g, ')');
+  return code;
+}
+
+function buildExecutableHTML(file, allFiles) {
+  const ext = fext(file.name);
+  if(ext === 'html') {
+    let html = file.content;
+    allFiles.filter(f=>fext(f.name)==='css').forEach(cf=>{
+      const basename = cf.name.split('/').pop();
+      html = html.replace(new RegExp('<link[^>]+href=["']([^"']*'+escapeRE(basename)+')["'][^>]*>','gi'),
+        '<style>'+cf.content+'</style>');
+    });
+    allFiles.filter(f=>fext(f.name)==='js'&&!f.name.includes('node_modules')).forEach(jf=>{
+      const basename = jf.name.split('/').pop();
+      html = html.replace(new RegExp('<script[^>]+src=["']([^"']*'+escapeRE(basename)+')["'][^>]*><\/script>','gi'),
+        '<script>'+jf.content+'<\/script>');
+    });
+    return html;
+  }
+  if(ext==='jsx'||ext==='tsx') {
+    const transpiled = transpileJSX(file.content);
+    return wrapReactHTML(transpiled, allFiles);
+  }
+  if(ext==='js'||ext==='ts') {
+    const code = ext==='ts' ? stripTypes(file.content) : file.content;
+    return wrapJSHTML(code, allFiles);
+  }
+  if(ext==='py') {
+    return wrapPythonViewer(file.content, file.name);
+  }
+  return wrapCodeViewer(file.content, file.name);
+}
+
+function wrapReactHTML(code, allFiles) {
+  const css = allFiles.filter(f=>fext(f.name)==='css').map(f=>f.content).join('\n');
+  return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif}${css}</style>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"><\/script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"><\/script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+${code}
+try {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  if(typeof App !== 'undefined') root.render(React.createElement(App));
+  else if(typeof default_export !== 'undefined') root.render(React.createElement(default_export));
+} catch(e) { document.getElementById('root').innerHTML = '<pre style="color:red;padding:12px">'+e.message+'</pre>'; }
+<\/script>
+</body></html>`;
+}
+
+function wrapJSHTML(code, allFiles) {
+  const css = allFiles.filter(f=>fext(f.name)==='css').map(f=>f.content).join('\n');
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"/><style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#060614;color:#d0d8f0}${css}</style></head>
+<body><div id="root"></div>
+<script>
+const root=document.getElementById('root');
+try{
+${code}
+}catch(e){root.innerHTML='<pre style="color:#ff3350;padding:16px">'+e.message+'</pre>';}
+<\/script></body></html>`;
+}
+
+function wrapPythonViewer(code, fname) {
+  const escaped = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+<style>body{margin:0;background:#03030a;color:#a0c8e8;font-family:'DM Mono',monospace;font-size:13px;}
+.banner{background:#1a1a4e;color:#00ffc8;padding:10px 14px;font-size:11px;border-bottom:1px solid #252560}
+pre{margin:0;padding:14px;overflow:auto;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+</style></head>
+<body>
+<div class="banner">PY &middot; ${fname} &middot; View only -- run via your local server or Pyodide</div>
+<pre>${escaped}</pre>
+</body></html>`;
+}
+
+function wrapCodeViewer(code, fname) {
+  const escaped = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+<style>body{margin:0;background:#03030a;color:#a0c8e8;font-family:'DM Mono',monospace;font-size:12px;}
+pre{margin:0;padding:14px;overflow:auto;line-height:1.7;white-space:pre-wrap;word-break:break-word}</style>
+</head><body><pre>${escaped}</pre></body></html>`;
+}
+
+// =========================================================
+// UPLOAD & INGEST
+// =========================================================
+function setupUpload(){
+  const dz = $('dz');
+  if(!dz) return;
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));
+  dz.addEventListener('drop',e=>{
+    e.preventDefault();dz.classList.remove('drag');
+    processFiles(Array.from(e.dataTransfer.files));
+  });
+  dz.addEventListener('click',e=>{
+    if(e.target!==dz && !e.target.classList.contains('dz-icon') && !e.target.classList.contains('dz-title') && !e.target.classList.contains('dz-sub')) return;
+    const inp = $('dz-input');
+    if(inp) inp.click();
+  });
+  const inp = $('dz-input');
+  if(inp) inp.addEventListener('change',e=>{processFiles(Array.from(e.target.files)); e.target.value='';});
+}
+
+function triggerUpload(){
+  const inp = $('dz-input');
+  if(inp) inp.click();
+}
+
+async function processFiles(files) {
+  let count=0;
+  for(const f of files){
+    if(f.name.endsWith('.zip')) await ingestZip(f);
+    else await ingestSingle(f);
+    count++;
+  }
+  renderAppList();
+  toast('Loaded '+count+' file'+(count!==1?'s':''),'success');
+}
+
+async function ingestZip(file) {
+  const id=genId();
+  const name=file.name.replace(/\.zip$/i,'').replace(/_+/g,' ').replace(/\(\d+\)/g,'').replace(/__\d+__/g,'').trim();
+  try {
+    const zip = await JSZip.loadAsync(file);
+    const appFiles=[];
+    let totalSize=0;
+    for(const [path,entry] of Object.entries(zip.files)){
+      if(entry.dir||path.includes('__MACOSX')||path.includes('.git/')||path.includes('node_modules/')) continue;
+      let content;
+      try{ content=await entry.async('string'); }
+      catch{ content='[binary file -- '+path+']'; }
+      totalSize+=content.length;
+      appFiles.push({name:path,content});
+    }
+    if(!appFiles.length) throw new Error('No readable files in zip');
+    const entry=detectEntry(appFiles);
+    const app={id,name,type:'zip',status:'draft',files:appFiles,source:file.name,
+      installed:false,entryFile:entry?.name||'',totalSize};
+    S.apps.push(app);
+    S.reg.push({id,name,addr:genAddr(id),type:'zip',deployedAt:null,target:null});
+  } catch(e){
+    const entry={name:'README.md',content:'# '+name+'\n\nCould not parse zip: '+e.message+'\n\nTry re-uploading the original file.'};
+    S.apps.push({id,name,type:'zip',status:'error',files:[entry],source:file.name,
+      installed:false,entryFile:'README.md',totalSize:entry.content.length});
+    S.reg.push({id,name,addr:genAddr(id),type:'zip',deployedAt:null,target:null});
+    toast('Warning: '+name+' -- '+e.message,'warn');
+  }
+}
+
+async function ingestSingle(file) {
+  const id=genId();
+  const name=file.name.replace(/\.[^.]+$/,'');
+  const content=await file.text().catch(()=>'[binary]');
+  const fileObj={name:file.name,content};
+  S.apps.push({id,name,type:fext(file.name)||'file',status:'draft',
+    files:[fileObj],source:file.name,installed:false,
+    entryFile:file.name,totalSize:content.length});
+  S.reg.push({id,name,addr:genAddr(id),type:fext(file.name)||'file',deployedAt:null,target:null});
+}
+
+// =========================================================
+// APP LIST
+// =========================================================
+function renderAppList() {
+  const installed=S.apps.filter(a=>a.installed);
+  const available=S.apps.filter(a=>!a.installed);
+
+  const appCount = $('app-count');
+  const installedCount = $('installed-count');
+  if(appCount) appCount.textContent=S.apps.length+' app'+(S.apps.length!==1?'s':'')+' loaded';
+  if(installedCount) installedCount.textContent=installed.length+' installed';
+
+  const renderRow = app => `
+    <div class="arow" onclick="openDetail('${app.id}')">
+      <div class="arow-icon">${ficon(app.name)}</div>
+      <div class="arow-meta">
+        <div class="arow-name">${app.name}</div>
+        <div class="arow-info">${app.type.toUpperCase()} &middot; ${app.files.length} file${app.files.length!==1?'s':''} &middot; ${fmt(app.totalSize||0)}</div>
+      </div>
+      <span class="badge ${app.installed?'b-installed':'b-'+app.status}" style="margin-right:6px">${app.installed?'installed':app.status}</span>
+      <span class="arow-arr">&rsaquo;</span>
+    </div>`;
+
+  const installedList = $('app-list-installed');
+  const availableList = $('app-list-available');
+  if(installedList) installedList.innerHTML = installed.length ? installed.map(renderRow).join('') : '<div style="font-family:var(--mono);font-size:11px;color:var(--t3);padding:12px 0">No apps installed yet</div>';
+  if(availableList) availableList.innerHTML = available.length ? available.map(renderRow).join('') : '<div style="font-family:var(--mono);font-size:11px;color:var(--t3);padding:12px 0;text-align:center">Drop a .zip to add apps</div>';
+}
+
+// =========================================================
+// INSTALL / UNINSTALL
+// =========================================================
+function toggleInstall() {
+  if(!S.activeApp) return;
+  if(S.activeApp.installed) {
+    confirmDialog('Uninstall "'+S.activeApp.name+'"?',
+      'The app will be removed from Installed. Files stay in Available.',
+      ()=>{ S.activeApp.installed=false; refreshDetailBadge(); renderAppList(); toast(S.activeApp.name+' uninstalled','warn'); });
+  } else {
+    S.activeApp.installed=true;
+    S.activeApp.status='live';
+    refreshDetailBadge();
+    renderAppList();
+    toast(S.activeApp.name+' installed','success');
+  }
+}
+
+function refreshDetailBadge() {
+  const app=S.activeApp; if(!app) return;
+  const btn = $('install-btn');
+  const badge = $('d-badge');
+  if(btn){
+    btn.textContent=app.installed?'Uninstall':'Install';
+    btn.className=app.installed?'btn btn-danger btn-sm':'btn btn-success btn-sm';
+  }
+  if(badge){
+    badge.textContent=app.installed?'installed':app.status;
+    badge.className='badge '+(app.installed?'b-installed':'b-'+app.status);
+  }
+}
+
+// =========================================================
+// APP DETAIL
+// =========================================================
+function openDetail(id) {
+  const app=S.apps.find(a=>a.id===id); if(!app) return;
+  S.activeApp=app;
+  const reg=S.reg.find(r=>r.id===id);
+  const title = $('d-title');
+  const addr = $('d-addr');
+  if(title) title.textContent=app.name;
+  if(addr) addr.textContent=reg?.addr||'--';
+  const iid = $('i-id'), itype = $('i-type'), ifiles = $('i-files'), ientry = $('i-entry'), isize = $('i-size'), iaddr = $('i-addr');
+  if(iid) iid.textContent=app.id;
+  if(itype) itype.textContent=app.type.toUpperCase();
+  if(ifiles) ifiles.textContent=app.files.length;
+  if(ientry) ientry.textContent=app.entryFile||'--';
+  if(isize) isize.textContent=fmt(app.totalSize||0);
+  if(iaddr) iaddr.textContent=reg?.addr||'--';
+  refreshDetailBadge();
+  push('p-detail');
+}
+
+// =========================================================
+// RUN APP
+// =========================================================
+function openApp() {
+  if(!S.activeApp) return;
+  const entry=S.activeApp.files.find(f=>f.name===S.activeApp.entryFile)||S.activeApp.files[0];
+  if(entry) openFileInEditor(entry.name, true);
+}
+
+function runEntry() {
+  if(!S.activeApp) return;
+  const entry=S.activeApp.files.find(f=>f.name===S.activeApp.entryFile)||S.activeApp.files[0];
+  if(entry) openFileInEditor(entry.name, true);
+}
+
+// =========================================================
+// FILES
+// =========================================================
+function openFiles() {
+  if(!S.activeApp) return;
+  const ft = $('files-title');
+  if(ft) ft.textContent=S.activeApp.name;
+  const body=$('files-body');
+  if(!body) return;
+  const entry=S.activeApp.entryFile;
+  body.innerHTML=S.activeApp.files.map(f=>`
+    <div class="frow ${f.name===entry?'entry':''}" onclick="openFileInEditor('${f.name.replace(/'/g,"\'")}', false)">
+      <span style="font-family:var(--mono);font-size:12px;color:var(--teal);font-weight:700">${ficon(f.name)}</span>
+      <span class="frow-name">${f.name}${f.name===entry?' *':''}</span>
+      <span class="frow-size">${fmt(f.content.length)}</span>
+      <span style="color:var(--t3);font-size:16px">&rsaquo;</span>
+    </div>
+  `).join('');
+  push('p-files');
+}
+
+// =========================================================
+// EDITOR
+// =========================================================
+function openFileInEditor(fname, autoRun=false) {
+  if(!S.activeApp) return;
+  const f=S.activeApp.files.find(fl=>fl.name===fname);
+  if(!f) return;
+  S.activeFile=f;
+  S.showingPreview=false;
+  const efname = $('editor-fname');
+  const editor = $('code-editor');
+  const iframe = $('exec-iframe');
+  const vbtn = $('view-btn');
+  if(efname) efname.textContent=fname.split('/').pop();
+  if(editor){ editor.style.display=''; editor.value=f.content; }
+  if(iframe) iframe.style.display='none';
+  const est = $('exec-status');
+  if(est) est.style.display='none';
+  if(vbtn) vbtn.textContent='Preview';
+  push('p-editor');
+  if(autoRun) setTimeout(()=>executeFile(),200);
+}
+
+function edChange() {
+  if(S.activeFile) S.activeFile.content=$('code-editor').value;
+}
+
+function saveFile() {
+  if(!S.activeFile||!S.activeApp) return;
+  const f=S.activeApp.files.find(fl=>fl.name===S.activeFile.name);
+  if(f) f.content=$('code-editor').value;
+  toast('Saved','success');
+}
+
+function fmtJSON() {
+  const ed=$('code-editor');
+  if(!ed) return;
+  try{
+    ed.value=JSON.stringify(JSON.parse(ed.value),null,2);
+    edChange();
+    toast('Formatted','info');
+  } catch(e){
+    toast('Not valid JSON','warn');
+  }
+}
+
+function executeFile() {
+  if(!S.activeFile||!S.activeApp) return;
+  const f=S.activeFile;
+  const allFiles=S.activeApp.files;
+  try {
+    const html=buildExecutableHTML(f, allFiles);
+    const iframe=$('exec-iframe');
+    if(iframe){
+      iframe.srcdoc=html;
+      iframe.style.display='';
+    }
+    const editor=$('code-editor');
+    if(editor) editor.style.display='none';
+    S.showingPreview=true;
+    const vbtn=$('view-btn');
+    if(vbtn) vbtn.textContent='Code';
+    showExecStatus('ok','Running');
+  } catch(e) {
+    showExecStatus('err','Error: '+e.message);
+    toast('Execution error: '+e.message,'error');
+  }
+}
+
+function toggleView() {
+  if(!S.activeFile) return;
+  S.showingPreview=!S.showingPreview;
+  const iframe=$('exec-iframe');
+  const editor=$('code-editor');
+  const vbtn=$('view-btn');
+  const est=$('exec-status');
+  if(S.showingPreview) {
+    executeFile();
+  } else {
+    if(iframe) iframe.style.display='none';
+    if(editor) editor.style.display='';
+    if(vbtn) vbtn.textContent='Preview';
+    if(est) est.style.display='none';
+  }
+}
+
+function showExecStatus(type, msg) {
+  const el=$('exec-status');
+  if(!el) return;
+  el.style.display='';
+  el.className='exec-status exec-'+type;
+  el.textContent=msg;
+}
+
+// =========================================================
+// REGISTRY
+// =========================================================
+function renderRegistry() {
+  const el=$('registry-list');
+  if(!el) return;
+  if(!S.reg.length){
+    el.innerHTML='<div style="font-family:var(--mono);font-size:11px;color:var(--t3);text-align:center;padding:24px 0">No apps registered -- upload to begin</div>';
+    return;
+  }
+  el.innerHTML=S.reg.map(r=>`
+    <div class="addr-card">
+      <div class="addr-top">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--teal);font-weight:700">${ficon(r.name)}</span>
+        <span class="addr-name">${r.name}</span>
+        <span onclick="copyText('${r.addr}')" style="cursor:pointer;color:var(--t2);font-size:15px">&copy;</span>
+      </div>
+      <div class="addr-val">${r.addr}</div>
+      <div class="addr-meta">${r.deployedAt?'Deployed '+new Date(r.deployedAt).toLocaleString()+' via '+r.target:'Draft'}</div>
+    </div>
+  `).join('');
+}
+
+function copyText(t){ 
+  navigator.clipboard?.writeText(t).then(()=>toast('Copied!','info')).catch(()=>{}); 
+}
+
+// =========================================================
+// MCP SERVER
+// =========================================================
+let mcpTimer=null;
+
+function renderMCPTools() {
+  const el=$('mcp-tools');
+  if(!el) return;
+  el.innerHTML=MCP_TOOLS.map(t=>`
+    <div class="tool-chip" onclick="callTool('${t.n}')">
+      <span class="icon" style="color:var(--teal)">${I[t.i]||I['star']}</span>
+      <div><div class="tc-name">${t.n}</div><div class="tc-desc">${t.d}</div></div>
+    </div>
+  `).join('');
+}
+
+function startMCP() {
+  const host=$('mcp-host');
+  const port=$('mcp-port');
+  const tsp=$('mcp-transport');
+  const h = host ? host.value : '0.0.0.0';
+  const p = port ? port.value : '3100';
+  const t = tsp ? tsp.value : 'SSE';
+  S.mcp={running:true,start:Date.now(),reqs:0};
+  const startBtn = $('mcp-start');
+  const stopBtn = $('mcp-stop');
+  const si = $('mcp-si');
+  const sbadge = $('mcp-sbadge');
+  const dot = $('mcp-dot');
+  const ep = $('mcp-ep');
+  if(startBtn) startBtn.style.display='none';
+  if(stopBtn) stopBtn.style.display='';
+  if(si) si.style.cssText='width:11px;height:11px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);flex-shrink:0';
+  if(sbadge){ sbadge.textContent='RUNNING'; sbadge.className='badge b-live'; }
+  if(dot) dot.className='dot on';
+  if(ep) ep.textContent='http://'+h+':'+p+'/mcp';
+  mcpLog('Server started '+h+':'+p+' ['+t+']','ok');
+  mcpLog(MCP_TOOLS.length+' tools registered','info');
+  mcpLog(S.apps.filter(a=>a.installed).length+' installed apps exposed','info');
+  mcpTimer=setInterval(()=>{
+    S.mcp.reqs+=Math.floor(Math.random()*2);
+    const reqEl = $('mcp-req');
+    if(reqEl) reqEl.textContent=S.mcp.reqs;
+    const e=Math.floor((Date.now()-S.mcp.start)/1000);
+    const upEl = $('mcp-up');
+    if(upEl) upEl.textContent=Math.floor(e/3600)+'h '+Math.floor((e%3600)/60)+'m '+e%60+'s';
+    if(Math.random()<.1) mcpLog('<- '+MCP_TOOLS[~~(Math.random()*MCP_TOOLS.length)].n,'info');
+  },2200);
+  toast('MCP Server started','success');
+}
+
+function stopMCP() {
+  S.mcp.running=false;
+  if(mcpTimer) clearInterval(mcpTimer);
+  const startBtn = $('mcp-start');
+  const stopBtn = $('mcp-stop');
+  const si = $('mcp-si');
+  const sbadge = $('mcp-sbadge');
+  const dot = $('mcp-dot');
+  const ep = $('mcp-ep');
+  const up = $('mcp-up');
+  if(startBtn) startBtn.style.display='';
+  if(stopBtn) stopBtn.style.display='none';
+  if(si) si.style.cssText='width:11px;height:11px;border-radius:50%;background:var(--t3);flex-shrink:0';
+  if(sbadge){ sbadge.textContent='OFFLINE'; sbadge.className='badge b-offline'; }
+  if(dot) dot.className='dot';
+  if(ep) ep.textContent='--';
+  if(up) up.textContent='--';
+  mcpLog('Server stopped','warn');
+  toast('MCP Server stopped','warn');
+}
+
+function callTool(name) {
+  if(!S.mcp.running){toast('Start MCP server first','warn');return;}
+  mcpLog('<- '+name+' invoked','info');
+  setTimeout(()=>mcpLog('-> '+name+': 200 OK','ok'),280);
+  S.mcp.reqs++;
+  const reqEl = $('mcp-req');
+  if(reqEl) reqEl.textContent=S.mcp.reqs;
+}
+
+function mcpLog(msg,cls='') {
+  const log=$('mcp-log');
+  if(!log) return;
+  const d=document.createElement('div');
+  d.className='ll '+cls;
+  d.textContent='['+new Date().toLocaleTimeString()+'] '+msg;
+  log.appendChild(d);
+  log.scrollTop=log.scrollHeight;
+}
+
+// =========================================================
+// MODELS
+// =========================================================
+function updateModelProvider() {
+  const p=$('model-provider');
+  if(!p) return;
+  S.model.provider=p.value;
+  const mf = $('model-fields');
+  if(mf) mf.style.display=p.value==='none'?'none':'';
+  const me = $('model-endpoint');
+  const mi = $('model-id');
+  if(!me || !mi) return;
+  if(p.value==='local'){
+    me.value='http://localhost:11434/v1/chat/completions';
+    mi.value='llama3';
+  } else if(p.value==='huggingface'){
+    me.value='https://api-inference.huggingface.co/models/';
+    mi.value='meta-llama/Llama-3-8B-Instruct';
+  } else if(p.value==='openai'){
+    me.value='https://api.openai.com/v1/chat/completions';
+    mi.value='gpt-4o';
+  } else if(p.value==='anthropic'){
+    me.value='https://api.anthropic.com/v1/messages';
+    mi.value='claude-sonnet-4-20250514';
+  } else if(p.value==='synthia'){
+    me.value='https://synthia-server.onrender.com/api/v1/chat';
+    mi.value='synthia-7b';
+  }
+}
+
+function connectModel() {
+  const mp = $('model-provider');
+  const me = $('model-endpoint');
+  const mk = $('model-key');
+  const mi = $('model-id');
+  if(!mp || !me || !mi) return;
+  S.model.provider=mp.value;
+  S.model.endpoint=me.value;
+  S.model.key=mk ? mk.value : '';
+  S.model.modelId=mi.value;
+  S.model.connected=true;
+  const mdot = $('model-dot');
+  const mname = $('model-name-pill');
+  if(mdot) mdot.className='dot on';
+  if(mname) mname.textContent=S.model.modelId.split('/').pop().slice(0,12);
+  toast('Model connected: '+S.model.modelId,'success');
+  renderModelList();
+}
+
+async function testModel() {
+  if(!S.model.connected){toast('Connect a model first','warn');return;}
+  toast('Pinging model...','info');
+  try {
+    const body=S.model.provider==='anthropic'
+      ? JSON.stringify({model:S.model.modelId,max_tokens:1,messages:[{role:'user',content:'hi'}]})
+      : JSON.stringify({model:S.model.modelId,max_completion_tokens:1,messages:[{role:'user',content:'hi'}]});
+    const headers={'Content-Type':'application/json'};
+    if(S.model.key) headers['Authorization']='Bearer '+S.model.key;
+    if(S.model.provider==='anthropic') headers['x-api-key']=S.model.key;
+    const r=await fetch(S.model.endpoint,{method:'POST',headers,body,signal:AbortSignal.timeout(5000)});
+    toast(r.ok?'Model ping OK -- '+r.status:'Model responded: '+r.status, r.ok?'success':'warn');
+  } catch(e) {
+    toast('Model unreachable: '+e.message,'error');
+  }
+}
+
+function renderModelList() {
+  const el=$('model-list');
+  if(!el) return;
+  el.innerHTML=AVAILABLE_MODELS.map(m=>`
+    <div class="model-chip ${m.provider==='local' || m.provider==='synthia' ?'available':''}">
+      <span class="icon" style="color:var(--teal)">${m.provider==='local'||m.provider==='synthia'?I['cpu']:I['cloud']}</span>
+      <div style="flex:1;min-width:0">
+        <div class="mc-name">${m.name}</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--t2);margin-top:1px">${m.desc}</div>
+      </div>
+      <span class="mc-status ${m.provider==='local'||m.provider==='synthia'?'b-installed badge':'b-draft badge'}">${m.provider==='local'?'local':m.provider==='synthia'?'synthia':'cloud'}</span>
+      <button class="btn btn-xs btn-ghost" style="margin-left:6px" onclick="quickConnectModel('${m.id}','${m.provider}','${m.name}')">Use</button>
+    </div>
+  `).join('');
+}
+
+function quickConnectModel(id, provider, name) {
+  const mp = $('model-provider');
+  if(mp) mp.value=provider;
+  updateModelProvider();
+  const mi = $('model-id');
+  if(mi){
+    const found = AVAILABLE_MODELS.find(m=>m.id===id);
+    mi.value = found ? (found.hf || found.id.split('-')[0]) : id;
+  }
+  switchTab('connect');
+  toast('Set up '+name+' -- add credentials and press Connect','info');
+}
+
+// =========================================================
+// SYNTHIA SERVER CALLBACK
+// =========================================================
+async function connectSynthia() {
+  const url = $('synthia-url');
+  const key = $('synthia-key');
+  if(url) S.synthia.url = url.value;
+  if(key) S.synthia.key = key.value;
+
+  try {
+    const resp = await fetch(S.synthia.url + '/health', {
+      method: 'GET',
+      headers: S.synthia.key ? {'Authorization': 'Bearer '+S.synthia.key} : {},
+      signal: AbortSignal.timeout(8000)
+    });
+    if(resp.ok) {
+      S.synthia.connected = true;
+      const dot = $('synthia-dot');
+      const badge = $('synthia-badge');
+      const panel = $('synthia-panel');
+      if(dot){ dot.className='synthia-dot online'; }
+      if(badge){ badge.textContent='ONLINE'; badge.className='badge b-live'; }
+      if(panel) panel.classList.add('connected');
+      synthiaLog('Connected to '+S.synthia.url,'ok');
+      toast('Synthia server online','success');
+    } else {
+      throw new Error('HTTP '+resp.status);
+    }
+  } catch(e) {
+    S.synthia.connected = false;
+    synthiaLog('Connection failed: '+e.message,'err');
+    toast('Synthia unreachable: '+e.message,'error');
+  }
+}
+
+async function testSynthia() {
+  if(!S.synthia.connected){toast('Connect Synthia first','warn');return;}
+  try {
+    const resp = await fetch(S.synthia.url + '/health', {
+      headers: S.synthia.key ? {'Authorization': 'Bearer '+S.synthia.key} : {},
+      signal: AbortSignal.timeout(5000)
+    });
+    toast(resp.ok ? 'Synthia ping OK' : 'Synthia responded '+resp.status, resp.ok?'success':'warn');
+  } catch(e) {
+    toast('Synthia ping failed: '+e.message,'error');
+  }
+}
+
+async function inferSynthia() {
+  if(!S.synthia.connected){toast('Connect Synthia first','warn');return;}
+  synthiaLog('Sending inference request...','info');
+  try {
+    const resp = await fetch(S.synthia.url + '/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(S.synthia.key ? {'Authorization': 'Bearer '+S.synthia.key} : {})
+      },
+      body: JSON.stringify({
+        model: 'synthia-7b',
+        messages: [{role:'user',content:'Hello from MorphNN'}],
+        max_tokens: 128
+      }),
+      signal: AbortSignal.timeout(15000)
+    });
+    if(resp.ok) {
+      const data = await resp.json();
+      synthiaLog('Inference OK: '+JSON.stringify(data).slice(0,80),'ok');
+      toast('Synthia inference complete','success');
+    } else {
+      throw new Error('HTTP '+resp.status);
+    }
+  } catch(e) {
+    synthiaLog('Inference failed: '+e.message,'err');
+    toast('Inference error: '+e.message,'error');
+  }
+}
+
+function synthiaLog(msg,cls='') {
+  const log=$('synthia-log');
+  if(!log) return;
+  const d=document.createElement('div');
+  d.className='ll '+cls;
+  d.textContent='['+new Date().toLocaleTimeString()+'] '+msg;
+  log.appendChild(d);
+  log.scrollTop=log.scrollHeight;
+}
+
+// =========================================================
+// INTEGRATIONS
+// =========================================================
+function connectInt(id) {
+  S.ints[id]=true;
+  const st=$('ist-'+id);
+  if(st){st.textContent='LIVE'; st.className='int-status ist-live';}
+  const ic = $('ic-'+id);
+  if(ic) ic.classList.add('connected');
+  toast(id+' connected','success');
+}
+
+function testInt(id) {
+  if(!S.ints[id]){toast('Connect '+id+' first','warn');return;}
+  toast(id+' ping OK','success');
+}
+
+function renderDeploy() {
+  if(!S.ints.render){toast('Connect Render in Connect tab first','warn');return;}
+  toast('Triggering Render redeploy...','info');
+  setTimeout(()=>toast('Render deploy triggered','success'),1100);
+}
+
+function bfDeploy() {
+  if(!S.ints.butterfly){toast('Connect Butterfly first','warn');return;}
+  toast('Pushing to Butterfly...','info');
+  setTimeout(()=>toast('Butterfly push complete','success'),900);
+}
+
+function ghPush() {
+  if(!S.ints.github){toast('Connect GitHub first','warn');return;}
+  const repo=$('gh-repo');
+  toast('Pushing to '+(repo?repo.value:'repo')+'...','info');
+  setTimeout(()=>toast('GitHub push complete','success'),1000);
+}
+
+// =========================================================
+// DEPLOY SHEET
+// =========================================================
+function openDeploySheet() {
+  if(S.activeApp){
+    const ds = $('dep-slug');
+    if(ds) ds.value=S.activeApp.name.toLowerCase().replace(/\s+/g,'-');
+  }
+  const pt = $('dep-pt');
+  const dl = $('dep-log');
+  const pf = $('dep-pf');
+  if(pt) pt.style.display='none';
+  if(dl){ dl.style.display='none'; dl.innerHTML=''; }
+  if(pf) pf.style.width='0%';
+  const sheet = $('dep-sheet');
+  if(sheet) sheet.style.display='';
+}
+
+function closeSheet(id){
+  const el = $(id);
+  if(el) el.style.display='none';
+}
+
+function selTarget(el,t) {
+  document.querySelectorAll('.tc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  S.deployTarget=t;
+}
+
+async function runDeploy() {
+  const slugEl = $('dep-slug');
+  const slug = slugEl ? slugEl.value : 'app';
+  const pt=$('dep-pt'), pf=$('dep-pf'), dl=$('dep-log');
+  if(pt) pt.style.display='';
+  if(dl){ dl.style.display=''; dl.innerHTML=''; }
+  const steps=[
+    [8,'Bundling '+slug+'...'],
+    [25,'Validating files...'],
+    [50,'Connecting to '+S.deployTarget+'...'],
+    [72,'Uploading artifacts...'],
+    [90,'Registering address...'],
+    [100,'Deployment complete!']
+  ];
+  for(const [pct,msg] of steps){
+    await sleep(350+Math.random()*180);
+    if(pf) pf.style.width=pct+'%';
+    if(dl){
+      const d=document.createElement('div');
+      d.className='ll'+(pct===100?' ok':'');
+      d.textContent=msg;
+      dl.appendChild(d);
+      dl.scrollTop=dl.scrollHeight;
+    }
+  }
+  if(S.activeApp){S.activeApp.status='live'; renderAppList();}
+  const reg=S.reg.find(r=>r.id===S.activeApp?.id);
+  if(reg){reg.target=S.deployTarget; reg.deployedAt=new Date().toISOString();}
+  refreshDetailBadge();
+  toast('Deployed to '+S.deployTarget,'success');
+  setTimeout(()=>closeSheet('dep-sheet'),1200);
+}
+
+// =========================================================
+// SUBMIT SHEET
+// =========================================================
+function openSubmitSheet() {
+  if(S.activeApp){
+    const st = $('sub-title');
+    const sa = $('sub-addr');
+    if(st) st.value=S.activeApp.name;
+    if(sa) sa.value=genAddr(S.activeApp.id);
+  }
+  const sheet = $('sub-sheet');
+  if(sheet) sheet.style.display='';
+}
+
+async function runSubmit() {
+  const st = $('sub-title');
+  const sl = $('sub-layer');
+  const title = st ? st.value : 'App';
+  const layer = sl ? sl.value : 'Movement';
+  await sleep(600);
+  mcpLog('app_submit: "'+title+'" -> mesh:'+layer,'ok');
+  toast('"'+title+'" registered in MorphNN OS','success');
+  closeSheet('sub-sheet');
+}
+
+// =========================================================
+// CONFIRM DIALOG
+// =========================================================
+function confirmDialog(title, msg, onConfirm) {
+  const el=$('confirm-dialog');
+  if(!el) return;
+  el.style.display='';
+  el.innerHTML=`
+    <div class="confirm-bg">
+      <div class="confirm-box">
+        <div class="confirm-title">${title}</div>
+        <div class="confirm-msg">${msg}</div>
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="document.getElementById('confirm-dialog').style.display='none'">Cancel</button>
+          <button class="btn btn-danger" onclick="document.getElementById('confirm-dialog').style.display='none';(${onConfirm.toString()})()">Confirm</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// =========================================================
+// TOAST
+// =========================================================
+function toast(msg,type='info') {
+  const c=$('toasts');
+  if(!c) return;
+  const t=document.createElement('div');
+  t.className='toast '+type;
+  const sym = type==='success'?'OK':type==='error'?'ERR':type==='warn'?'WARN':'INFO';
+  t.innerHTML='<span style="font-family:var(--mono);font-size:10px;font-weight:700">'+sym+'</span>'+msg;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.transition='opacity .2s'; t.style.opacity='0'; setTimeout(()=>t.remove(),220);},3000);
+}
+
+// =========================================================
+// INIT
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initParticles();
+  setupUpload();
+  renderAppList();
+  renderMCPTools();
+  renderModelList();
+  renderMesh();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Topology Engine — The Field</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f; --panel: #12121a; --border: #1e1e2e;
+            --text: #e0e0e0; --muted: #6c6c7d; --accent: #7c3aed;
+            --accent2: #06b6d4; --error: #ef4444; --success: #22c55e;
+            --warning: #f59e0b;
+        }
+        body {
+            font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+            background: var(--bg); color: var(--text); overflow: hidden;
+            height: 100vh; display: flex; flex-direction: column;
+        }
+
+        /* HEADER */
+        .header {
+            height: 48px; background: var(--panel); border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; padding: 0 16px; gap: 12px;
+            flex-shrink: 0; z-index: 100;
+        }
+        .header h1 { font-size: 14px; font-weight: 600; color: var(--accent); letter-spacing: 0.05em; }
+        .header .spacer { flex: 1; }
+        .btn {
+            background: var(--border); color: var(--text); border: 1px solid var(--border);
+            padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer;
+            font-family: inherit; transition: all 0.15s;
+        }
+        .btn:hover { background: var(--accent); border-color: var(--accent); }
+        .btn:active { transform: scale(0.97); }
+        .btn.primary { background: var(--accent); border-color: var(--accent); }
+        .btn.primary:hover { background: #8b5cf6; }
+        .btn.success { background: var(--success); border-color: var(--success); color: #000; }
+        .status { font-size: 11px; color: var(--muted); }
+        .status.ready { color: var(--success); }
+        .status.loading { color: var(--warning); animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* MAIN LAYOUT */
+        .main { flex: 1; display: flex; overflow: hidden; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px; background: var(--panel); border-right: 1px solid var(--border);
+            display: flex; flex-direction: column; flex-shrink: 0;
+        }
+        .sidebar-section {
+            border-bottom: 1px solid var(--border); padding: 12px;
+        }
+        .sidebar-section h3 {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--muted); margin-bottom: 8px;
+        }
+        .node-list { max-height: 200px; overflow-y: auto; }
+        .node-item {
+            padding: 8px 10px; border-radius: 6px; cursor: pointer;
+            font-size: 12px; display: flex; align-items: center; gap: 8px;
+            margin-bottom: 4px; transition: background 0.1s;
+        }
+        .node-item:hover { background: var(--border); }
+        .node-item.active { background: var(--accent); color: white; }
+        .node-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .dot.clean { background: var(--success); }
+        .dot.stale { background: var(--warning); }
+        .dot.error { background: var(--error); }
+        .dot.running { background: var(--accent2); animation: pulse 0.5s infinite; }
+        .node-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .node-deps { font-size: 10px; color: var(--muted); }
+
+        /* INGESTION */
+        .ingest-input {
+            width: 100%; background: var(--bg); border: 1px solid var(--border);
+            color: var(--text); padding: 8px; border-radius: 6px; font-size: 12px;
+            font-family: inherit; margin-bottom: 8px;
+        }
+        .ingest-input:focus { outline: none; border-color: var(--accent); }
+
+        /* CANVAS */
+        .canvas-container {
+            flex: 1; position: relative; overflow: hidden;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(124,58,237,0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(6,182,212,0.03) 0%, transparent 50%),
+                var(--bg);
+        }
+        .canvas {
+            position: absolute; top: 0; left: 0;
+            width: 5000px; height: 5000px; transform-origin: 0 0;
+        }
+        .grid {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* NODES */
+        .node-card {
+            position: absolute; width: 320px; background: var(--panel);
+            border: 1px solid var(--border); border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+            transition: box-shadow 0.2s, border-color 0.2s;
+            display: flex; flex-direction: column;
+        }
+        .node-card:hover { border-color: var(--accent); }
+        .node-card.selected { border-color: var(--accent2); box-shadow: 0 0 0 2px rgba(6,182,212,0.2); }
+        .node-card.error { border-color: var(--error); }
+        .node-header {
+            padding: 10px 14px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 8px; cursor: grab;
+        }
+        .node-header:active { cursor: grabbing; }
+        .node-title {
+            flex: 1; font-size: 13px; font-weight: 500;
+            background: transparent; border: none; color: var(--text);
+            font-family: inherit;
+        }
+        .node-title:focus { outline: none; }
+        .node-actions { display: flex; gap: 4px; }
+        .icon-btn {
+            width: 24px; height: 24px; border-radius: 4px;
+            background: transparent; border: none; color: var(--muted);
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 14px;
+        }
+        .icon-btn:hover { background: var(--border); color: var(--text); }
+        .icon-btn.danger:hover { color: var(--error); }
+
+        .node-body { padding: 0; flex: 1; display: flex; flex-direction: column; }
+        .code-editor {
+            width: 100%; min-height: 80px; max-height: 300px;
+            background: var(--bg); border: none; color: var(--text);
+            padding: 12px; font-size: 12px; line-height: 1.6;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            resize: vertical; outline: none;
+        }
+        .output-panel {
+            max-height: 200px; overflow-y: auto; padding: 10px 14px;
+            border-top: 1px solid var(--border); font-size: 12px;
+            background: rgba(0,0,0,0.2);
+        }
+        .output-empty { color: var(--muted); font-style: italic; }
+        .output-text { white-space: pre-wrap; word-break: break-word; }
+        .output-error { color: var(--error); }
+        .output-plot { max-width: 100%; }
+
+        .node-footer {
+            padding: 6px 14px; border-top: 1px solid var(--border);
+            display: flex; align-items: center; gap: 8px; font-size: 10px; color: var(--muted);
+        }
+        .dep-badge {
+            background: var(--border); padding: 2px 6px; border-radius: 4px;
+            font-size: 10px; cursor: pointer;
+        }
+        .dep-badge:hover { background: var(--accent); color: white; }
+
+        /* CONNECTIONS (SVG overlay) */
+        .connections {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+        .connection-line {
+            fill: none; stroke: var(--accent); stroke-width: 2;
+            opacity: 0.6; transition: opacity 0.2s;
+        }
+        .connection-line:hover { opacity: 1; stroke-width: 3; }
+        .connection-arrow { fill: var(--accent); }
+
+        /* TERMINAL / LOG */
+        .terminal {
+            height: 160px; background: var(--panel); border-top: 1px solid var(--border);
+            display: flex; flex-direction: column; flex-shrink: 0;
+        }
+        .terminal-header {
+            padding: 6px 16px; border-bottom: 1px solid var(--border);
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--muted); display: flex; align-items: center; gap: 8px;
+        }
+        .terminal-body {
+            flex: 1; overflow-y: auto; padding: 8px 16px;
+            font-size: 11px; line-height: 1.5;
+        }
+        .log-entry { margin-bottom: 4px; }
+        .log-time { color: var(--muted); margin-right: 8px; }
+        .log-info { color: var(--accent2); }
+        .log-error { color: var(--error); }
+        .log-success { color: var(--success); }
+        .log-warn { color: var(--warning); }
+
+        /* CONTEXT MENU */
+        .context-menu {
+            position: absolute; background: var(--panel); border: 1px solid var(--border);
+            border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+            z-index: 1000; min-width: 160px; display: none;
+        }
+        .context-menu-item {
+            padding: 8px 14px; font-size: 12px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .context-menu-item:hover { background: var(--border); }
+        .context-menu-item:first-child { border-radius: 8px 8px 0 0; }
+        .context-menu-item:last-child { border-radius: 0 0 8px 8px; }
+        .context-divider { height: 1px; background: var(--border); margin: 4px 0; }
+
+        /* TOOLTIP */
+        .tooltip {
+            position: absolute; background: var(--panel); border: 1px solid var(--border);
+            padding: 6px 10px; border-radius: 6px; font-size: 11px;
+            pointer-events: none; z-index: 1000; display: none;
+            max-width: 300px;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+        /* ANIMATIONS */
+        @keyframes nodeAppear {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .node-card { animation: nodeAppear 0.2s ease-out; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <h1>◈ SEMANTIC TOPOLOGY ENGINE</h1>
+        <span class="status loading" id="pyodide-status">Loading Pyodide...</span>
+        <div class="spacer"></div>
+        <button class="btn" onclick="engine.addNode()">+ Node</button>
+        <button class="btn" onclick="engine.runAll()">▶ Run All</button>
+        <button class="btn" onclick="engine.exportPy()">Export .py</button>
+        <button class="btn" onclick="engine.exportHTML()">Export .html</button>
+        <button class="btn primary" onclick="engine.compress()">Compress</button>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <h3>Topology</h3>
+                <div class="node-list" id="node-list"></div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Ingest</h3>
+                <input type="text" class="ingest-input" id="ingest-url" 
+                       placeholder="URL or paste Python code..." 
+                       onkeydown="if(event.key==='Enter') engine.ingest()">
+                <button class="btn" style="width:100%" onclick="engine.ingest()">Ingest Source</button>
+            </div>
+            <div class="sidebar-section">
+                <h3>Stats</h3>
+                <div style="font-size:12px; color:var(--muted); line-height:1.8;">
+                    Nodes: <span id="stat-nodes">0</span><br>
+                    Edges: <span id="stat-edges">0</span><br>
+                    Status: <span id="stat-status">Idle</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CANVAS -->
+        <div class="canvas-container" id="canvas-container">
+            <div class="canvas" id="canvas">
+                <div class="grid"></div>
+                <svg class="connections" id="connections"></svg>
+                <div id="nodes-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="terminal">
+        <div class="terminal-header">
+            <span>◉ Terminal</span>
+            <div class="spacer"></div>
+            <button class="icon-btn" onclick="engine.clearLog()" title="Clear">✕</button>
+        </div>
+        <div class="terminal-body" id="terminal"></div>
+    </div>
+
+    <!-- CONTEXT MENU -->
+    <div class="context-menu" id="context-menu">
+        <div class="context-menu-item" onclick="engine.addNodeAtContext()">
+            <span>+</span> Add Node
+        </div>
+        <div class="context-menu-item" onclick="engine.pasteNodeAtContext()">
+            <span>📋</span> Paste
+        </div>
+        <div class="context-divider"></div>
+        <div class="context-menu-item" onclick="engine.resetView()">
+            <span>⌖</span> Reset View
+        </div>
+    </div>
+
+    <!-- TOOLTIP -->
+    <div class="tooltip" id="tooltip"></div>
+
+<script>
+/**
+ * SEMANTIC TOPOLOGY ENGINE — Core Implementation
+ * 
+ * Architecture:
+ * - Field: Main container, manages Pyodide, persistence, UI
+ * - Topology: Graph of Nodes and Edges
+ * - Node: Computation unit with code, state, outputs
+ * - Edge: Reactive dependency between nodes
+ * - Sandbox: Pyodide WASM execution environment
+ */
+
+class Node {
+    constructor(id, x, y, name = 'Untitled') {
+        this.id = id;
+        this.name = name;
+        this.code = '# Enter Python code\n';
+        this.x = x;
+        this.y = y;
+        this.state = {};
+        this.outputs = [];
+        this.status = 'stale'; // stale | running | error | clean
+        this.dependencies = new Set();
+        this.dependents = new Set();
+        this.executionOrder = 0;
+        this.element = null;
+        this.outputElement = null;
+    }
+
+    addDependency(nodeId) { this.dependencies.add(nodeId); }
+    removeDependency(nodeId) { this.dependencies.delete(nodeId); }
+    addDependent(nodeId) { this.dependents.add(nodeId); }
+    removeDependent(nodeId) { this.dependents.delete(nodeId); }
+}
+
+class Edge {
+    constructor(source, target, variables = []) {
+        this.source = source;
+        this.target = target;
+        this.variables = variables;
+        this.id = `${source}->${target}`;
+    }
+}
+
+class Topology {
+    constructor() {
+        this.nodes = new Map();
+        this.edges = new Map();
+        this.nextId = 1;
+    }
+
+    addNode(node) {
+        this.nodes.set(node.id, node);
+        return node;
+    }
+
+    removeNode(nodeId) {
+        const node = this.nodes.get(nodeId);
+        if (!node) return;
+
+        // Remove edges
+        for (const depId of node.dependencies) {
+            this.removeEdge(depId, nodeId);
+        }
+        for (const depId of node.dependents) {
+            this.removeEdge(nodeId, depId);
+        }
+
+        this.nodes.delete(nodeId);
+    }
+
+    addEdge(sourceId, targetId, variables = []) {
+        const edge = new Edge(sourceId, targetId, variables);
+        this.edges.set(edge.id, edge);
+
+        const source = this.nodes.get(sourceId);
+        const target = this.nodes.get(targetId);
+        if (source) source.addDependent(targetId);
+        if (target) target.addDependency(sourceId);
+
+        return edge;
+    }
+
+    removeEdge(sourceId, targetId) {
+        const id = `${sourceId}->${targetId}`;
+        const edge = this.edges.get(id);
+        if (!edge) return;
+
+        const source = this.nodes.get(sourceId);
+        const target = this.nodes.get(targetId);
+        if (source) source.removeDependent(targetId);
+        if (target) target.removeDependency(sourceId);
+
+        this.edges.delete(id);
+    }
+
+    // Topological sort for execution order
+    getExecutionOrder(startNodeId = null) {
+        const visited = new Set();
+        const visiting = new Set();
+        const order = [];
+
+        const visit = (nodeId) => {
+            if (visiting.has(nodeId)) {
+                throw new Error(`Cycle detected at node ${nodeId}`);
+            }
+            if (visited.has(nodeId)) return;
+
+            visiting.add(nodeId);
+            const node = this.nodes.get(nodeId);
+            if (node) {
+                for (const depId of node.dependencies) {
+                    visit(depId);
+                }
+            }
+            visiting.delete(nodeId);
+            visited.add(nodeId);
+            order.push(nodeId);
+        };
+
+        if (startNodeId) {
+            visit(startNodeId);
+            // Also visit all dependents transitively
+            const toVisit = new Set([startNodeId]);
+            const visitedDependents = new Set();
+            while (toVisit.size > 0) {
+                const current = Array.from(toVisit).pop();
+                toVisit.delete(current);
+                if (visitedDependents.has(current)) continue;
+                visitedDependents.add(current);
+
+                const node = this.nodes.get(current);
+                if (node) {
+                    for (const depId of node.dependents) {
+                        visit(depId);
+                        toVisit.add(depId);
+                    }
+                }
+            }
+        } else {
+            for (const [id, node] of this.nodes) {
+                if (!visited.has(id)) visit(id);
+            }
+        }
+
+        return order;
+    }
+
+    // Get all transitive dependents
+    getDependents(nodeId, includeSelf = false) {
+        const result = includeSelf ? new Set([nodeId]) : new Set();
+        const queue = [nodeId];
+        const visited = new Set();
+
+        while (queue.length > 0) {
+            const current = queue.shift();
+            if (visited.has(current)) continue;
+            visited.add(current);
+
+            const node = this.nodes.get(current);
+            if (node) {
+                for (const depId of node.dependents) {
+                    result.add(depId);
+                    queue.push(depId);
+                }
+            }
+        }
+
+        return Array.from(result);
+    }
+
+    // Detect cycles
+    hasCycle() {
+        try {
+            this.getExecutionOrder();
+            return false;
+        } catch (e) {
+            return true;
+        }
+    }
+}
+
+class Field {
+    constructor() {
+        this.topology = new Topology();
+        this.pyodide = null;
+        this.pyodideReady = false;
+        this.selectedNode = null;
+        this.draggedNode = null;
+        this.dragOffset = { x: 0, y: 0 };
+        this.canvasOffset = { x: 0, y: 0 };
+        this.isPanning = false;
+        this.panStart = { x: 0, y: 0 };
+        this.clipboard = null;
+        this.logEntries = [];
+        this.maxLogEntries = 500;
+
+        // Initialize
+        this.initPyodide();
+        this.initUI();
+        this.loadFromStorage();
+    }
+
+    async initPyodide() {
+        this.log('Loading Pyodide WASM runtime...', 'info');
+        try {
+            this.pyodide = await loadPyodide({
+                stdout: (text) => this.log(text, 'info'),
+                stderr: (text) => this.log(text, 'error'),
+            });
+
+            // Install common packages
+            await this.pyodide.loadPackage(['numpy', 'pandas', 'matplotlib']);
+
+            this.pyodideReady = true;
+            document.getElementById('pyodide-status').textContent = 'Pyodide Ready';
+            document.getElementById('pyodide-status').className = 'status ready';
+            this.log('Pyodide loaded. numpy, pandas, matplotlib available.', 'success');
+
+            // Run any stale nodes
+            this.runAll();
+        } catch (err) {
+            this.log(`Pyodide load failed: ${err.message}`, 'error');
+            document.getElementById('pyodide-status').textContent = 'Pyodide Failed';
+            document.getElementById('pyodide-status').style.color = 'var(--error)';
+        }
+    }
+
+    initUI() {
+        const canvas = document.getElementById('canvas-container');
+        const contextMenu = document.getElementById('context-menu');
+
+        // Canvas panning
+        canvas.addEventListener('mousedown', (e) => {
+            if (e.target === canvas || e.target.classList.contains('grid')) {
+                this.isPanning = true;
+                this.panStart = { x: e.clientX, y: e.clientY };
+                canvas.style.cursor = 'grabbing';
+            }
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (this.isPanning) {
+                const dx = e.clientX - this.panStart.x;
+                const dy = e.clientY - this.panStart.y;
+                this.canvasOffset.x += dx;
+                this.canvasOffset.y += dy;
+                this.panStart = { x: e.clientX, y: e.clientY };
+                this.updateCanvasTransform();
+            }
+            if (this.draggedNode) {
+                const node = this.topology.nodes.get(this.draggedNode);
+                if (node) {
+                    node.x = e.clientX - this.canvasOffset.x - this.dragOffset.x;
+                    node.y = e.clientY - this.canvasOffset.y - this.dragOffset.y;
+                    this.updateNodePosition(node);
+                    this.drawConnections();
+                }
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            this.isPanning = false;
+            this.draggedNode = null;
+            canvas.style.cursor = 'default';
+        });
+
+        // Context menu
+        canvas.addEventListener('contextmenu', (e) => {
+            if (e.target === canvas || e.target.classList.contains('grid')) {
+                e.preventDefault();
+                this.contextMenuPos = { 
+                    x: e.clientX - this.canvasOffset.x, 
+                    y: e.clientY - this.canvasOffset.y 
+                };
+                contextMenu.style.left = e.clientX + 'px';
+                contextMenu.style.top = e.clientY + 'px';
+                contextMenu.style.display = 'block';
+            }
+        });
+
+        window.addEventListener('click', (e) => {
+            if (!e.target.closest('.context-menu')) {
+                contextMenu.style.display = 'none';
+            }
+        });
+
+        // Keyboard shortcuts
+        window.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+                e.preventDefault();
+                if (this.selectedNode) this.runNode(this.selectedNode);
+            }
+            if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
+                e.preventDefault();
+                this.addNode();
+            }
+            if (e.key === 'Delete' && this.selectedNode) {
+                this.removeNode(this.selectedNode);
+            }
+        });
+
+        // Initial canvas position
+        this.canvasOffset = { x: 50, y: 50 };
+        this.updateCanvasTransform();
+    }
+
+    updateCanvasTransform() {
+        const canvas = document.getElementById('canvas');
+        canvas.style.transform = `translate(${this.canvasOffset.x}px, ${this.canvasOffset.y}px)`;
+    }
+
+    // === NODE MANAGEMENT ===
+
+    addNode(x = null, y = null, name = null, code = null) {
+        const id = `n${this.topology.nextId++}`;
+        const nodeX = x !== null ? x : 100 + (this.topology.nodes.size * 30);
+        const nodeY = y !== null ? y : 100 + (this.topology.nodes.size * 20);
+        const nodeName = name || `Node ${this.topology.nextId - 1}`;
+
+        const node = new Node(id, nodeX, nodeY, nodeName);
+        if (code) node.code = code;
+
+        this.topology.addNode(node);
+        this.renderNode(node);
+        this.updateSidebar();
+        this.saveToStorage();
+
+        this.log(`Created node: ${nodeName}`, 'success');
+        return node;
+    }
+
+    addNodeAtContext() {
+        if (this.contextMenuPos) {
+            this.addNode(this.contextMenuPos.x, this.contextMenuPos.y);
+        }
+        document.getElementById('context-menu').style.display = 'none';
+    }
+
+    pasteNodeAtContext() {
+        if (this.clipboard && this.contextMenuPos) {
+            const newNode = this.addNode(
+                this.contextMenuPos.x, 
+                this.contextMenuPos.y,
+                this.clipboard.name + ' (copy)',
+                this.clipboard.code
+            );
+            newNode.state = JSON.parse(JSON.stringify(this.clipboard.state));
+        }
+        document.getElementById('context-menu').style.display = 'none';
+    }
+
+    removeNode(nodeId) {
+        const node = this.topology.nodes.get(nodeId);
+        if (!node) return;
+
+        if (node.element) node.element.remove();
+        this.topology.removeNode(nodeId);
+
+        if (this.selectedNode === nodeId) this.selectedNode = null;
+        this.drawConnections();
+        this.updateSidebar();
+        this.saveToStorage();
+
+        this.log(`Removed node: ${node.name}`, 'warn');
+    }
+
+    renderNode(node) {
+        const container = document.getElementById('nodes-container');
+
+        const card = document.createElement('div');
+        card.className = 'node-card';
+        card.id = `card-${node.id}`;
+        card.style.left = node.x + 'px';
+        card.style.top = node.y + 'px';
+
+        card.innerHTML = `
+            <div class="node-header" onmousedown="engine.startDrag(event, '${node.id}')">
+                <div class="dot ${node.status}" id="dot-${node.id}"></div>
+                <input type="text" class="node-title" value="${node.name}" 
+                       onchange="engine.renameNode('${node.id}', this.value)"
+                       onclick="event.stopPropagation()">
+                <div class="node-actions">
+                    <button class="icon-btn" onclick="engine.runNode('${node.id}'); event.stopPropagation();" title="Run">▶</button>
+                    <button class="icon-btn" onclick="engine.copyNode('${node.id}'); event.stopPropagation();" title="Copy">📋</button>
+                    <button class="icon-btn danger" onclick="engine.removeNode('${node.id}'); event.stopPropagation();" title="Delete">🗑</button>
+                </div>
+            </div>
+            <div class="node-body">
+                <textarea class="code-editor" id="code-${node.id}" 
+                          onkeydown="engine.handleCodeKey(event, '${node.id}')"
+                          onchange="engine.markStale('${node.id}')">${node.code}</textarea>
+                <div class="output-panel" id="output-${node.id}">
+                    <div class="output-empty">Run to see output...</div>
+                </div>
+            </div>
+            <div class="node-footer" id="footer-${node.id}">
+                <span>Deps:</span>
+                <span id="deps-${node.id}">none</span>
+            </div>
+        `;
+
+        card.addEventListener('click', () => this.selectNode(node.id));
+
+        container.appendChild(card);
+        node.element = card;
+        node.outputElement = document.getElementById(`output-${node.id}`);
+    }
+
+    updateNodePosition(node) {
+        if (node.element) {
+            node.element.style.left = node.x + 'px';
+            node.element.style.top = node.y + 'px';
+        }
+    }
+
+    selectNode(nodeId) {
+        // Deselect previous
+        if (this.selectedNode) {
+            const prev = document.getElementById(`card-${this.selectedNode}`);
+            if (prev) prev.classList.remove('selected');
+        }
+
+        this.selectedNode = nodeId;
+        const card = document.getElementById(`card-${nodeId}`);
+        if (card) card.classList.add('selected');
+
+        this.updateSidebar();
+    }
+
+    renameNode(nodeId, newName) {
+        const node = this.topology.nodes.get(nodeId);
+        if (node) {
+            node.name = newName;
+            this.updateSidebar();
+            this.saveToStorage();
+        }
+    }
+
+    copyNode(nodeId) {
+        const node = this.topology.nodes.get(nodeId);
+        if (node) {
+            this.clipboard = {
+                name: node.name,
+                code: node.code,
+                state: JSON.parse(JSON.stringify(node.state))
+            };
+            this.log(`Copied node: ${node.name}`, 'info');
+        }
+    }
+
+    startDrag(e, nodeId) {
+        e.stopPropagation();
+        this.draggedNode = nodeId;
+        const node = this.topology.nodes.get(nodeId);
+        if (node) {
+            this.dragOffset = {
+                x: e.clientX - this.canvasOffset.x - node.x,
+                y: e.clientY - this.canvasOffset.y - node.y
+            };
+        }
+    }
+
+    handleCodeKey(e, nodeId) {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+            e.preventDefault();
+            this.runNode(nodeId);
+        }
+    }
+
+    markStale(nodeId) {
+        const node = this.topology.nodes.get(nodeId);
+        if (!node || node.status === 'stale') return;
+
+        node.status = 'stale';
+        this.updateNodeStatus(node);
+
+        // Mark all dependents as stale
+        const dependents = this.topology.getDependents(nodeId);
+        for (const depId of dependents) {
+            const dep = this.topology.nodes.get(depId);
+            if (dep) {
+                dep.status = 'stale';
+                this.updateNodeStatus(dep);
+            }
+        }
+
+        this.updateSidebar();
+        this.saveToStorage();
+    }
+
+    updateNodeStatus(node) {
+        const dot = document.getElementById(`dot-${node.id}`);
+        if (dot) {
+            dot.className = `dot ${node.status}`;
+        }
+    }
+
+    updateNodeFooter(node) {
+        const depsEl = document.getElementById(`deps-${node.id}`);
+        if (depsEl) {
+            const deps = Array.from(node.dependencies);
+            depsEl.innerHTML = deps.length > 0 
+                ? deps.map(d => `<span class="dep-badge">${d}</span>`).join('')
+                : 'none';
+        }
+    }
+
+    // === EXECUTION ===
+
+    async runNode(nodeId) {
+        if (!this.pyodideReady) {
+            this.log('Pyodide not ready yet', 'error');
+            return;
+        }
+
+        const node = this.topology.nodes.get(nodeId);
+        if (!node) return;
+
+        // Get execution order (dependencies first)
+        let order;
+        try {
+            order = this.topology.getExecutionOrder(nodeId);
+        } catch (e) {
+            this.log(`Cycle detected! Cannot run.`, 'error');
+            node.status = 'error';
+            this.updateNodeStatus(node);
+            return;
+        }
+
+        // Filter to only stale nodes and their dependencies
+        const toRun = order.filter(id => {
+            const n = this.topology.nodes.get(id);
+            return n && (n.status === 'stale' || n.status === 'error');
+        });
+
+        if (toRun.length === 0) {
+            this.log(`${node.name} is already up to date`, 'info');
+            return;
+        }
+
+        this.log(`Running ${toRun.length} node(s)...`, 'info');
+
+        for (const id of toRun) {
+            await this.executeNode(id);
+        }
+
+        this.drawConnections();
+        this.saveToStorage();
+    }
+
+    async runAll() {
+        if (!this.pyodideReady) {
+            this.log('Pyodide not ready yet', 'error');
+            return;
+        }
+
+        let order;
+        try {
+            order = this.topology.getExecutionOrder();
+        } catch (e) {
+            this.log(`Cycle detected in topology!`, 'error');
+            return;
+        }
+
+        this.log(`Running all ${order.length} nodes...`, 'info');
+
+        for (const id of order) {
+            await this.executeNode(id);
+        }
+
+        this.drawConnections();
+        this.saveToStorage();
+    }
+
+    async executeNode(nodeId) {
+        const node = this.topology.nodes.get(nodeId);
+        if (!node) return;
+
+        node.status = 'running';
+        this.updateNodeStatus(node);
+        this.updateSidebar();
+
+        const code = document.getElementById(`code-${nodeId}`).value;
+        node.code = code;
+
+        try {
+            // Build execution context with dependencies' states
+            let contextCode = '';
+
+            for (const depId of node.dependencies) {
+                const dep = this.topology.nodes.get(depId);
+                if (dep && dep.state) {
+                    for (const [key, value] of Object.entries(dep.state)) {
+                        if (key.startsWith('_')) continue; // Skip private
+                        try {
+                            const jsonVal = JSON.stringify(value);
+                            contextCode += `${key} = __import__('json').loads('${jsonVal}')\n`;
+                        } catch (e) {
+                            // Can't serialize, skip
+                        }
+                    }
+                }
+            }
+
+            // Wrap user code to capture outputs
+            const wrappedCode = `
+import sys
+import json
+from io import StringIO
+
+__output = []
+__figures = []
+
+# Capture stdout
+__old_stdout = sys.stdout
+__buf = StringIO()
+sys.stdout = __buf
+
+# Capture matplotlib figures
+__old_show = None
+try:
+    import matplotlib.pyplot as plt
+    __old_show = plt.show
+    def __capture_show(*args, **kwargs):
+        import base64
+        from io import BytesIO
+        buf = BytesIO()
+        plt.savefig(buf, format='png', bbox_inches='tight')
+        buf.seek(0)
+        img = base64.b64encode(buf.read()).decode()
+        __figures.append(f'data:image/png;base64,{img}')
+        plt.close()
+    plt.show = __capture_show
+except ImportError:
+    pass
+
+${contextCode}
+
+${code}
+
+sys.stdout = __old_stdout
+if __old_show:
+    plt.show = __old_show
+
+# Capture variables
+__vars = {}
+for __name in list(locals().keys()):
+    if not __name.startswith('_') and __name not in ['sys', 'json', 'StringIO', 'plt', 'base64', 'BytesIO']:
+        try:
+            __vars[__name] = locals()[__name]
+        except:
+            pass
+
+print('__FIELD_OUTPUT__' + json.dumps({
+    'stdout': __buf.getvalue(),
+    'variables': __vars,
+    'figures': __figures
+}))
+`;
+
+            const result = this.pyodide.runPython(wrappedCode);
+
+            // Parse output
+            let outputData = { stdout: '', variables: {}, figures: [] };
+            const outputStr = result || '';
+            const marker = '__FIELD_OUTPUT__';
+            const idx = outputStr.indexOf(marker);
+
+            if (idx !== -1) {
+                const jsonStr = outputStr.substring(idx + marker.length);
+                try {
+                    outputData = JSON.parse(jsonStr);
+                } catch (e) {
+                    this.log(`Parse error: ${e.message}`, 'error');
+                }
+
+                // Show stdout before marker
+                const preStdout = outputStr.substring(0, idx).trim();
+                if (preStdout) {
+                    this.log(`[${node.name}] ${preStdout}`, 'info');
+                }
+            } else {
+                outputData.stdout = outputStr;
+            }
+
+            // Update node state
+            node.state = outputData.variables || {};
+            node.outputs = [];
+
+            // Render outputs
+            const outputPanel = document.getElementById(`output-${nodeId}`);
+            let outputHTML = '';
+
+            if (outputData.stdout && outputData.stdout.trim()) {
+                outputHTML += `<div class="output-text">${this.escapeHtml(outputData.stdout)}</div>`;
+            }
+
+            if (outputData.figures && outputData.figures.length > 0) {
+                for (const fig of outputData.figures) {
+                    outputHTML += `<img src="${fig}" class="output-plot" style="max-width:100%;margin-top:8px;">`;
+                }
+            }
+
+            // Show variable summary
+            const varNames = Object.keys(node.state);
+            if (varNames.length > 0) {
+                outputHTML += `<div style="margin-top:8px;color:var(--muted);font-size:10px;">Vars: ${varNames.join(', ')}</div>`;
+            }
+
+            outputPanel.innerHTML = outputHTML || '<div class="output-empty">No output</div>';
+
+            node.status = 'clean';
+            this.updateNodeStatus(node);
+            this.updateNodeFooter(node);
+
+            this.log(`${node.name} executed successfully`, 'success');
+
+        } catch (err) {
+            node.status = 'error';
+            this.updateNodeStatus(node);
+
+            const outputPanel = document.getElementById(`output-${nodeId}`);
+            outputPanel.innerHTML = `<div class="output-error">${this.escapeHtml(err.message)}</div>`;
+
+            this.log(`${node.name} error: ${err.message}`, 'error');
+        }
+
+        this.updateSidebar();
+    }
+
+    // === CONNECTIONS ===
+
+    drawConnections() {
+        const svg = document.getElementById('connections');
+        svg.innerHTML = '';
+
+        for (const [id, edge] of this.topology.edges) {
+            const source = this.topology.nodes.get(edge.source);
+            const target = this.topology.nodes.get(edge.target);
+            if (!source || !target || !source.element || !target.element) continue;
+
+            const sx = source.x + 320; // right edge
+            const sy = source.y + 40;  // mid height
+            const tx = target.x;       // left edge
+            const ty = target.y + 40;
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+
+            // Bezier curve
+            const c1x = sx + 50;
+            const c1y = sy;
+            const c2x = tx - 50;
+            const c2y = ty;
+
+            const d = `M ${sx} ${sy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${tx} ${ty}`;
+            path.setAttribute('d', d);
+            path.setAttribute('class', 'connection-line');
+            path.setAttribute('id', `conn-${id}`);
+
+            svg.appendChild(path);
+        }
+    }
+
+    // === INGESTION ===
+
+    async ingest() {
+        const input = document.getElementById('ingest-url').value.trim();
+        if (!input) return;
+
+        this.log(`Ingesting: ${input.substring(0, 50)}...`, 'info');
+
+        // Check if it's a URL
+        if (input.startsWith('http')) {
+            try {
+                const response = await fetch(input);
+                const text = await response.text();
+                this.createNodeFromCode(text, `Ingested: ${input.split('/').pop()}`);
+            } catch (err) {
+                this.log(`Fetch failed: ${err.message}`, 'error');
+                // Fallback: create node with URL as comment
+                this.createNodeFromCode(`# Source: ${input}\n# (Fetch failed - paste manually)`, 'Ingest Failed');
+            }
+        } else {
+            // Treat as raw code
+            this.createNodeFromCode(input, 'Pasted Code');
+        }
+
+        document.getElementById('ingest-url').value = '';
+    }
+
+    createNodeFromCode(code, name) {
+        const node = this.addNode(null, null, name, code);
+        // Try to auto-detect dependencies from code
+        this.detectDependencies(node);
+        return node;
+    }
+
+    detectDependencies(node) {
+        // Simple heuristic: look for variable names that match other nodes' outputs
+        const code = node.code;
+        for (const [id, other] of this.topology.nodes) {
+            if (id === node.id) continue;
+            for (const varName of Object.keys(other.state)) {
+                const regex = new RegExp(`\\b${varName}\\b`, 'g');
+                if (regex.test(code) && !node.dependencies.has(id)) {
+                    this.topology.addEdge(id, node.id, [varName]);
+                    this.log(`Auto-linked: ${other.name} -> ${node.name} (var: ${varName})`, 'info');
+                }
+            }
+        }
+        this.drawConnections();
+        this.updateNodeFooter(node);
+    }
+
+    // === COMPRESSION (Gistify-style) ===
+
+    compress() {
+        this.log('Starting compression...', 'info');
+
+        const nodes = Array.from(this.topology.nodes.values());
+        const activeNodes = nodes.filter(n => n.status !== 'error');
+        const deadNodes = nodes.filter(n => n.status === 'error' || (n.status === 'stale' && n.dependencies.size === 0));
+
+        this.log(`Active: ${activeNodes.length}, Dead: ${deadNodes.length}`, 'info');
+
+        // Archive dead nodes (don't delete, just hide)
+        for (const node of deadNodes) {
+            if (node.element) {
+                node.element.style.opacity = '0.3';
+                node.element.style.filter = 'grayscale(100%)';
+            }
+            this.log(`Archived: ${node.name}`, 'warn');
+        }
+
+        // Re-layout active nodes
+        let x = 100, y = 100;
+        for (const node of activeNodes) {
+            if (node.element) {
+                node.element.style.opacity = '1';
+                node.element.style.filter = 'none';
+            }
+            node.x = x;
+            node.y = y;
+            this.updateNodePosition(node);
+            x += 360;
+            if (x > 1500) { x = 100; y += 300; }
+        }
+
+        this.drawConnections();
+        this.saveToStorage();
+
+        this.log('Compression complete', 'success');
+    }
+
+    // === EXPORT ===
+
+    exportPy() {
+        let py = `# /// script\n# requires-python = ">=3.11"\n# dependencies = ["numpy", "pandas", "matplotlib"]\n# ///\n\n`;
+        py += `# Semantic Topology Engine Export\n# Generated: ${new Date().toISOString()}\n\n`;
+        py += `import marimo as mo\n\n`;
+
+        // Get execution order
+        let order;
+        try {
+            order = this.topology.getExecutionOrder();
+        } catch (e) {
+            this.log('Cannot export: cycle detected', 'error');
+            return;
+        }
+
+        for (let i = 0; i < order.length; i++) {
+            const node = this.topology.nodes.get(order[i]);
+            if (!node) continue;
+
+            py += `# Cell ${i + 1}: ${node.name}\n`;
+            py += node.code + '\n\n';
+        }
+
+        this.downloadFile(py, 'topology.py', 'text/x-python');
+        this.log('Exported to topology.py', 'success');
+    }
+
+    exportHTML() {
+        // Export as self-contained WASM HTML
+        const html = `<!DOCTYPE html>
+<html>
+<head><title>Field Export</title>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js"><\/script>
+<style>body{font-family:monospace;background:#0a0a0f;color:#e0e0e0;padding:20px;}</style>
+</head>
+<body>
+<h1>Exported Topology</h1>
+<div id="output"></div>
+<script>
+async function run() {
+    const pyodide = await loadPyodide();
+    await pyodide.loadPackage(['numpy','pandas','matplotlib']);
+    const code = \`${this.escapeJs(this.getAllCode())}\`;
+    const result = pyodide.runPython(code);
+    document.getElementById('output').innerHTML = '<pre>' + result + '</pre>';
+}
+run();
+<\/script>
+</body>
+</html>`;
+
+        this.downloadFile(html, 'field.html', 'text/html');
+        this.log('Exported to field.html', 'success');
+    }
+
+    getAllCode() {
+        let order;
+        try {
+            order = this.topology.getExecutionOrder();
+        } catch (e) {
+            return '# Error: cycle detected';
+        }
+
+        let code = '';
+        for (const id of order) {
+            const node = this.topology.nodes.get(id);
+            if (node) code += `# ${node.name}
+${node.code}
+
+`;
+        }
+        return code;
+    }
+
+    downloadFile(content, filename, mimeType) {
+        const blob = new Blob([content], { type: mimeType });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // === PERSISTENCE ===
+
+    saveToStorage() {
+        const data = {
+            version: '0.1',
+            nodes: {},
+            edges: {},
+            nextId: this.topology.nextId,
+            canvasOffset: this.canvasOffset
+        };
+
+        for (const [id, node] of this.topology.nodes) {
+            data.nodes[id] = {
+                id: node.id,
+                name: node.name,
+                code: node.code,
+                x: node.x,
+                y: node.y,
+                state: node.state,
+                status: node.status,
+                dependencies: Array.from(node.dependencies),
+                dependents: Array.from(node.dependents)
+            };
+        }
+
+        for (const [id, edge] of this.topology.edges) {
+            data.edges[id] = {
+                source: edge.source,
+                target: edge.target,
+                variables: edge.variables
+            };
+        }
+
+        localStorage.setItem('field_topology', JSON.stringify(data));
+    }
+
+    loadFromStorage() {
+        const saved = localStorage.getItem('field_topology');
+        if (!saved) {
+            // Create demo nodes
+            this.addNode(100, 100, 'Load Data', 'import pandas as pd\nimport numpy as np\n\ndf = pd.DataFrame({\n    "x": np.linspace(0, 10, 100),\n    "y": np.sin(np.linspace(0, 10, 100))\n})');
+            this.addNode(500, 100, 'Plot', 'import matplotlib.pyplot as plt\n\nplt.figure(figsize=(8, 4))\nplt.plot(df["x"], df["y"])\nplt.title("Sine Wave")\nplt.show()');
+            this.addNode(900, 100, 'Stats', 'mean_y = df["y"].mean()\nstd_y = df["y"].std()\nprint(f"Mean: {mean_y:.4f}, Std: {std_y:.4f}")');
+
+            // Create edges
+            const nodes = Array.from(this.topology.nodes.values());
+            if (nodes.length >= 2) {
+                this.topology.addEdge(nodes[0].id, nodes[1].id, ['df']);
+                this.topology.addEdge(nodes[0].id, nodes[2].id, ['df']);
+            }
+
+            this.drawConnections();
+            for (const node of nodes) this.updateNodeFooter(node);
+            return;
+        }
+
+        try {
+            const data = JSON.parse(saved);
+            this.topology.nextId = data.nextId || 1;
+            if (data.canvasOffset) this.canvasOffset = data.canvasOffset;
+
+            // Restore nodes
+            for (const [id, nodeData] of Object.entries(data.nodes)) {
+                const node = new Node(id, nodeData.x, nodeData.y, nodeData.name);
+                node.code = nodeData.code;
+                node.state = nodeData.state || {};
+                node.status = nodeData.status || 'stale';
+                node.dependencies = new Set(nodeData.dependencies || []);
+                node.dependents = new Set(nodeData.dependents || []);
+                this.topology.addNode(node);
+                this.renderNode(node);
+                this.updateNodeStatus(node);
+                this.updateNodeFooter(node);
+            }
+
+            // Restore edges
+            for (const [id, edgeData] of Object.entries(data.edges)) {
+                this.topology.addEdge(edgeData.source, edgeData.target, edgeData.variables);
+            }
+
+            this.drawConnections();
+            this.updateCanvasTransform();
+            this.log('Loaded saved topology', 'success');
+        } catch (e) {
+            this.log(`Load failed: ${e.message}`, 'error');
+        }
+    }
+
+    // === UI HELPERS ===
+
+    updateSidebar() {
+        const list = document.getElementById('node-list');
+        list.innerHTML = '';
+
+        for (const [id, node] of this.topology.nodes) {
+            const item = document.createElement('div');
+            item.className = 'node-item' + (this.selectedNode === id ? ' active' : '');
+            item.innerHTML = `
+                <div class="dot ${node.status}"></div>
+                <span class="node-name">${node.name}</span>
+                <span class="node-deps">${node.dependencies.size}→${node.dependents.size}</span>
+            `;
+            item.onclick = () => {
+                this.selectNode(id);
+                // Center on node
+                const card = document.getElementById(`card-${id}`);
+                if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            };
+            list.appendChild(item);
+        }
+
+        document.getElementById('stat-nodes').textContent = this.topology.nodes.size;
+        document.getElementById('stat-edges').textContent = this.topology.edges.size;
+
+        const running = Array.from(this.topology.nodes.values()).filter(n => n.status === 'running').length;
+        document.getElementById('stat-status').textContent = running > 0 ? `Running ${running}...` : 'Idle';
+    }
+
+    log(message, type = 'info') {
+        const time = new Date().toLocaleTimeString();
+        const entry = { time, message, type };
+        this.logEntries.push(entry);
+        if (this.logEntries.length > this.maxLogEntries) {
+            this.logEntries.shift();
+        }
+
+        const terminal = document.getElementById('terminal');
+        const div = document.createElement('div');
+        div.className = `log-entry log-${type}`;
+        div.innerHTML = `<span class="log-time">${time}</span>${this.escapeHtml(message)}`;
+        terminal.appendChild(div);
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    clearLog() {
+        this.logEntries = [];
+        document.getElementById('terminal').innerHTML = '';
+    }
+
+    resetView() {
+        this.canvasOffset = { x: 50, y: 50 };
+        this.updateCanvasTransform();
+        document.getElementById('context-menu').style.display = 'none';
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    escapeJs(str) {
+        return str.replace(/[\`$]/g, '\$&');
+    }
+}
+
+// Initialize
+const engine = new Field();
+</script>
+</body>
+</html>

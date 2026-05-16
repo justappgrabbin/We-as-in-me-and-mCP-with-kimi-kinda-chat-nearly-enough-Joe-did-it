@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#0a0e1a" />
+  <title>Synthia OS | Autopoietic Operating System</title>
+  <link rel="stylesheet" href="css/os.css" />
+</head>
+<body>
+  <!-- Desktop Background -->
+  <div id="desktop"></div>
+
+  <!-- Menu Bar -->
+  <div id="menu-bar">
+    <div class="menu-logo">
+      <div class="logo-icon">🧬</div>
+      <span>Synthia OS</span>
+    </div>
+    <button class="menu-item" data-action="sandbox">System</button>
+    <button class="menu-item" data-action="files">Files</button>
+    <button class="menu-item" data-action="settings">Settings</button>
+    <div class="menu-right">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span id="vitality-text">75%</span>
+      </div>
+      <button class="menu-btn" data-action="sandbox" title="Sandbox">🧬</button>
+      <button class="menu-btn" data-action="settings" title="Settings">⚙️</button>
+    </div>
+  </div>
+
+  <!-- App Windows Container -->
+  <div id="windows-container"></div>
+
+  <!-- Sandbox Center (Admin Panel) -->
+  <div id="sandbox-center">
+    <div class="sandbox-header">
+      <div class="sandbox-title"><span>🧬</span><span>Sandbox Center</span></div>
+      <button class="menu-btn" data-action="hide-sandbox">✕</button>
+    </div>
+    <div class="sandbox-body" id="sandbox-body"></div>
+  </div>
+
+  <!-- App Dock -->
+  <div id="app-dock">
+    <div class="dock-container" id="dock-container"></div>
+  </div>
+
+  <!-- Drop Zone -->
+  <div id="drop-zone">
+    <div class="drop-zone-content">
+      <div class="icon">📥</div>
+      <div class="title">Drop Files to Ingest</div>
+      <div class="subtitle">The system will analyze, understand, and regenerate</div>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div id="context-menu"></div>
+
+  <!-- Modal Overlay -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">Title</div>
+        <button class="modal-close" data-action="hide-modal">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Hidden File Input -->
+  <input type="file" id="file-input" multiple style="display:none" />
+
+  <!-- Load JS modules -->
+  <script src="js/config.js"></script>
+  <script src="js/generator.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/os.js"></script>
+</body>
+</html>

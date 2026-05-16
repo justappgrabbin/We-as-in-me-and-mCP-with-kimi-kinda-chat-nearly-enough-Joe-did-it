@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <title>MRNN OS | Living Graph</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/@xyflow/react@12.0.0/dist/umd/index.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@xyflow/react@12.0.0/dist/style.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    :root {
+      --bg-deep: #0a0e1a; --bg-surface: #0f172a; --bg-elevated: #1e293b;
+      --border: rgba(75,85,99,0.4); --text-primary: #e5e7eb; --text-secondary: #9ca3af; --text-muted: #6b7280;
+      --accent-purple: #8b5cf6; --accent-blue: #3b82f6; --accent-green: #10b981; --accent-amber: #f59e0b; --accent-red: #ef4444; --accent-pink: #ec4899;
+      --shadow: 0 10px 40px rgba(0,0,0,0.5); --radius: 16px; --radius-sm: 12px; --radius-xs: 8px;
+    }
+    body { background: var(--bg-deep); color: var(--text-primary); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace; overflow: hidden; width: 100vw; height: 100vh; touch-action: manipulation; -webkit-font-smoothing: antialiased; }
+
+    @keyframes pulse-glow { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+    @keyframes slide-in-right { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes flow { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -20; } }
+
+    .menu-bar { position: fixed; top: 0; left: 0; right: 0; height: 44px; background: rgba(15,23,42,0.92); border-bottom: 1px solid var(--border); backdrop-filter: blur(20px); display: flex; align-items: center; padding: 0 12px; gap: 12px; z-index: 10001; user-select: none; }
+    .menu-logo { font-size: 13px; font-weight: 700; color: var(--accent-purple); display: flex; align-items: center; gap: 6px; }
+    .menu-btn { font-size: 11px; color: var(--text-secondary); padding: 6px 10px; border-radius: var(--radius-xs); cursor: pointer; transition: all 0.2s; border: none; background: none; font-family: inherit; }
+    .menu-btn:hover { color: var(--text-primary); background: rgba(75,85,99,0.3); }
+    .menu-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .status-pill { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text-muted); padding: 4px 10px; background: rgba(30,41,59,0.6); border-radius: 20px; border: 1px solid var(--border); }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; animation: pulse-glow 2s ease infinite; }
+
+    .app-dock { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; padding: 10px 16px; background: rgba(15,23,42,0.88); border: 1px solid var(--border); border-radius: 28px; backdrop-filter: blur(20px); z-index: 10000; box-shadow: var(--shadow); max-width: calc(100vw - 24px); overflow-x: auto; scrollbar-width: none; }
+    .app-dock::-webkit-scrollbar { display: none; }
+    .dock-item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); -webkit-touch-callout: none; user-select: none; }
+    .dock-item:active { transform: scale(0.9); }
+    .dock-item:hover { transform: translateY(-6px); }
+    .dock-item.running .dock-icon { box-shadow: 0 0 12px currentColor; }
+    .dock-item.running::after { content: ''; position: absolute; bottom: -4px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
+    .dock-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.08); position: relative; overflow: hidden; }
+    .dock-icon::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent); border-radius: inherit; }
+    .dock-label { font-size: 8px; color: var(--text-muted); max-width: 56px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: 0; transition: opacity 0.3s; }
+    .dock-item:hover .dock-label { opacity: 1; }
+
+    .side-panel { position: fixed; top: 44px; right: 0; width: 340px; max-width: calc(100vw - 20px); height: calc(100vh - 44px); background: rgba(15,23,42,0.98); border-left: 1px solid var(--border); backdrop-filter: blur(20px); z-index: 9999; overflow: hidden; display: flex; flex-direction: column; animation: slide-in-right 0.3s ease; }
+    .panel-header { padding: 16px; background: rgba(30,41,59,0.8); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .panel-title { font-size: 14px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+    .panel-close { width: 28px; height: 28px; border-radius: 50%; border: none; background: rgba(75,85,99,0.3); color: var(--text-secondary); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .panel-close:hover { background: rgba(239,68,68,0.3); color: var(--accent-red); }
+    .panel-body { flex: 1; overflow: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
+    .panel-section { margin-bottom: 20px; }
+    .panel-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); margin-bottom: 10px; font-weight: 600; }
+
+    .card { background: rgba(30,41,59,0.5); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 10px; transition: all 0.2s; }
+    .card:hover { background: rgba(30,41,59,0.7); border-color: rgba(59,130,246,0.3); }
+    .card-row { display: flex; align-items: center; gap: 12px; }
+    .card-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .card-content { flex: 1; min-width: 0; }
+    .card-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+    .card-meta { font-size: 11px; color: var(--text-muted); }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 18px; border-radius: var(--radius-xs); font-size: 12px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.2s; border: none; touch-action: manipulation; }
+    .btn:active { transform: scale(0.96); }
+    .btn-primary { background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue)); color: white; }
+    .btn-primary:hover { box-shadow: 0 4px 20px rgba(139,92,246,0.4); }
+    .btn-secondary { background: rgba(30,41,59,0.8); color: var(--text-secondary); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: rgba(75,85,99,0.3); color: var(--text-primary); }
+    .btn-block { width: 100%; }
+
+    .vitality-bar { width: 100%; height: 6px; background: rgba(75,85,99,0.3); border-radius: 3px; overflow: hidden; }
+    .vitality-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease, background 0.5s ease; }
+
+    .drop-zone { position: fixed; inset: 0; background: rgba(139,92,246,0.15); border: 3px dashed rgba(139,92,246,0.5); display: flex; align-items: center; justify-content: center; z-index: 30000; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(4px); }
+    .drop-zone.active { opacity: 1; pointer-events: all; }
+    .drop-zone-content { text-align: center; animation: breathe 2s ease infinite; }
+    .drop-zone-icon { font-size: 56px; margin-bottom: 16px; }
+    .drop-zone-text { font-size: 18px; color: #c4b5fd; font-weight: 600; }
+    .drop-zone-sub { font-size: 13px; color: #a78bfa; margin-top: 8px; }
+
+    .notification { position: fixed; top: 56px; right: 16px; background: rgba(15,23,42,0.98); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 18px; max-width: 320px; z-index: 25000; box-shadow: var(--shadow); animation: slide-in-right 0.3s ease; display: flex; align-items: flex-start; gap: 12px; }
+    .notification-icon { font-size: 20px; flex-shrink: 0; }
+    .notification-content { flex: 1; }
+    .notification-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .notification-body { font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+    .notification-close { font-size: 16px; color: var(--text-muted); cursor: pointer; line-height: 1; }
+
+    .graph-node { transition: all 0.5s ease; }
+    .graph-node:hover { z-index: 1000 !important; }
+    .graph-edge path { stroke-linecap: round; transition: all 0.3s; }
+    .graph-edge.active path { animation: flow 2s linear infinite; }
+
+    .context-menu { position: absolute; background: rgba(15,23,42,0.98); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px; min-width: 160px; z-index: 20000; box-shadow: var(--shadow); animation: slide-in-right 0.2s ease; }
+    .context-menu-item { padding: 10px 14px; font-size: 12px; color: var(--text-secondary); cursor: pointer; border-radius: var(--radius-xs); transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+    .context-menu-item:hover { background: rgba(59,130,246,0.15); color: var(--text-primary); }
+    .context-menu-item.danger:hover { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+    .context-menu-divider { height: 1px; background: var(--border); margin: 6px 0; }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(75,85,99,0.4); border-radius: 3px; }
+
+    @media (max-width: 768px) {
+      .side-panel { width: 100%; max-width: 100%; }
+      .menu-bar { height: 40px; padding: 0 8px; }
+      .menu-btn { padding: 4px 6px; font-size: 10px; }
+      .menu-logo { font-size: 11px; }
+      .dock-icon { width: 48px; height: 48px; font-size: 20px; }
+      .app-dock { padding: 8px 12px; border-radius: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
+    const { ReactFlow, ReactFlowProvider, Background, Controls, MiniMap, Panel, Handle, Position } = window.ReactFlow;
+
+    // ============================================================
+    // API
+    // ============================================================
+    const API = {
+      async fetch(path, options = {}) {
+        try {
+          const res = await fetch(path, { ...options, headers: { 'Content-Type': 'application/json', ...options.headers } });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          return await res.json();
+        } catch (err) { console.error(`API ${path}:`, err); throw err; }
+      },
+      getGraph() { return this.fetch('/api/graph').catch(() => this.simulateGraph()); },
+      ingest(files) {
+        const fd = new FormData();
+        for (const f of files) fd.append('files', f);
+        return fetch('/api/ingest', { method: 'POST', body: fd }).then(r => r.json());
+      },
+      tick() { return this.fetch('/api/tick', { method: 'POST' }); },
+      getApps() { return this.fetch('/api/apps').catch(() => ({ apps: this.getDefaultApps() })); },
+      runApp(id) { return this.fetch(`/api/apps/${id}/run`, { method: 'POST' }); },
+      uninstallApp(id) { return this.fetch(`/api/apps/${id}/uninstall`, { method: 'DELETE' }); },
+      getSettings() { return this.fetch('/api/settings').catch(() => this.getDefaultSettings()); },
+      saveSettings(s) { return this.fetch('/api/settings', { method: 'POST', body: JSON.stringify(s) }); },
+      installFunc(data) { return this.fetch('/api/admin/install', { method: 'POST', body: JSON.stringify(data) }); },
+      sendMessage(msg) { return this.fetch('/api/admin/message', { method: 'POST', body: JSON.stringify({message: msg}) }); },
+      getUpdates() { return this.fetch('/api/admin/updates').catch(() => ({ updates: [] })); },
+
+      getDefaultApps() {
+        return [
+          { id: 'system', name: 'System', icon: '🧬', circuit: 'Individual', color: '#8b5cf6', vitality: 0.85, components: 12, preinstalled: true, description: 'System monitor and body state' },
+          { id: 'ingestor', name: 'Ingest', icon: '📥', circuit: 'Collective', color: '#3b82f6', vitality: 0.92, components: 8, preinstalled: true, description: 'File ingestion and metabolism' },
+          { id: 'resonance', name: 'Field', icon: '🔮', circuit: 'Individual', color: '#ec4899', vitality: 0.78, components: 15, preinstalled: true, description: 'MRNN resonance field visualizer' },
+          { id: 'settings', name: 'Settings', icon: '⚙️', circuit: 'Collective', color: '#6b7280', vitality: 0.95, components: 6, preinstalled: true, description: 'System preferences and themes' },
+          { id: 'admin', name: 'Admin', icon: '🛡️', circuit: 'Tribal', color: '#ef4444', vitality: 0.88, components: 10, preinstalled: true, description: 'Install functionality, manage system' }
+        ];
+      },
+      getDefaultSettings() {
+        return { layout: 'phone', theme: 'dark', accent: 'purple', animations: true, notifications: true, autoRegenerate: false, heartbeatInterval: 5000, dockPosition: 'bottom', language: 'en' };
+      },
+      simulateGraph() {
+        // Generate a realistic MRNN graph
+        const nodes = [];
+        const edges = [];
+        const circuits = { Individual: '#8b5cf6', Collective: '#3b82f6', Tribal: '#ef4444' };
+
+        for (let g = 1; g <= 64; g++) {
+          for (let l = 1; l <= 6; l++) {
+            const circuit = [1,2,3,10,57,28,38,54,61,39,51,55,56,60].includes(g) ? 'Individual' : [4,5,6,7,8,9].includes(g) ? 'Tribal' : 'Collective';
+            const angle = ((g - 1) / 64) * 2 * Math.PI - Math.PI / 2;
+            const radius = 200 + (l * 30);
+            const vitality = 0.3 + Math.random() * 0.6;
+            const resonance = Math.random();
+
+            nodes.push({
+              id: `B3.T4.C3.G${g}.L${l}`,
+              address: `B3.T4.C3.G${g}.L${l}`,
+              gate: g,
+              line: l,
+              circuit,
+              color: circuits[circuit],
+              vitality,
+              resonance,
+              position: { x: 400 + radius * Math.cos(angle) + (Math.random() - 0.5) * 40, y: 300 + radius * Math.sin(angle) + (Math.random() - 0.5) * 40 }
+            });
+          }
+        }
+
+        // Connect same-circuit gates
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            if (nodes[i].circuit === nodes[j].circuit && Math.random() > 0.97) {
+              edges.push({ id: `e-${i}-${j}`, source: nodes[i].id, target: nodes[j].id, weight: Math.random(), type: 'circuit' });
+            }
+          }
+        }
+
+        // Connect adjacent lines
+        for (let i = 0; i < nodes.length; i++) {
+          if (nodes[i].line < 6 && Math.random() > 0.7) {
+            const next = nodes.find(n => n.gate === nodes[i].gate && n.line === nodes[i].line + 1);
+            if (next) edges.push({ id: `e-line-${i}`, source: nodes[i].id, target: next.id, weight: 0.8, type: 'line' });
+          }
+        }
+
+        return { nodes, edges, nodeCount: nodes.length, edgeCount: edges.length, tick: 0, avgVitality: 0.55 };
+      }
+    };
+
+    // ============================================================
+    // NOTIFICATIONS
+    // ============================================================
+    const useNotifications = () => {
+      const [notes, setNotes] = useState([]);
+      const notify = useCallback((title, body, icon = 'ℹ️', type = 'info') => {
+        const id = Date.now();
+        setNotes(p => [...p, { id, title, body, icon, type }]);
+        setTimeout(() => setNotes(p => p.filter(n => n.id !== id)), 5000);
+        return id;
+      }, []);
+      return { notes, notify };
+    };
+
+    const NotificationItem = ({ n, onClose }) => (
+      <div className="notification" style={{ borderLeft: `3px solid ${n.type === 'success' ? '#10b981' : n.type === 'error' ? '#ef4444' : n.type === 'warning' ? '#f59e0b' : '#3b82f6'}` }}>
+        <div className="notification-icon">{n.icon}</div>
+        <div className="notification-content">
+          <div className="notification-title">{n.title}</div>
+          <div className="notification-body">{n.body}</div>
+        </div>
+        <div className="notification-close" onClick={onClose}>×</div>
+      </div>
+    );
+
+    // ============================================================
+    // GRAPH NODE COMPONENT
+    // ============================================================
+    const GraphNode = ({ data }) => {
+      const { gate, line, circuit, color, vitality, resonance } = data;
+      const size = 30 + vitality * 40;
+      const pulseScale = 1 + resonance * 0.2;
+
+      return (
+        <div style={{
+          width: size * pulseScale,
+          height: size * pulseScale,
+          borderRadius: circuit === 'Individual' ? '50%' : circuit === 'Collective' ? '12px' : '8px',
+          background: `radial-gradient(circle at 35% 35%, ${color}66, ${color}dd)`,
+          border: `2px solid ${resonance > 0.7 ? '#fbbf24' : color}`,
+          boxShadow: `0 0 ${10 + vitality * 30}px ${color}44, inset 0 0 ${5 + resonance * 20}px ${color}55`,
+          opacity: 0.4 + vitality * 0.6,
+          transition: 'all 0.5s ease',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          position: 'relative'
+        }}>
+          <div style={{ fontSize: 8, color: 'white', fontWeight: 'bold', textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
+            {gate}
+          </div>
+          <div style={{ position: 'absolute', bottom: -14, fontSize: 7, color: color, whiteSpace: 'nowrap', background: 'rgba(0,0,0,0.7)', padding: '1px 3px', borderRadius: 2 }}>
+            L{line}
+          </div>
+          <Handle type="target" position={Position.Top} style={{ opacity: 0.2, width: 4, height: 4 }} />
+          <Handle type="source" position={Position.Bottom} style={{ opacity: 0.2, width: 4, height: 4 }} />
+        </div>
+      );
+    };
+
+    // ============================================================
+    // GRAPH EDGE COMPONENT
+    // ============================================================
+    const GraphEdge = ({ id, sourceX, sourceY, targetX, targetY, data }) => {
+      const { weight, type } = data || {};
+      const isActive = weight > 0.5;
+      const strokeColor = type === 'circuit' ? '#8b5cf6' : type === 'line' ? '#3b82f6' : '#6b7280';
+      const strokeWidth = 1 + weight * 3;
+      const opacity = 0.15 + weight * 0.6;
+
+      const midX = (sourceX + targetX) / 2;
+      const midY = (sourceY + targetY) / 2 - 20;
+      const path = `M${sourceX},${sourceY} Q${midX},${midY} ${targetX},${targetY}`;
+
+      return (
+        <g className={`graph-edge ${isActive ? 'active' : ''}`}>
+          <path d={path} stroke={strokeColor} strokeWidth={strokeWidth + 4} fill="none" opacity={opacity * 0.1} style={{ filter: 'blur(4px)' }} />
+          <path d={path} stroke={strokeColor} strokeWidth={strokeWidth} fill="none" opacity={opacity} style={{ strokeDasharray: isActive ? '5,5' : 'none', animation: isActive ? 'flow 3s linear infinite' : 'none' }} />
+        </g>
+      );
+    };
+
+    const nodeTypes = { graphNode: GraphNode };
+    const edgeTypes = { graphEdge: GraphEdge };
+
+    // ============================================================
+    // SANDBOX CENTER
+    // ============================================================
+    const SandboxCenter = ({ graph, onTick, onClose, onOpenSettings }) => (
+      <div className="side-panel">
+        <div className="panel-header">
+          <div className="panel-title">🧬 Sandbox Center</div>
+          <button className="panel-close" onClick={onClose}>×</button>
+        </div>
+        <div className="panel-body">
+          <div className="panel-section">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+              <span style={{ fontSize: 12, color: 'var(--text-secondary)' }}>System Vitality</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: (graph?.avgVitality || 0) > 0.5 ? 'var(--accent-green)' : 'var(--accent-amber)' }}>{((graph?.avgVitality || 0) * 100).toFixed(0)}%</span>
+            </div>
+            <div className="vitality-bar"><div className="vitality-fill" style={{ width: `${(graph?.avgVitality || 0) * 100}%`, background: (graph?.avgVitality || 0) > 0.7 ? 'var(--accent-green)' : (graph?.avgVitality || 0) > 0.4 ? 'var(--accent-amber)' : 'var(--accent-red)' }} /></div>
+          </div>
+          <div className="panel-section">
+            <div className="panel-section-title">Graph Stats</div>
+            <div style={{ display: 'grid', gap: 6 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-secondary)' }}><span>Nodes</span><span>{graph?.nodeCount || 0}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-secondary)' }}><span>Edges</span><span>{graph?.edgeCount || 0}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-secondary)' }}><span>Tick</span><span>{graph?.tick || 0}</span></div>
+            </div>
+          </div>
+          <div className="panel-section">
+            <div className="panel-section-title">Autopoiesis</div>
+            <div style={{ display: 'grid', gap: 6 }}>
+              {['Identifiable Boundaries', 'Constitutive Elements', 'Mechanistic System', 'Self-Produced Boundaries', 'Self-Produced Components', 'No External Specification'].map((label, i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--text-secondary)' }}><span>{label}</span><span style={{ color: 'var(--accent-green)' }}>✅</span></div>
+              ))}
+            </div>
+          </div>
+          <div className="panel-section">
+            <div className="panel-section-title">Actions</div>
+            <button className="btn btn-primary btn-block" onClick={onTick} style={{ marginBottom: 10 }}>⏭️ Run Tick</button>
+            <button className="btn btn-secondary btn-block" onClick={onOpenSettings}>⚙️ Open Settings</button>
+          </div>
+        </div>
+      </div>
+    );
+
+    // ============================================================
+    // SETTINGS PANEL
+    // ============================================================
+    const SettingsPanel = ({ settings, onSave, onClose }) => {
+      const [local, setLocal] = useState(settings);
+      return (
+        <div className="side-panel">
+          <div className="panel-header">
+            <div className="panel-title">⚙️ Settings</div>
+            <button className="panel-close" onClick={onClose}>×</button>
+          </div>
+          <div className="panel-body">
+            <div className="panel-section">
+              <div className="panel-section-title">Layout Style</div>
+              <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
+                {['phone', 'computer'].map(layout => (
+                  <button key={layout} className="btn btn-secondary" style={{ flex: 1, background: local.layout === layout ? 'rgba(139,92,246,0.2)' : undefined, borderColor: local.layout === layout ? 'var(--accent-purple)' : undefined, color: local.layout === layout ? 'var(--accent-purple)' : undefined }} onClick={() => setLocal({ ...local, layout })}>
+                    {layout === 'phone' ? '📱 Phone' : '💻 Computer'}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="panel-section">
+              <div className="panel-section-title">Accent Color</div>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginBottom: 16 }}>
+                {[{ name: 'purple', color: '#8b5cf6' }, { name: 'blue', color: '#3b82f6' }, { name: 'green', color: '#10b981' }, { name: 'amber', color: '#f59e0b' }, { name: 'red', color: '#ef4444' }, { name: 'pink', color: '#ec4899' }].map(a => (
+                  <button key={a.name} className="btn btn-secondary" style={{ background: local.accent === a.name ? a.color + '22' : undefined, borderColor: local.accent === a.name ? a.color : undefined }} onClick={() => setLocal({ ...local, accent: a.name })}>
+                    <span style={{ color: a.color }}>●</span> {a.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="panel-section">
+              <div className="panel-section-title">Preferences</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {['animations', 'notifications', 'autoRegenerate'].map(key => (
+                  <label key={key} className="toggle">
+                    <div className={`toggle-switch ${local[key] ? 'on' : ''}`} onClick={() => setLocal({ ...local, [key]: !local[key] })}><div className="toggle-knob" /></div>
+                    <span className="toggle-label">{key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div style={{ marginTop: 20 }}>
+              <button className="btn btn-primary btn-block" onClick={() => onSave(local)}>💾 Save Settings</button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // ============================================================
+    // ADMIN PANEL
+    // ============================================================
+    const AdminPanel = ({ onClose, onInstall, onMessage, updates, messages, notify }) => {
+      const [installUrl, setInstallUrl] = useState('');
+      const [installType, setInstallType] = useState('app');
+      const [messageText, setMessageText] = useState('');
+      const [activeTab, setActiveTab] = useState('install');
+
+      const handleInstall = () => {
+        if (!installUrl.trim()) { notify('Error', 'Please enter a URL or name', '❌', 'error'); return; }
+        onInstall({ url: installUrl, type: installType });
+        notify('Installing', `${installType}: ${installUrl}`, '📦', 'info');
+        setInstallUrl('');
+      };
+
+      const handleMessage = () => {
+        if (!messageText.trim()) return;
+        onMessage(messageText);
+        notify('Message Sent', messageText.substring(0, 50) + '...', '💬', 'success');
+        setMessageText('');
+      };
+
+      return (
+        <div className="side-panel">
+          <div className="panel-header">
+            <div className="panel-title">🛡️ Admin Panel</div>
+            <button className="panel-close" onClick={onClose}>×</button>
+          </div>
+          <div className="panel-body">
+            <div style={{ display: 'flex', gap: 0, marginBottom: 16, borderBottom: '1px solid var(--border)' }}>
+              {[{ id: 'install', label: 'Install', icon: '📦' }, { id: 'updates', label: 'Updates', icon: '📡' }, { id: 'messages', label: 'Messages', icon: '💬' }].map(tab => (
+                <button key={tab.id} className="btn btn-secondary" style={{ flex: 1, borderRadius: 0, borderBottom: activeTab === tab.id ? '2px solid var(--accent-purple)' : '2px solid transparent', color: activeTab === tab.id ? 'var(--accent-purple)' : 'var(--text-secondary)' }} onClick={() => setActiveTab(tab.id)}>
+                  {tab.icon} {tab.label}
+                </button>
+              ))}
+            </div>
+
+            {activeTab === 'install' && (
+              <div>
+                <div className="panel-section">
+                  <div className="panel-section-title">Install Functionality</div>
+                  <select className="input select" value={installType} onChange={(e) => setInstallType(e.target.value)} style={{ marginBottom: 10 }}>
+                    <option value="app">📱 App</option>
+                    <option value="widget">🔧 Widget</option>
+                    <option value="functionality">⚙️ Functionality</option>
+                    <option value="theme">🎨 Theme</option>
+                  </select>
+                  <input className="input" placeholder="GitHub URL, file path, or npm package..." value={installUrl} onChange={(e) => setInstallUrl(e.target.value)} style={{ marginBottom: 10 }} />
+                  <button className="btn btn-primary btn-block" onClick={handleInstall}>📥 Install {installType}</button>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'messages' && (
+              <div>
+                <div className="panel-section">
+                  <div className="panel-section-title">Communicate with System</div>
+                  <textarea className="input" placeholder="Type a message to the system..." value={messageText} onChange={(e) => setMessageText(e.target.value)} style={{ marginBottom: 10, minHeight: 80 }} />
+                  <button className="btn btn-primary btn-block" onClick={handleMessage}>📤 Send Message</button>
+                </div>
+                <div className="panel-section">
+                  <div className="panel-section-title">Message History</div>
+                  {(messages || []).length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: 20, color: 'var(--text-muted)', fontSize: 12 }}>No messages yet</div>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                      {(messages || []).map((m, i) => (
+                        <div key={i} className="card" style={{ borderLeft: `3px solid ${m.from === 'admin' ? 'var(--accent-purple)' : 'var(--accent-green)'}` }}>
+                          <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 4 }}>{m.from === 'admin' ? '🛡️ You' : '🧬 System'} • {new Date(m.time).toLocaleTimeString()}</div>
+                          <div style={{ fontSize: 12, color: 'var(--text-primary)' }}>{m.text}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    // ============================================================
+    // DOCK ITEM WITH LONG PRESS
+    // ============================================================
+    const DockItem = ({ app, isRunning, onClick, onContextMenu }) => {
+      const [pressing, setPressing] = useState(false);
+      const timerRef = useRef();
+
+      const startPress = (e) => {
+        e.preventDefault();
+        setPressing(true);
+        timerRef.current = setTimeout(() => { setPressing(false); onContextMenu(app.id, e); }, 600);
+      };
+
+      const endPress = () => { clearTimeout(timerRef.current); setPressing(false); };
+
+      return (
+        <div className={`dock-item ${isRunning ? 'running' : ''} ${pressing ? 'active' : ''}`} style={{ color: app.color }} onClick={() => onClick(app.id)} onMouseDown={startPress} onMouseUp={endPress} onMouseLeave={endPress} onTouchStart={startPress} onTouchEnd={endPress}>
+          <div className="dock-icon" style={{ background: app.color + '22', borderColor: app.color + '44', color: app.color, transform: pressing ? 'scale(0.9)' : undefined }}>{app.icon}</div>
+          <div className="dock-label">{app.name}</div>
+        </div>
+      );
+    };
+
+    // ============================================================
+    // CONTEXT MENU
+    // ============================================================
+    const ContextMenu = ({ x, y, appId, onClose, onUninstall, onEdit }) => {
+      return (
+        <div className="context-menu" style={{ left: Math.min(x, window.innerWidth - 180), top: Math.max(44, y - 150) }}>
+          <div className="context-menu-item" onClick={() => { onEdit(appId); onClose(); }}>✏️ Edit Location</div>
+          <div className="context-menu-item" onClick={() => { onEdit(appId); onClose(); }}>📁 Show in Graph</div>
+          <div className="context-menu-divider" />
+          <div className="context-menu-item danger" onClick={() => { onUninstall(appId); onClose(); }}>🗑️ Uninstall</div>
+          <div className="context-menu-item danger" onClick={() => { onUninstall(appId); onClose(); }}>❌ Remove from Dock</div>
+        </div>
+      );
+    };
+
+    // ============================================================
+    // MAIN OS — Renders the living graph
+    // ============================================================
+    const MRNN_OS = () => {
+      const [graph, setGraph] = useState(null);
+      const [apps, setApps] = useState([]);
+      const [flowNodes, setFlowNodes] = useState([]);
+      const [flowEdges, setFlowEdges] = useState([]);
+      const [tick, setTick] = useState(0);
+      const [showSandbox, setShowSandbox] = useState(false);
+      const [showSettings, setShowSettings] = useState(false);
+      const [showAdmin, setShowAdmin] = useState(false);
+      const [settings, setSettings] = useState(API.getDefaultSettings());
+      const [contextMenu, setContextMenu] = useState(null);
+      const [messages, setMessages] = useState([]);
+      const [isDropZoneActive, setIsDropZoneActive] = useState(false);
+      const [isRunning, setIsRunning] = useState(false);
+      const { notes, notify } = useNotifications();
+      const intervalRef = useRef();
+
+      // Load graph
+      const loadGraph = useCallback(async () => {
+        try {
+          const data = await API.getGraph();
+          setGraph(data);
+
+          // Convert to ReactFlow format
+          const nodes = data.nodes.map(n => ({
+            id: n.id,
+            type: 'graphNode',
+            position: n.position,
+            data: { ...n }
+          }));
+
+          const edges = data.edges.map(e => ({
+            id: e.id,
+            source: e.source,
+            target: e.target,
+            type: 'graphEdge',
+            data: { weight: e.weight, type: e.type }
+          }));
+
+          setFlowNodes(nodes);
+          setFlowEdges(edges);
+
+          const appsData = await API.getApps();
+          setApps(appsData.apps || []);
+
+          setTick(t => t + 1);
+        } catch (err) {
+          console.error('Load error:', err);
+        }
+      }, []);
+
+      useEffect(() => {
+        loadGraph();
+        const interval = setInterval(loadGraph, settings.heartbeatInterval);
+        return () => clearInterval(interval);
+      }, [loadGraph, settings.heartbeatInterval]);
+
+      // Run tick (graph message passing)
+      const runTick = async () => {
+        setIsRunning(true);
+        try {
+          const result = await API.tick();
+          notify('Tick Complete', `Processed ${result.messages || 0} messages`, '⏭️', 'success');
+          loadGraph();
+        } catch (err) {
+          notify('Tick Failed', err.message, '❌', 'error');
+        }
+        setIsRunning(false);
+      };
+
+      // Auto-run if enabled
+      useEffect(() => {
+        if (settings.autoRegenerate && !isRunning) {
+          intervalRef.current = setInterval(runTick, settings.heartbeatInterval);
+          return () => clearInterval(intervalRef.current);
+        }
+      }, [settings.autoRegenerate, isRunning, settings.heartbeatInterval]);
+
+      // Open app (filter graph view)
+      const openApp = (id) => {
+        const app = apps.find(a => a.id === id);
+        if (!app) return;
+
+        // Filter graph to show only this app's circuit
+        const circuit = app.circuit;
+        const filteredNodes = flowNodes.filter(n => n.data.circuit === circuit);
+        const nodeIds = new Set(filteredNodes.map(n => n.id));
+        const filteredEdges = flowEdges.filter(e => nodeIds.has(e.source) && nodeIds.has(e.target));
+
+        setFlowNodes(filteredNodes);
+        setFlowEdges(filteredEdges);
+
+        notify('App Opened', `${app.name} — showing ${circuit} circuit`, '📱', 'info');
+      };
+
+      // Uninstall
+      const uninstallApp = async (id) => {
+        try {
+          await API.uninstallApp(id);
+          setApps(prev => prev.filter(a => a.id !== id));
+          notify('Uninstalled', `${id} removed`, '🗑️', 'warning');
+        } catch (err) {
+          notify('Error', err.message, '❌', 'error');
+        }
+      };
+
+      // Handle file drop
+      const handleDrop = async (e) => {
+        e.preventDefault();
+        setIsDropZoneActive(false);
+        const files = Array.from(e.dataTransfer.files);
+        if (files.length === 0) return;
+
+        notify('Ingesting', `Processing ${files.length} file(s)...`, '📥', 'info');
+        try {
+          const result = await API.ingest(files);
+          notify('Ingested', `${result.ingested || files.length} files added to graph`, '✅', 'success');
+          loadGraph();
+        } catch (err) {
+          notify('Ingest Failed', err.message, '❌', 'error');
+        }
+      };
+
+      const handleDragOver = (e) => { e.preventDefault(); setIsDropZoneActive(true); };
+      const handleDragLeave = () => setIsDropZoneActive(false);
+
+      // Save settings
+      const saveSettings = async (newSettings) => {
+        try {
+          await API.saveSettings(newSettings);
+          setSettings(newSettings);
+          setShowSettings(false);
+          notify('Settings Saved', 'Preferences updated', '💾', 'success');
+        } catch (err) {
+          notify('Error', err.message, '❌', 'error');
+        }
+      };
+
+      // Install functionality
+      const installFunctionality = async (data) => {
+        try {
+          await API.installFunc(data);
+          notify('Installing', `${data.type}: ${data.url}`, '📦', 'info');
+          loadGraph();
+        } catch (err) {
+          notify('Install Failed', err.message, '❌', 'error');
+        }
+      };
+
+      // Send message
+      const sendMessage = async (text) => {
+        const msg = { from: 'admin', text, time: Date.now() };
+        setMessages(prev => [...prev, msg]);
+        try {
+          const result = await API.sendMessage(text);
+          if (result.response) {
+            setMessages(prev => [...prev, { from: 'system', text: result.response, time: Date.now() }]);
+          }
+        } catch (err) {
+          console.error('Message error:', err);
+        }
+      };
+
+      // Context menu
+      const showContextMenu = (id, e) => {
+        const cx = e.touches ? e.touches[0].clientX : e.clientX;
+        const cy = e.touches ? e.touches[0].clientY : e.clientY;
+        setContextMenu({ x: cx, y: cy, appId: id });
+      };
+
+      return (
+        <div style={{ width: '100vw', height: '100vh', position: 'relative' }} onDragOver={handleDragOver} onDrop={handleDrop} onDragLeave={handleDragLeave}>
+          {/* Menu Bar */}
+          <div className="menu-bar">
+            <div className="menu-logo"><span>🧬</span>MRNN OS</div>
+            <button className="menu-btn" onClick={() => setShowSandbox(true)}>Sandbox</button>
+            <button className="menu-btn" onClick={() => setShowSettings(true)}>Settings</button>
+            <button className="menu-btn" onClick={() => setShowAdmin(true)}>Admin</button>
+            <div className="menu-right">
+              <div className="status-pill">
+                <div className="status-dot" style={{ background: graph?.avgVitality > 0.5 ? 'var(--accent-green)' : 'var(--accent-amber)' }} />
+                {graph?.avgVitality > 0.5 ? 'Healthy' : 'Stressed'}
+              </div>
+              <div className="status-pill">
+                <span style={{ color: 'var(--text-muted)' }}>Tick {tick.toString().padStart(4, '0')}</span>
+              </div>
+              <div className="status-pill">
+                <span style={{ color: graph?.avgVitality > 0.5 ? 'var(--accent-green)' : 'var(--accent-amber)' }}>⚡ {((graph?.avgVitality || 0) * 100).toFixed(0)}%</span>
+              </div>
+              <button className="admin-btn" onClick={() => setShowAdmin(true)} title="Admin">🛡️</button>
+            </div>
+          </div>
+
+          {/* Graph Visualization */}
+          <div style={{ width: '100vw', height: 'calc(100vh - 44px)', marginTop: 44 }}>
+            <ReactFlow
+              nodes={flowNodes}
+              edges={flowEdges}
+              nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
+              fitView
+              attributionPosition="bottom-left"
+              minZoom={0.1}
+              maxZoom={2}
+            >
+              <Background color="#1e293b" gap={24} />
+              <Controls style={{ background: 'rgba(15,23,42,0.9)', border: '1px solid var(--border)', borderRadius: 8 }} />
+              <MiniMap 
+                nodeColor={(n) => n.data?.color || '#6b7280'}
+                maskColor="rgba(0,0,0,0.85)"
+                style={{ background: 'rgba(15,23,42,0.9)', border: '1px solid var(--border)', borderRadius: 8 }}
+              />
+            </ReactFlow>
+          </div>
+
+          {/* Panels */}
+          {showSandbox && <SandboxCenter graph={graph} onTick={runTick} onClose={() => setShowSandbox(false)} onOpenSettings={() => { setShowSandbox(false); setShowSettings(true); }} />}
+          {showSettings && <SettingsPanel settings={settings} onSave={saveSettings} onClose={() => setShowSettings(false)} />}
+          {showAdmin && <AdminPanel onClose={() => setShowAdmin(false)} onInstall={installFunctionality} onMessage={sendMessage} messages={messages} notify={notify} />}
+          {contextMenu && <ContextMenu {...contextMenu} onClose={() => setContextMenu(null)} onUninstall={uninstallApp} onEdit={(id) => openApp(id)} />}
+
+          {/* App Dock */}
+          <div className="app-dock">
+            {apps.slice(0, 5).map(app => (
+              <DockItem key={app.id} app={app} isRunning={false} onClick={openApp} onContextMenu={showContextMenu} />
+            ))}
+            <div className="dock-item" style={{ color: 'var(--text-muted)' }} onClick={() => document.getElementById('file-input').click()}>
+              <div className="dock-icon" style={{ background: 'rgba(75,85,99,0.3)', borderColor: 'rgba(75,85,99,0.5)', color: 'var(--text-secondary)' }}>+</div>
+              <div className="dock-label">Ingest</div>
+            </div>
+          </div>
+
+          {/* Drop Zone */}
+          <div className={`drop-zone ${isDropZoneActive ? 'active' : ''}`}>
+            <div className="drop-zone-content">
+              <div className="drop-zone-icon">📥</div>
+              <div className="drop-zone-text">Drop files to ingest</div>
+              <div className="drop-zone-sub">The graph will metabolize them into living nodes</div>
+            </div>
+          </div>
+
+          {/* Notifications */}
+          <div style={{ position: 'fixed', top: 56, right: 16, zIndex: 25000, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {notes.map(n => <NotificationItem key={n.id} n={n} onClose={() => {}} />)}
+          </div>
+
+          {/* Hidden file input */}
+          <input id="file-input" type="file" multiple style={{ display: 'none' }} onChange={async (e) => {
+            const files = Array.from(e.target.files);
+            if (files.length > 0) {
+              notify('Ingesting', `Processing ${files.length} file(s)...`, '📥', 'info');
+              try {
+                const result = await API.ingest(files);
+                notify('Ingested', `${result.ingested || files.length} files added to graph`, '✅', 'success');
+                loadGraph();
+              } catch (err) {
+                notify('Ingest Failed', err.message, '❌', 'error');
+              }
+            }
+          }} />
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ReactFlowProvider><MRNN_OS /></ReactFlowProvider>);
+  </script>
+</body>
+</html>

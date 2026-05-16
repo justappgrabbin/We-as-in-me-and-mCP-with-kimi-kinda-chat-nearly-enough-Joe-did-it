@@ -1,0 +1,11 @@
+﻿File,Purpose
+**[index.html](sandbox:///mnt/agents/output/index.html)**,Loads CSS + 5 JS modules. No inline JS.
+**[css/os.css](sandbox:///mnt/agents/output/css/os.css)**,All 600+ lines of styles
+**[js/config.js](sandbox:///mnt/agents/output/js/config.js)**,Synthia/Supabase/HF settings
+**[js/generator.js](sandbox:///mnt/agents/output/js/generator.js)**,**Generates real executable .js files**
+**[js/api.js](sandbox:///mnt/agents/output/js/api.js)**,Synthia callback + Supabase save
+**[js/apps.js](sandbox:///mnt/agents/output/js/apps.js)**,App definitions + file analysis
+**[js/os.js](sandbox:///mnt/agents/output/js/os.js)**,**All buttons wired here via event delegation**
+**[package.json](sandbox:///mnt/agents/output/package.json)**,NPM config
+**[.gitignore](sandbox:///mnt/agents/output/.gitignore)**,Git ignore
+**[README.md](sandbox:///mnt/agents/output/README.md)**,Full docs
