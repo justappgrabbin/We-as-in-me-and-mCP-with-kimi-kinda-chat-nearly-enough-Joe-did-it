@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resonance OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:        #050810;
+    --surface:   #0b1120;
+    --border:    #31224f;
+    --accent:    #a855f7;
+    --accent2:   #c084fc;
+    --green:     #00ff9d;
+    --yellow:    #fbbf24;
+    --muted:     #6b5a8e;
+    --text:      #c8ddef;
+    --text-dim:  #5b7a94;
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-body: 'Exo 2', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(168,85,247,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168,85,247,.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+    animation: gridDrift 40s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes gridDrift {
+    from { background-position: 0 0; }
+    to   { background-position: 32px 32px; }
+  }
+
+  /* Scanline effect */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,.07) 3px,
+      rgba(0,0,0,.07) 4px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(11,17,32,.9);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    flex-shrink: 0;
+  }
+
+  .header-left { display: flex; align-items: center; gap: 10px; }
+
+  .led {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px currentColor;
+    transition: background .4s, color .4s, box-shadow .4s;
+    flex-shrink: 0;
+  }
+  .led.dormant  { background: #4b5563; color: #4b5563; }
+  .led.observing{ background: var(--yellow); color: var(--yellow); }
+  .led.active   { background: var(--accent); color: var(--accent); }
+  .led.resonant { background: var(--green);  color: var(--green);  }
+
+  .os-title {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: .12em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .vitality-select {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 2px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* ── MAIN ── */
+  main {
+    flex: 1;
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+  }
+
+  .wallpaper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 8px;
+    user-select: none;
+    animation: fadeIn .6s ease;
+  }
+
+  .wallpaper-glyph {
+    font-family: var(--font-mono);
+    font-size: 48px;
+    color: var(--border);
+    line-height: 1;
+    letter-spacing: .25em;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: .3; }
+    50%      { opacity: .7; }
+  }
+
+  .wallpaper-title {
+    font-size: 20px;
+    font-weight: 300;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .wallpaper-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .1em;
+  }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  /* ── WINDOWS ── */
+  .window {
+    position: absolute;
+    inset: 12px;
+    background: rgba(11,17,32,.97);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 0 40px rgba(168,85,247,.12), 0 24px 60px rgba(0,0,0,.7);
+    animation: windowOpen .18s ease-out;
+  }
+
+  @keyframes windowOpen {
+    from { opacity:0; transform: scale(.97); }
+    to   { opacity:1; transform: scale(1); }
+  }
+
+  .window-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: rgba(26,40,64,.6);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .window-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  .window-close {
+    width: 20px; height: 20px;
+    background: rgba(239,68,68,.15);
+    border: 1px solid rgba(239,68,68,.3);
+    border-radius: 3px;
+    color: #ef4444;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+  }
+  .window-close:hover { background: rgba(239,68,68,.3); }
+
+  .window-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  /* ── CONTENT STYLES ── */
+  .content-section h2 {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .content-section h3 {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin: 14px 0 6px;
+  }
+
+  .content-section p {
+    color: var(--text);
+    font-size: 13px;
+    margin-bottom: 8px;
+    opacity: .85;
+  }
+
+  .info-box {
+    background: rgba(168,85,247,.08);
+    border: 1px solid rgba(168,85,247,.22);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 8px 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .info-box strong { color: var(--accent); }
+
+  /* ── MESH ── */
+  .mesh-layer { margin-bottom: 20px; }
+
+  .mesh-layer-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mesh-layer-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .centres-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .centre {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px;
+    background: rgba(255,255,255,.01);
+  }
+
+  .codons-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1px;
+  }
+
+  .codon {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 1px;
+    transition: opacity .2s;
+  }
+  .codon.idle   { background: var(--border); opacity: .4; }
+  .codon.active { background: var(--accent); opacity: .8; box-shadow: 0 0 3px var(--accent); }
+  .codon.bridge { background: var(--green);  opacity: .7; }
+  .codon.memory { background: var(--accent2); opacity: .75; }
+
+  /* ── BUILDER ── */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+    margin: 12px 0;
+  }
+  .upload-zone:hover {
+    border-color: var(--accent);
+    background: rgba(168,85,247,.08);
+  }
+
+  .upload-zone input { display: none; }
+
+  .upload-zone-icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+    opacity: .4;
+  }
+
+  .upload-zone p {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .file-list {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .file-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  .file-item::before {
+    content: '◈';
+    color: var(--accent);
+  }
+
+  /* ── AGENT ── */
+  .agent-terminal {
+    background: rgba(0,0,0,.5);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    min-height: 120px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .terminal-line { color: var(--text-dim); margin-bottom: 4px; }
+  .terminal-line.prompt { color: var(--green); }
+  .terminal-line.info   { color: var(--accent); }
+
+  .blink {
+    display: inline-block;
+    width: 7px; height: 13px;
+    background: var(--green);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+  /* ── SETTINGS ── */
+  .settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .settings-row label { color: var(--text-dim); font-size: 12px; }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    background: rgba(168,85,247,.14);
+    border: 1px solid rgba(168,85,247,.24);
+    color: var(--accent);
+  }
+
+  /* ── DOCK ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px 6px 10px;
+    background: rgba(5,8,16,.95);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    flex-shrink: 0;
+  }
+
+  .dock-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background .15s;
+    color: inherit;
+  }
+
+  .dock-btn:hover { background: rgba(168,85,247,.12); }
+  .dock-btn:active { transform: scale(.94); }
+
+  .dock-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--accent);
+    transition: box-shadow .15s, border-color .15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dock-btn:hover .dock-icon {
+    border-color: var(--accent);
+    box-shadow: 0 0 12px rgba(168,85,247,.35);
+  }
+
+  .dock-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <div class="led dormant" id="led"></div>
+    <span class="os-title">⬡ Resonance OS</span>
+  </div>
+  <div class="header-right">
+    <select class="vitality-select" id="vitalitySelect" onchange="setVitality(this.value)">
+      <option value="dormant">DORMANT</option>
+      <option value="observing">OBSERVING</option>
+      <option value="active">ACTIVE</option>
+      <option value="resonant">RESONANT</option>
+    </select>
+    <span id="clock"></span>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main id="main">
+  <div class="wallpaper" id="wallpaper">
+    <div class="wallpaper-glyph">⬡ ⬡ ⬡</div>
+    <div class="wallpaper-title">Resonance OS</div>
+    <div class="wallpaper-sub">TAP AN ICON TO OPEN A MODULE</div>
+  </div>
+</main>
+
+<!-- DOCK -->
+<nav>
+  <button class="dock-btn" onclick="openApp('home')">
+    <div class="dock-icon">⌂</div>
+    <span class="dock-label">Home</span>
+  </button>
+  <button class="dock-btn" onclick="openApp('builder')">
+    <div class="dock-icon">⊞</div>
+    <span class="dock-label">Builder</span>
+  </button>
+  <button class="dock-btn" onclick="openApp('mesh')">
+    <div class="dock-icon">⬡</div>
+    <span class="dock-label">Mesh</span>
+  </button>
+  <button class="dock-btn" onclick="openApp('files')">
+    <div class="dock-icon">◈</div>
+    <span class="dock-label">Files</span>
+  </button>
+  <button class="dock-btn" onclick="openApp('agent')">
+    <div class="dock-icon">◎</div>
+    <span class="dock-label">Agent</span>
+  </button>
+  <button class="dock-btn" onclick="openApp('settings')">
+    <div class="dock-icon">⚙</div>
+    <span class="dock-label">Settings</span>
+  </button>
+</nav>
+
+<script>
+// ── Clock ──────────────────────────────────────────────────────────────────
+const clockEl = document.getElementById('clock');
+function tick() { clockEl.textContent = new Date().toLocaleTimeString(); }
+tick(); setInterval(tick, 1000);
+
+// ── Vitality ───────────────────────────────────────────────────────────────
+const LED_MAP = { dormant:'dormant', observing:'observing', active:'active', resonant:'resonant' };
+const led = document.getElementById('led');
+function setVitality(v) {
+  led.className = 'led ' + (LED_MAP[v] || 'dormant');
+}
+
+// ── Mesh data (5×9×64) ────────────────────────────────────────────────────
+const STATES = ['idle','active','bridge','memory'];
+function prng(i) { return (((1103515245 * i + 12345) & 0x7fffffff)); }
+function makeMesh() {
+  const layers = [];
+  const names = ['Movement','Evolution','Being','Design','Space'];
+  for (let l = 0; l < 5; l++) {
+    const centres = [];
+    for (let c = 0; c < 9; c++) {
+      const codons = [];
+      for (let g = 0; g < 64; g++) {
+        codons.push(STATES[Math.abs(prng((l+1)*(c+1)*(g+1))) % 4]);
+      }
+      centres.push(codons);
+    }
+    layers.push({ name: names[l], centres });
+  }
+  return layers;
+}
+const MESH = makeMesh();
+
+// ── Uploaded files store ───────────────────────────────────────────────────
+let uploadedFiles = [];
+
+// ── Window management ─────────────────────────────────────────────────────
+let currentWindow = null;
+
+function openApp(appId) {
+  closeWindow();
+  const main = document.getElementById('main');
+  document.getElementById('wallpaper').style.display = 'none';
+
+  const win = document.createElement('div');
+  win.className = 'window';
+  win.id = 'active-window';
+
+  // titlebar
+  const tb = document.createElement('div');
+  tb.className = 'window-titlebar';
+  const titles = { home:'HOME', builder:'APP BUILDER', mesh:'NEURAL MESH', files:'FILES', agent:'AGENT', settings:'SETTINGS' };
+  tb.innerHTML = `<span class="window-title">${titles[appId] || appId.toUpperCase()}</span>
+    <button class="window-close" onclick="closeWindow()">×</button>`;
+  win.appendChild(tb);
+
+  const body = document.createElement('div');
+  body.className = 'window-body';
+  body.innerHTML = buildContent(appId);
+  win.appendChild(body);
+
+  main.appendChild(win);
+  currentWindow = win;
+
+  // wire upload
+  if (appId === 'builder') {
+    document.getElementById('zipInput')?.addEventListener('change', handleUpload);
+    document.getElementById('uploadZone')?.addEventListener('click', () => document.getElementById('zipInput').click());
+  }
+}
+
+function closeWindow() {
+  if (currentWindow) { currentWindow.remove(); currentWindow = null; }
+  document.getElementById('wallpaper').style.display = '';
+}
+
+function handleUpload(e) {
+  const files = Array.from(e.target.files);
+  uploadedFiles = [...uploadedFiles, ...files];
+  const list = document.getElementById('fileList');
+  if (list) {
+    list.innerHTML = uploadedFiles.map(f =>
+      `<div class="file-item">${f.name} <span style="margin-left:auto;color:var(--muted)">${(f.size/1024).toFixed(1)} KB</span></div>`
+    ).join('');
+  }
+}
+
+function buildContent(appId) {
+  switch(appId) {
+    case 'home': return `
+      <div class="content-section">
+        <h2>Welcome</h2>
+        <p>This is your <strong>Resonance OS</strong> blueprint — a mobile-first interface for visualising and managing the 5×9×64 neural substrate.</p>
+        <div class="info-box">
+          <strong>SUBSTRATE:</strong> 5 layers · 9 centres · 64 codon slots<br>
+          <strong>TOTAL CODONS:</strong> 2,880 per full mesh
+        </div>
+        <h3>Layers</h3>
+        <p>Each layer corresponds to a base dimension: <em>Movement, Evolution, Being, Design, Space</em>. Each holds 9 centres with 64 codon slots mapping to gates and hexagrams.</p>
+        <h3>Upload</h3>
+        <p>Use the Builder app to upload zipped code. The system infers the entry point and logs uploaded assets.</p>
+        <h3>Agent</h3>
+        <p>The Agent panel is where your AI companion lives. Wire in the Resonance Orchestrator to route messages through the neural mesh.</p>
+      </div>`;
+
+    case 'mesh': {
+      let html = '<div class="content-section"><h2>Neural Mesh — 5×9×64</h2>';
+      MESH.forEach(layer => {
+        html += `<div class="mesh-layer"><div class="mesh-layer-title">${layer.name}</div><div class="centres-grid">`;
+        layer.centres.forEach(codons => {
+          html += '<div class="centre"><div class="codons-grid">';
+          codons.forEach(s => { html += `<div class="codon ${s}"></div>`; });
+          html += '</div></div>';
+        });
+        html += '</div></div>';
+      });
+      html += '</div>';
+      return html;
+    }
+
+    case 'builder': return `
+      <div class="content-section">
+        <h2>App Builder</h2>
+        <p>Upload zipped web apps. The system infers the entry HTML to render.</p>
+        <label id="uploadZone" class="upload-zone">
+          <input type="file" id="zipInput" multiple accept=".zip,.html,.js,.css" />
+          <div class="upload-zone-icon">⊞</div>
+          <p>TAP TO SELECT FILES</p>
+        </label>
+        <div class="file-list" id="fileList">
+          ${uploadedFiles.map(f => `<div class="file-item">${f.name} <span style="margin-left:auto;color:var(--muted)">${(f.size/1024).toFixed(1)} KB</span></div>`).join('')}
+        </div>
+      </div>`;
+
+    case 'files': return `
+      <div class="content-section">
+        <h2>Files</h2>
+        <p>Uploaded assets are listed below. Future versions allow reading and writing from Supabase.</p>
+        <div class="file-list" id="fileList">
+          ${uploadedFiles.length === 0
+            ? '<div style="font-family:var(--font-mono);font-size:11px;color:var(--muted);padding:12px 0">No files uploaded yet.</div>'
+            : uploadedFiles.map(f => `<div class="file-item">${f.name}</div>`).join('')}
+        </div>
+      </div>`;
+
+    case 'agent': return `
+      <div class="content-section">
+        <h2>Agent</h2>
+        <p>Your AI companion and Resonance Orchestrator live here. Connect your model handlers to route messages through the neural mesh.</p>
+        <div class="agent-terminal">
+          <div class="terminal-line info">// RESONANCE ORCHESTRATOR v0.1</div>
+          <div class="terminal-line">// Awaiting substrate binding…</div>
+          <div class="terminal-line">// GNN runtime: not connected</div>
+          <div class="terminal-line">// Supabase: not configured</div>
+          <div class="terminal-line prompt">▶ <span class="blink"></span></div>
+        </div>
+        <div class="info-box" style="margin-top:12px">
+          <strong>NOTE:</strong> Wire your Supabase credentials and model handlers where indicated in the blueprint source to activate this panel.
+        </div>
+      </div>`;
+
+    case 'settings': return `
+      <div class="content-section">
+        <h2>Settings</h2>
+        <p>Configure OS preferences and integrations.</p>
+        <div class="settings-row">
+          <span>Supabase endpoint</span><span class="tag">NOT SET</span>
+        </div>
+        <div class="settings-row">
+          <span>GNN runtime</span><span class="tag">OFFLINE</span>
+        </div>
+        <div class="settings-row">
+          <span>Substrate layers</span><span class="tag">5 ACTIVE</span>
+        </div>
+        <div class="settings-row">
+          <span>Codon mesh</span><span class="tag">2,880 SLOTS</span>
+        </div>
+        <div class="settings-row">
+          <span>Blueprint version</span><span class="tag">0.1.0</span>
+        </div>
+      </div>`;
+
+    default: return '<p>Unknown module.</p>';
+  }
+}
+</script>
+
+<!-- AUTOPOIETIC OS ENGINE INJECTION -->
+<style>
+  .organ-grid{display:grid;grid-template-columns:1fr;gap:10px}
+  .organ-card{border:1px solid var(--border);background:rgba(168,85,247,.075);border-radius:8px;padding:11px;margin-bottom:10px}
+  .organ-title{font-family:var(--font-mono);color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+  .organ-meta{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);line-height:1.5}
+  .organ-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .os-action{background:rgba(168,85,247,.16);border:1px solid rgba(168,85,247,.35);color:var(--text);border-radius:5px;padding:7px 9px;font-family:var(--font-mono);font-size:10px;cursor:pointer}
+  .os-action:hover{border-color:var(--accent);box-shadow:0 0 10px rgba(168,85,247,.25)}
+  .health-bar{height:7px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin:7px 0}
+  .health-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));width:50%;transition:width .4s}
+  .mini-log{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:5px;padding:8px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim);max-height:155px;overflow:auto}
+  .capsule-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+  .capsule-row{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:7px;font-family:var(--font-mono);font-size:10px;color:var(--text-dim)}
+  .badge{display:inline-block;background:rgba(168,85,247,.16);border:1px solid rgba(168,85,247,.28);color:var(--accent2);border-radius:999px;padding:2px 7px;margin:2px;font-size:9px;font-family:var(--font-mono)}
+</style>
+
+<script>
+window.SEED_CAPSULES = [
+  {
+    "name": "mrnn-netlify-visible-deploy-root-plus-necessities.zip",
+    "entries": 216,
+    "roles": [
+      "MRNN",
+      "ORCHESTRATOR",
+      "UPLOADER"
+    ],
+    "sample": [
+      "apps/",
+      "index.html",
+      "_ADDITIVE_MRNN_SERVICES/",
+      "ADDITIVE_MRNN_MANIFEST.json",
+      "HOW_TO_USE_ADDITIVE_MRNN.txt",
+      "apps/site-birth/",
+      "apps/mrnn-browser-os/",
+      "apps/mrnn-node-os/",
+      "apps/mrnn-visualizer/",
+      "_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/",
+      "_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-inference-engine.ts",
+      "_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-mcp-client.ts",
+      "_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-morph-bridge.ts",
+      "_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/package.json",
+      "_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/tsconfig.json",
+      "_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/setup.sh",
+      "_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/README_ADDITIVE.md",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator (1).zip",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/synthia-civilization/",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/synthia-civilization.zip",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/Dockerfile",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/render.yaml",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/netlify.toml",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/package.json",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/tsconfig.json",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.env.example",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/README.md",
+      "_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.github/"
+    ]
+  },
+  {
+    "name": "mrnn-os.zip",
+    "entries": 33,
+    "roles": [
+      "UPLOADER"
+    ],
+    "sample": [
+      "index.html",
+      "js/main.js",
+      "js/agents/AgentNode.js",
+      "js/core/ResonanceNode.js"
+    ]
+  },
+  {
+    "name": "poesis-kit.zip",
+    "entries": 65,
+    "roles": [
+      "ORCHESTRATOR",
+      "POESIS"
+    ],
+    "sample": [
+      "poesis/",
+      "poesis/__pycache__/",
+      "poesis/config/",
+      "poesis/core/",
+      "poesis/memory/",
+      "poesis/orchestrator/",
+      "poesis/tools/",
+      "poesis/ui/",
+      "poesis/__init__.py",
+      "poesis/ui/__init__.py",
+      "poesis/ui/cli.py",
+      "poesis/__pycache__/__init__.cpython-312.pyc",
+      "poesis/config/__init__.py",
+      "poesis/config/default.yaml",
+      "poesis/config/schemas.py",
+      "poesis/core/__pycache__/",
+      "poesis/core/autopoiesis.py",
+      "poesis/core/directory.py",
+      "poesis/core/resonance.py",
+      "poesis/core/sbnn.py",
+      "poesis/core/specialist.py",
+      "poesis/core/__init__.py",
+      "poesis/core/__pycache__/__init__.cpython-312.pyc",
+      "poesis/core/__pycache__/autopoiesis.cpython-312.pyc",
+      "poesis/core/__pycache__/directory.cpython-312.pyc",
+      "poesis/core/__pycache__/resonance.cpython-312.pyc",
+      "poesis/core/__pycache__/sbnn.cpython-312.pyc",
+      "poesis/core/__pycache__/specialist.cpython-312.pyc",
+      "poesis/memory/__init__.py",
+      "poesis/orchestrator/__pycache__/"
+    ]
+  },
+  {
+    "name": "autopoietic-os.zip",
+    "entries": 9,
+    "roles": [
+      "AUTOPOIESIS"
+    ],
+    "sample": [
+      "autopoietic-os.ts",
+      "resonance-sgan.ts",
+      ".github/workflows/autopoietic-os.yml"
+    ]
+  },
+  {
+    "name": "stellar-orchestrator.zip",
+    "entries": 38,
+    "roles": [
+      "ORCHESTRATOR",
+      "UPLOADER"
+    ],
+    "sample": [
+      "tests/orchestrator.test.ts",
+      "src/agents/claude-agent.ts",
+      "src/agents/joseph-agent.ts",
+      "src/agents/user-agent.ts",
+      "src/agents/base-agent.ts",
+      "src/agents/chatgpt-agent.ts",
+      "src/config/index.ts",
+      "src/mcp/server.ts",
+      "src/orchestrator/state.ts",
+      "src/orchestrator/consensus.ts",
+      "src/orchestrator/dispatcher.ts",
+      "src/orchestrator/index.ts",
+      "src/orchestrator/router.ts",
+      "src/types/index.ts"
+    ]
+  },
+  {
+    "name": "resonance-coherent-system-uploader-render.zip",
+    "entries": 279,
+    "roles": [
+      "MRNN",
+      "AUTOPOIESIS",
+      "ORCHESTRATOR",
+      "POESIS",
+      "SYMBOLIC",
+      "UPLOADER"
+    ],
+    "sample": [
+      "resonance-coherent-system/",
+      "resonance-coherent-system/ADDITIVE_MRNN_MANIFEST.json",
+      "resonance-coherent-system/CHANGELOG_MERGE.md",
+      "resonance-coherent-system/DEPLOY_CHANGELOG.md",
+      "resonance-coherent-system/HOW_TO_USE_ADDITIVE_MRNN.txt",
+      "resonance-coherent-system/MERGE_NOTES.md",
+      "resonance-coherent-system/PRESERVATION_MANIFEST.json",
+      "resonance-coherent-system/README.md",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-inference-engine.ts",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-mcp-client.ts",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-morph-bridge.ts",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/package.json",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/tsconfig.json",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/setup.sh",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/README_ADDITIVE.md",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/Dockerfile",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/render.yaml",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/netlify.toml",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/package.json",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/tsconfig.json",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.env.example",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/README.md",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.github/",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.github/workflows/",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.github/workflows/deploy.yml",
+      "resonance-coherent-system/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/tests/"
+    ]
+  },
+  {
+    "name": "resonance-merged-app.zip",
+    "entries": 821,
+    "roles": [
+      "MRNN",
+      "AUTOPOIESIS",
+      "ORCHESTRATOR",
+      "POESIS",
+      "SYMBOLIC",
+      "UPLOADER"
+    ],
+    "sample": [
+      "resonance-merged-app/",
+      "resonance-merged-app/ADDITIVE_MRNN_MANIFEST.json",
+      "resonance-merged-app/CHANGELOG_MERGE.md",
+      "resonance-merged-app/DEPLOY_CHANGELOG.md",
+      "resonance-merged-app/HOW_TO_USE_ADDITIVE_MRNN.txt",
+      "resonance-merged-app/MERGE_NOTES.md",
+      "resonance-merged-app/PRESERVATION_MANIFEST.json",
+      "resonance-merged-app/README.md",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-inference-engine.ts",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-mcp-client.ts",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/mrnn-morph-bridge.ts",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/package.json",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/tsconfig.json",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/setup.sh",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/mrnn-inference-service/README_ADDITIVE.md",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/Dockerfile",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/render.yaml",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/netlify.toml",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/package.json",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/tsconfig.json",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.env.example",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/README.md",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.github/",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.github/workflows/",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/.github/workflows/deploy.yml",
+      "resonance-merged-app/_ADDITIVE_MRNN_SERVICES/donor-services/stellar-orchestrator_1/tests/"
+    ]
+  },
+  {
+    "name": "MRNN_Symbolic_OS_v1.0.zip",
+    "entries": 16,
+    "roles": [
+      "MRNN",
+      "AUTOPOIESIS",
+      "ORCHESTRATOR"
+    ],
+    "sample": [
+      "MRNN_Autopoietic_Engine.js",
+      "MRNN_Neural_Engine.js",
+      "MRNN_384_Complete_Matrix.png",
+      "MRNN_Independent_Modulation.png",
+      "MRNN_Sample_1000.json",
+      "MRNN_System_Architecture.png",
+      "MRNN_MCP_Orchestrator.js",
+      "MRNN_Reference_Data.json",
+      "MRNN_5_Layer_Matrix.png",
+      "MRNN_69120_Complete.json",
+      "MRNN_Main.js",
+      "MRNN_Cosmological_Emergence.png",
+      "MRNN_69120_Matrix.csv",
+      "MRNN_Complete_Mandala.png",
+      "MRNN_Gate_Placements.png"
+    ]
+  }
+];
+
+class AutopoieticOS {
+  constructor() {
+    this.birthTime = Date.now();
+    this.vitality = 41;
+    this.autopoiesis = 0.38;
+    this.organs = [
+      { id:'shell', name:'Resonance Shell', type:'skin', status:'active', health:88, messages:0 },
+      { id:'appcenter', name:'App Center', type:'control-surface', status:'active', health:72, messages:0 },
+      { id:'mrnn', name:'MRNN Substrate', type:'metabolism', status:'mounted', health:64, messages:0 },
+      { id:'ingest', name:'Ingestion Engine', type:'mouth', status:'ready', health:69, messages:0 },
+      { id:'morph', name:'Morph Queue', type:'regeneration', status:'waiting', health:57, messages:0 },
+      { id:'stellar', name:'Stellar Orchestrator', type:'nervous-routing', status:'mounted', health:61, messages:0 }
+    ];
+    this.capsules = [...window.SEED_CAPSULES];
+    this.queue = [];
+    this.log = [];
+    this.messageId = 0;
+    this.emit('BIRTH', 'Autopoietic OS born inside shell');
+  }
+
+  emit(type, data, target='system') {
+    const msg = {
+      id: ++this.messageId,
+      type, data, target,
+      at: new Date().toLocaleTimeString()
+    };
+    this.log.unshift(msg);
+    this.log = this.log.slice(0, 80);
+    const organ = this.organs.find(o => o.id === target);
+    if (organ) organ.messages++;
+    return msg;
+  }
+
+  heartbeat() {
+    const pressure = this.queue.length * 2;
+    const capsuleBoost = Math.min(18, this.capsules.length);
+    this.vitality = Math.max(10, Math.min(100, this.vitality + Math.sin(Date.now()/2500)*2 + capsuleBoost/20 - pressure/20));
+    this.autopoiesis = Math.max(.1, Math.min(1, this.autopoiesis + (this.queue.length ? .015 : .004)));
+
+    this.organs.forEach((o, idx) => {
+      const wave = Math.sin(Date.now()/1800 + idx) * 1.7;
+      o.health = Math.max(15, Math.min(100, o.health + wave/3 + (this.queue.length ? .08 : .03)));
+    });
+
+    if (this.queue.length && Math.random() > .45) {
+      const item = this.queue.shift();
+      this.emit('REGENERATE', `Normalized ${item.name} into ${item.role}`, 'morph');
+      this.capsules.unshift({
+        name: item.name + ' :: normalized',
+        entries: item.entries || 1,
+        roles: [item.role, 'NORMALIZED'],
+        sample: item.sample || []
+      });
+    }
+
+    this.renderIfOpen();
+  }
+
+  classify(name, entries, files) {
+    const joined = (name + ' ' + files.join(' ')).toLowerCase();
+    if (joined.includes('mrnn')) return 'MRNN';
+    if (joined.includes('auto')) return 'AUTOPOIESIS';
+    if (joined.includes('stellar') || joined.includes('orchestr')) return 'ORCHESTRATOR';
+    if (joined.includes('poesis')) return 'POESIS';
+    if (joined.includes('symbolic')) return 'SYMBOLIC';
+    if (joined.includes('render') || joined.includes('upload')) return 'UPLOADER';
+    if (entries > 20) return 'ECOSYSTEM';
+    return 'CAPSULE';
+  }
+
+  async ingestFile(file) {
+    let entries = 1;
+    let sample = [file.name];
+
+    if (file.name.toLowerCase().endsWith('.zip') && window.JSZip) {
+      try {
+        const zip = await JSZip.loadAsync(file);
+        sample = Object.keys(zip.files).filter(x => !zip.files[x].dir).slice(0, 40);
+        entries = sample.length;
+      } catch(e) {
+        sample = ['ZIP read failed: ' + e.message];
+      }
+    }
+
+    const role = this.classify(file.name, entries, sample);
+    const capsule = { name:file.name, entries, roles:[role], sample };
+    this.capsules.unshift(capsule);
+    this.queue.push({ name:file.name, entries, role, sample });
+    this.emit('INGEST', `${file.name} classified as ${role}`, 'ingest');
+    this.emit('QUEUE', `${file.name} sent to morph queue`, 'morph');
+    this.renderIfOpen();
+  }
+
+  activateOrgan(id) {
+    const organ = this.organs.find(o => o.id === id);
+    if (!organ) return;
+    organ.status = organ.status === 'active' ? 'observing' : 'active';
+    organ.health = Math.min(100, organ.health + 5);
+    this.emit('ORGAN', `${organ.name} set to ${organ.status}`, id);
+    this.renderIfOpen();
+  }
+
+  renderOrgans() {
+    return this.organs.map(o => `
+      <div class="organ-card">
+        <div class="organ-title">${o.name}</div>
+        <div class="organ-meta">TYPE: ${o.type} · STATUS: ${o.status} · MESSAGES: ${o.messages}</div>
+        <div class="health-bar"><div class="health-fill" style="width:${o.health.toFixed(0)}%"></div></div>
+        <div class="organ-actions">
+          <button class="os-action" onclick="AUTO_OS.activateOrgan('${o.id}')">TOGGLE</button>
+          <button class="os-action" onclick="AUTO_OS.emit('PING','pinged ${o.name}','${o.id}');AUTO_OS.renderIfOpen()">PING</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderCapsules() {
+    return this.capsules.slice(0, 18).map(c => `
+      <div class="capsule-row">
+        <span>◈</span>
+        <div style="flex:1;min-width:0">
+          <div style="color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div>
+          <div>${(c.roles||[]).map(r=>`<span class="badge">${r}</span>`).join('')} · ${c.entries||0} entries</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderQueue() {
+    if (!this.queue.length) return '<div class="organ-meta">Morph queue empty. System is stable.</div>';
+    return this.queue.map(q => `
+      <div class="capsule-row">
+        <span>↻</span>
+        <div style="flex:1">
+          <div style="color:var(--accent2)">${q.name}</div>
+          <div>${q.role} · awaiting regeneration</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderLog() {
+    return this.log.map(l => `<div>[${l.at}] ${l.type} → ${l.data}</div>`).join('');
+  }
+
+  renderIfOpen() {
+    const target = document.getElementById('auto-os-live');
+    if (target) target.innerHTML = this.panelHTML();
+  }
+
+  panelHTML() {
+    return `
+      <div class="content-section">
+        <h2>Autopoietic OS Core</h2>
+        <p>This shell now contains a working in-browser autopoietic layer: heartbeat, organs, ingestion, morph queue, message log, and capsule registry.</p>
+
+        <div class="info-box">
+          <strong>VITALITY:</strong> ${this.vitality.toFixed(1)}%<br>
+          <strong>AUTOPOIESIS:</strong> ${(this.autopoiesis*100).toFixed(1)}%<br>
+          <strong>CAPSULES:</strong> ${this.capsules.length}<br>
+          <strong>MORPH QUEUE:</strong> ${this.queue.length}
+        </div>
+
+        <h3>Ingest Into Organism</h3>
+        <label id="autoUploadZone" class="upload-zone">
+          <input type="file" id="autoZipInput" multiple accept=".zip,.html,.js,.css,.json,.ts,.tsx,.md" />
+          <div class="upload-zone-icon">⊞</div>
+          <p>TAP TO FEED FILES / ZIPS INTO AUTOPOIETIC SYSTEM</p>
+        </label>
+
+        <h3>Organs</h3>
+        <div class="organ-grid">${this.renderOrgans()}</div>
+
+        <h3>Morph Queue</h3>
+        <div>${this.renderQueue()}</div>
+
+        <h3>Capsules</h3>
+        <div class="capsule-list">${this.renderCapsules()}</div>
+
+        <h3>Message Log</h3>
+        <div class="mini-log">${this.renderLog()}</div>
+      </div>
+    `;
+  }
+}
+
+window.AUTO_OS = new AutopoieticOS();
+setInterval(() => window.AUTO_OS.heartbeat(), 2500);
+
+const __oldOpenApp = openApp;
+openApp = function(appId) {
+  __oldOpenApp(appId);
+  if (appId === 'builder') {
+    const body = document.querySelector('#active-window .window-body');
+    if (body) {
+      body.innerHTML = '<div id="auto-os-live">' + AUTO_OS.panelHTML() + '</div>';
+      const input = document.getElementById('autoZipInput');
+      const zone = document.getElementById('autoUploadZone');
+      if (zone && input) zone.addEventListener('click', () => input.click());
+      if (input) input.addEventListener('change', async e => {
+        for (const file of Array.from(e.target.files || [])) {
+          await AUTO_OS.ingestFile(file);
+        }
+      });
+    }
+  }
+  if (appId === 'agent') {
+    AUTO_OS.emit('AGENT_PANEL', 'Agent panel opened; routing through autopoietic core', 'stellar');
+  }
+  if (appId === 'mesh') {
+    AUTO_OS.emit('MESH_VIEW', 'Mesh viewed; organism state observed', 'mrnn');
+  }
+}
+</script>
+
+
+<!-- RENDER SERVER BRIDGE PATCH -->
+<style>
+  .server-chip {
+    display:inline-block;
+    font-family:var(--font-mono);
+    font-size:10px;
+    padding:3px 7px;
+    border-radius:999px;
+    border:1px solid rgba(168,85,247,.35);
+    background:rgba(168,85,247,.12);
+    color:var(--accent2);
+    margin:2px;
+  }
+  .server-chip.ok { color:var(--green); border-color:rgba(0,255,157,.35); background:rgba(0,255,157,.08); }
+  .server-chip.bad { color:#ef4444; border-color:rgba(239,68,68,.35); background:rgba(239,68,68,.08); }
+</style>
+
+<script>
+window.RENDER_SERVER_BASE = "https://synthis-server.onrender.com";
+
+window.RENDER_BRIDGE = {
+  base: window.RENDER_SERVER_BASE,
+  status: "unknown",
+  lastResult: null,
+
+  async call(path, payload = null, method = null) {
+    const url = this.base + path;
+    const opts = {
+      method: method || (payload ? "POST" : "GET"),
+      headers: { "Content-Type": "application/json" }
+    };
+    if (payload) opts.body = JSON.stringify(payload);
+
+    try {
+      const res = await fetch(url, opts);
+      const text = await res.text();
+      let data;
+      try { data = JSON.parse(text); } catch { data = { raw:text }; }
+      this.lastResult = { ok: res.ok, status: res.status, path, data };
+      this.status = res.ok ? "online" : "error";
+      if (window.AUTO_OS) {
+        AUTO_OS.emit("RENDER", `${path} → ${res.status}`, "stellar");
+      }
+      return this.lastResult;
+    } catch (err) {
+      this.status = "offline";
+      this.lastResult = { ok:false, path, error: err.message };
+      if (window.AUTO_OS) {
+        AUTO_OS.emit("RENDER_OFFLINE", `${path} → ${err.message}`, "stellar");
+      }
+      return this.lastResult;
+    }
+  },
+
+  async health() {
+    // Try common lightweight health paths. First successful response wins.
+    const paths = ["/health", "/api/health", "/", "/status"];
+    for (const p of paths) {
+      const r = await this.call(p);
+      if (r.ok) return r;
+    }
+    return this.lastResult;
+  },
+
+  async morph(payload) {
+    return await this.call("/api/morph", payload);
+  },
+
+  async ingest(payload) {
+    return await this.call("/api/ingest", payload);
+  },
+
+  async orchestrate(payload) {
+    return await this.call("/api/orchestrate", payload);
+  },
+
+  async mcp(payload) {
+    return await this.call("/api/mcp", payload);
+  }
+};
+
+function renderServerPanel() {
+  const status = window.RENDER_BRIDGE.status;
+  const cls = status === "online" ? "ok" : status === "offline" || status === "error" ? "bad" : "";
+  const result = window.RENDER_BRIDGE.lastResult ? JSON.stringify(window.RENDER_BRIDGE.lastResult, null, 2) : "No server call yet.";
+  return `
+    <div class="content-section">
+      <h2>Render Server Bridge</h2>
+      <p>This shell talks to your Node backend on Render. Netlify hosts the OS shell; Render runs Node/MCP/MRNN/orchestrator logic.</p>
+      <div class="info-box">
+        <strong>SERVER:</strong> ${window.RENDER_SERVER_BASE}<br>
+        <strong>STATUS:</strong> <span class="server-chip ${cls}">${status.toUpperCase()}</span>
+      </div>
+      <div class="organ-actions">
+        <button class="os-action" onclick="RENDER_BRIDGE.health().then(()=>refreshServerBridgeWindow())">CHECK HEALTH</button>
+        <button class="os-action" onclick="RENDER_BRIDGE.morph({source:'shell', action:'test-morph', time:Date.now()}).then(()=>refreshServerBridgeWindow())">TEST MORPH</button>
+        <button class="os-action" onclick="RENDER_BRIDGE.ingest({source:'shell', capsules:(window.AUTO_OS?.capsules||[]).slice(0,5)}).then(()=>refreshServerBridgeWindow())">SEND CAPSULES</button>
+        <button class="os-action" onclick="RENDER_BRIDGE.orchestrate({source:'shell', intent:'status'}).then(()=>refreshServerBridgeWindow())">ORCHESTRATE</button>
+      </div>
+      <h3>Last Server Result</h3>
+      <div class="mini-log"><pre style="white-space:pre-wrap;margin:0;color:var(--text-dim)">${result.replaceAll('<','&lt;')}</pre></div>
+    </div>
+  `;
+}
+
+function refreshServerBridgeWindow() {
+  const body = document.querySelector('#active-window .window-body');
+  if (body && body.dataset.serverBridge === "true") {
+    body.innerHTML = renderServerPanel();
+  }
+}
+
+(function patchRenderBridgeIntoShell(){
+  const previousOpenApp = window.openApp;
+  window.openApp = function(appId) {
+    if (appId === "server" || appId === "render") {
+      closeWindow();
+      const main = document.getElementById("main");
+      document.getElementById("wallpaper").style.display = "none";
+      const win = document.createElement("div");
+      win.className = "window";
+      win.id = "active-window";
+      const tb = document.createElement("div");
+      tb.className = "window-titlebar";
+      tb.innerHTML = `<span class="window-title">RENDER BRIDGE</span><button class="window-close" onclick="closeWindow()">×</button>`;
+      const body = document.createElement("div");
+      body.className = "window-body";
+      body.dataset.serverBridge = "true";
+      body.innerHTML = renderServerPanel();
+      win.appendChild(tb);
+      win.appendChild(body);
+      main.appendChild(win);
+      currentWindow = win;
+      return;
+    }
+    return previousOpenApp(appId);
+  };
+
+  // Add a Render button to dock if not already present.
+  document.addEventListener("DOMContentLoaded", () => {
+    const nav = document.querySelector("nav");
+    if (nav && !document.getElementById("renderBridgeDockBtn")) {
+      const btn = document.createElement("button");
+      btn.className = "dock-btn";
+      btn.id = "renderBridgeDockBtn";
+      btn.onclick = () => openApp("render");
+      btn.innerHTML = `<div class="dock-icon">↯</div><span class="dock-label">Render</span>`;
+      nav.appendChild(btn);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
